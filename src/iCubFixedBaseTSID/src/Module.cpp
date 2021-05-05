@@ -87,7 +87,9 @@ bool Module::createFixedBaseTSID(std::shared_ptr<ParametersHandler::IParametersH
         std::cerr << "[Module::createFixedBaseTSID] Impossible to initialize the se3task.";
         return false;
     }
-    if (!m_tsidAndTasks.tsid->addTask(m_tsidAndTasks.se3Task, "se3_task", highPriority))
+    Eigen::VectorXd weight_se3;
+    handler->getGroup("EE_SE3_TASK").lock()->getParameter("weight",weight_se3);
+    if (!m_tsidAndTasks.tsid->addTask(m_tsidAndTasks.se3Task, "se3_task", lowPriority, weight_se3))
     {
         std::cerr << "[Module::createFixedBaseTSID] Impossible to add the se3task to the tsid.";
         return false;
@@ -105,12 +107,12 @@ bool Module::createFixedBaseTSID(std::shared_ptr<ParametersHandler::IParametersH
         std::cerr << "[Module::createFixedBaseTSID] Impossible to initialize the regularization task.";
         return false;
     }
-    Eigen::VectorXd weight;
-    handler->getGroup("JOINT_REGULARIZATION_TASK").lock()->getParameter("weight",weight);
+    Eigen::VectorXd weight_regulatization;
+    handler->getGroup("JOINT_REGULARIZATION_TASK").lock()->getParameter("weight",weight_regulatization);
     if (!m_tsidAndTasks.tsid->addTask(m_tsidAndTasks.regularizationTask,
                             "regularization_task",
                             lowPriority,
-                            weight))
+                            weight_regulatization))
     {
         std::cerr << "[Module::createFixedBaseTSID] Impossible to add the regularization task to the tsid.";
         return false;
@@ -393,6 +395,14 @@ void Module::logData()
     m_log["ee_des_quat_y"].push_back(m_planner.getOutput().transform.quat().coeffs()[1]);
     m_log["ee_des_quat_z"].push_back(m_planner.getOutput().transform.quat().coeffs()[2]);
     m_log["ee_des_quat_w"].push_back(m_planner.getOutput().transform.quat().coeffs()[3]);
+
+    m_log["ee_des_dx"].push_back(m_planner.getOutput().mixedVelocity.data()[0]);
+    m_log["ee_des_dy"].push_back(m_planner.getOutput().mixedVelocity.data()[1]);
+    m_log["ee_des_dz"].push_back(m_planner.getOutput().mixedVelocity.data()[2]);
+
+    m_log["ee_des_ddx"].push_back(m_planner.getOutput().mixedAcceleration.data()[0]);
+    m_log["ee_des_ddy"].push_back(m_planner.getOutput().mixedAcceleration.data()[1]);
+    m_log["ee_des_ddz"].push_back(m_planner.getOutput().mixedAcceleration.data()[2]);
 }
 
 bool Module::updateModule()
