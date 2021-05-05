@@ -84,6 +84,8 @@ class Module : public yarp::os::RFModule
 
     std::string m_controlledFrame;
 
+    std::unordered_map<std::string, std::vector<double>> m_log; /**< Measured joint and motor quantities. */
+
 
     // Private methods
     bool createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
@@ -95,6 +97,8 @@ class Module : public yarp::os::RFModule
     bool setRobotModel(const yarp::os::Searchable& rf);
 
     bool createFixedBaseTSID(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
+
+    void logData();
 
 
 public:

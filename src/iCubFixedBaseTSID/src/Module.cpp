@@ -18,8 +18,6 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <BipedalLocomotion/Conversions/ManifConversions.h>
-
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::TSID;
@@ -260,14 +258,9 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
 
-    m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
-    m_kinDyn->loadRobotModel(m_loader.model());
-    m_kinDyn->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
-
-    // create the TSID
-    if (!createFixedBaseTSID(parametersHandler->getGroup("TSID").lock()))
+    if (!m_sensorBridge.advance())
     {
-        std::cerr << "[Module::configure] Unable to create the TSID" << std::endl;
+        std::cerr << "[Module::configure] Unable to get the robot state." << std::endl;
         return false;
     }
 
@@ -277,14 +270,27 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_currentJointVel.setZero();
     m_desJointTorque.resize(m_numOfJoints);
 
-    if (!m_sensorBridge.advance())
-    {
-        std::cerr << "[Module::configure] Unable to get the robot state." << std::endl;
-        return false;
-    }
-
     m_sensorBridge.getJointPositions(m_currentJointPos);
     m_sensorBridge.getJointVelocities(m_currentJointVel);
+
+    m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    m_kinDyn->loadRobotModel(m_loader.model());
+    m_kinDyn->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
+
+    m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
+
+    m_kinDyn->setRobotState(manif::SE3d::Identity().transform(),
+                            m_currentJointPos,
+                            iDynTree::make_span(manif::SE3d::Tangent::Zero().data(), manif::SE3d::Tangent::DoF),
+                            m_currentJointVel,
+                            m_gravity);
+
+    // create the TSID
+    if (!createFixedBaseTSID(parametersHandler->getGroup("TSID").lock()))
+    {
+        std::cerr << "[Module::configure] Unable to create the TSID" << std::endl;
+        return false;
+    }
 
     if (!m_tsidAndTasks.regularizationTask->setSetPoint(m_currentJointPos))
     {
@@ -307,25 +313,25 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
     // second foot position
-    position(0) += 0.05;
+    position(0) += 0.1;
     transform.translation(position);
-    if (!m_contactList.addContact(transform, 2.0, 3.0))
+    if (!m_contactList.addContact(transform, 3.0, 4.0))
     {
         std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
         return false;
     }
     // third foot position
-    position(0) -= 0.05;
+    position(0) -= 0.1;
     transform.translation(position);
-    if (!m_contactList.addContact(transform, 4.0, 5.0))
+    if (!m_contactList.addContact(transform, 6.0, 7.0))
     {
         std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
         return false;
     }
     // fourth foot position
-    position(0) += 0.05;
+    position(0) += 0.1;
     transform.translation(position);
-    if (!m_contactList.addContact(transform, 6.0, 7.0))
+    if (!m_contactList.addContact(transform, 9.0, 10.0))
     {
         std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
         return false;
@@ -339,9 +345,54 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     m_planner.setContactList(m_contactList);
 
-    m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-
     return true;
+}
+
+void Module::logData()
+{
+    // log data
+    m_log["time"].push_back(yarp::os::Time::now());
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_pos"].push_back(m_currentJointPos[i]);
+    }
+
+    m_log["time"].push_back(yarp::os::Time::now());
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_vel"].push_back(m_currentJointVel[i]);
+    }
+
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_destrq"].push_back(m_desJointTorque[i]);
+    }
+
+    Eigen::VectorXd generalizedBiasForces;
+    generalizedBiasForces.resize(m_kinDyn->getNrOfDegreesOfFreedom() + 6);
+    m_kinDyn->generalizedBiasForces(generalizedBiasForces);
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_bias"].push_back(generalizedBiasForces[i]);
+    }
+
+    // Check the end-effector pose error
+    const manif::SE3d endEffectorPose  = Conversions::toManifPose(m_kinDyn->getWorldTransform(m_controlledFrame));
+    m_log["ee_x"].push_back(endEffectorPose.translation()[0]);
+    m_log["ee_y"].push_back(endEffectorPose.translation()[1]);
+    m_log["ee_z"].push_back(endEffectorPose.translation()[2]);
+    m_log["ee_quat_x"].push_back(endEffectorPose.quat().coeffs()[0]);
+    m_log["ee_quat_y"].push_back(endEffectorPose.quat().coeffs()[1]);
+    m_log["ee_quat_z"].push_back(endEffectorPose.quat().coeffs()[2]);
+    m_log["ee_quat_w"].push_back(endEffectorPose.quat().coeffs()[3]);
+
+    m_log["ee_des_x"].push_back(m_planner.getOutput().transform.translation()[0]);
+    m_log["ee_des_y"].push_back(m_planner.getOutput().transform.translation()[1]);
+    m_log["ee_des_z"].push_back(m_planner.getOutput().transform.translation()[2]);
+    m_log["ee_des_quat_x"].push_back(m_planner.getOutput().transform.quat().coeffs()[0]);
+    m_log["ee_des_quat_y"].push_back(m_planner.getOutput().transform.quat().coeffs()[1]);
+    m_log["ee_des_quat_z"].push_back(m_planner.getOutput().transform.quat().coeffs()[2]);
+    m_log["ee_des_quat_w"].push_back(m_planner.getOutput().transform.quat().coeffs()[3]);
 }
 
 bool Module::updateModule()
@@ -394,6 +445,8 @@ bool Module::updateModule()
         return false;
     }
 
+    logData();
+
     if (!m_planner.advance())
     {
         std::cerr << "[Module::updateModule] Unable to compute next desired pose.";
@@ -410,6 +463,27 @@ bool Module::close()
     // switch back in position control
     m_robotControl.setReferences(m_currentJointPos,
                                  RobotInterface::IRobotControl::ControlMode::Position);
+
+    std::cout << "[Module::close] I'm storing the dataset." << std::endl;
+    // set the file name
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+
+    std::stringstream fileName;
+
+    fileName << "Dataset_Measured_" << m_robotControl.getJointList().front() << "_"
+             << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".mat";
+
+    matioCpp::File file = matioCpp::File::Create(fileName.str());
+
+    for (auto& [key, value] : m_log)
+    {
+        matioCpp::Vector<double> out(key);
+        out = value;
+        file.write(out);
+    }
+
+    std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
 
     return true;
 }
