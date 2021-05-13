@@ -8,7 +8,8 @@ This repo will contain the applications needed to work on the torque control on 
 ## Background
 Torque control has been implemented on legged robots showing excellent performances. However, the implementation is challenging for those humanoid robots that have been originally built to be position controlled sicne they do not provide joint torque sensors and present a large friction.
 For this reason in iCub this control strategy has been implemented thanks to the estimation of joint torques and external forces from whole-body model at multi-joint level. The current approach is shown in the following diagram.
-![controller diagram](https://github.com/loc2/element_joint-torque-control/blob/master/doc/iCub_LowLevelControl.jpg)
+
+<img src="https://github.com/loc2/element_joint-torque-control/blob/master/doc/iCub_LowLevelControl.jpg" width="800">
 
 ## Objectives
 The objective of the element is to devel a controller architecture that allows to achieve torque based control for the iCub3 motors exploiting the low-level current control, instead of the low-level PWM control.
