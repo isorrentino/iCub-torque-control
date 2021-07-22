@@ -315,7 +315,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
     // second foot position
-    position(0) += 0.05;
+    position(0) -= 0.05;
     transform.translation(position);
     if (!m_contactList.addContact(transform, 3.0, 4.0))
     {
@@ -323,7 +323,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
     // third foot position
-    position(0) -= 0.05;
+    position(0) += 0.05;
     transform.translation(position);
     if (!m_contactList.addContact(transform, 6.0, 7.0))
     {
@@ -331,7 +331,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
     // fourth foot position
-    position(0) += 0.05;
+    position(0) -= 0.05;
     transform.translation(position);
     if (!m_contactList.addContact(transform, 9.0, 10.0))
     {

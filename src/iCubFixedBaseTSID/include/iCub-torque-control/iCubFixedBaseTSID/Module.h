@@ -68,7 +68,7 @@ class Module : public yarp::os::RFModule
 
     struct TSIDAndTasks
     {
-        std::shared_ptr<TaskSpaceInverseDynamics> tsid;
+        std::shared_ptr<QPFixedBaseTSID> tsid;
         std::shared_ptr<SE3Task> se3Task;
         std::shared_ptr<JointTrackingTask> regularizationTask;
     };
