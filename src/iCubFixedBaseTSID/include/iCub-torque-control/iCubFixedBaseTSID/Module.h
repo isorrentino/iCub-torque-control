@@ -66,6 +66,9 @@ class Module : public yarp::os::RFModule
 
     Eigen::Vector3d m_gravity;
 
+    Eigen::VectorXd invktau;
+    Eigen::VectorXd invgearbox;
+
     struct TSIDAndTasks
     {
         std::shared_ptr<QPFixedBaseTSID> tsid;
@@ -79,6 +82,7 @@ class Module : public yarp::os::RFModule
     Eigen::VectorXd m_currentJointVel; /**< Current joint velocities. */
     Eigen::VectorXd m_desJointTorque; /**< Current joint positions. */
     manif::SE3d m_currentEEPos; /**< Current end-effector position */
+    Eigen::VectorXd m_currentCurrent; /**< Current joint positions. */
 
     BipedalLocomotion::Contacts::ContactList m_contactList;
 

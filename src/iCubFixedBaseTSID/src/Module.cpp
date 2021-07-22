@@ -125,6 +125,11 @@ bool Module::createFixedBaseTSID(std::shared_ptr<ParametersHandler::IParametersH
         return false;
     }
 
+    invgearbox.resize(m_numOfJoints);
+    invgearbox << 1.0/150, -1.0/100, 1.0/100, 1.0/100, -1.0/100, -1.0/100;
+
+    invktau = invgearbox/0.033;
+
     return true;
 }
 
@@ -271,9 +276,11 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_currentJointVel.resize(m_numOfJoints);
     m_currentJointVel.setZero();
     m_desJointTorque.resize(m_numOfJoints);
+    m_currentCurrent.resize(m_numOfJoints);
 
     m_sensorBridge.getJointPositions(m_currentJointPos);
     m_sensorBridge.getJointVelocities(m_currentJointVel);
+    m_sensorBridge.getMotorCurrents(m_currentCurrent);
 
     m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     m_kinDyn->loadRobotModel(m_loader.model());
@@ -365,6 +372,13 @@ void Module::logData()
         m_log[m_jointNamesList[i] + "_vel"].push_back(m_currentJointVel[i]);
     }
 
+    m_log["time"].push_back(yarp::os::Time::now());
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_current"].push_back(m_currentCurrent[i]);
+        m_log[m_jointNamesList[i] + "_desCurrent"].push_back(m_desJointTorque[i]*invktau[i]);
+    }
+
     for (int i = 0; i < m_numOfJoints; i++)
     {
         m_log[m_jointNamesList[i] + "_destrq"].push_back(m_desJointTorque[i]);
@@ -425,6 +439,12 @@ bool Module::updateModule()
         return false;
     }
 
+    if(!m_sensorBridge.getMotorCurrents(m_currentCurrent))
+    {
+        std::cerr << "[Module::updateModule] Error in reading motor currents." << std::endl;
+        return false;
+    }
+
     if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
     {
         std::cerr << "[Module::updateModule] Unable to set the robot state in kinDyn object.";
@@ -447,9 +467,9 @@ bool Module::updateModule()
 
     // get the output of the TSID
     m_desJointTorque = m_tsidAndTasks.tsid->getOutput().jointTorques;
-    if (!m_robotControl.setReferences(m_desJointTorque,
+    if (!m_robotControl.setReferences(invktau.asDiagonal()*m_desJointTorque,
                                       BipedalLocomotion::RobotInterface::IRobotControl::
-                                          ControlMode::Torque))
+                                          ControlMode::Current))
     {
         std::cerr << "[Module::updateModule] Unable to set joint torques.";
         return false;
