@@ -10,7 +10,7 @@ addpath('URDF');
 
 gearbox_values = [100.00  -100.00   100.00   100.00  -100.00   -100.00];
 
-select_dataset = false;
+select_dataset = true;
 if (select_dataset)
   datasetStruct = load_data(select_dataset);
 end
@@ -71,7 +71,11 @@ for sample = 1:size(tau_joint,2)
 end
 
 figure,
-plot(kinDyn_joint_torques')
+for i = 1 : 6
+subplot(2,3,i)
+plot(kinDyn_joint_torques(i,:)')
 hold on
-plot(tau_joint')
-title('iDynTree_offline vs iDynTree_online')
+plot(tau_joint(i,:)')
+title('iDynTree_offline vs iDynTree_online','Interpreter','none')
+legend('offline','online')
+end
