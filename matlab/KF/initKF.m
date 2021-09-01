@@ -10,8 +10,8 @@ function kf = initKF(x0, stateSize)
 dT = 1/100; % Sampling time
 
 % Set covariances
-kf.Q = diag([5e-4; 0.01; 0.1]);  % Process noise
-kf.R = 1e-5; %1e-5;  % Measurement noise
+kf.Q = diag([1e-5; 0.005; 0.1]);  % Process noise
+kf.R = 1e-7; %1e-5;  % Measurement noise
 
 kf.A = eye(stateSize);
 for ii = 1 : stateSize-1

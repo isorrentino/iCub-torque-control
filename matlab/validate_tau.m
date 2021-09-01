@@ -15,26 +15,11 @@ if (select_dataset)
   datasetStruct = load_data(select_dataset);
 end
 
-tau_joint = datasetStruct{1, 1}.Joint_state.joint_torques';
-s = datasetStruct{1, 1}.Joint_state.joint_positions';
-sdot = datasetStruct{1, 1}.Joint_state.joint_velocities';
+tau_joint = datasetStruct{1, 1}.Joint_state.joint_torques;
+s_dataset = datasetStruct{1, 1}.Joint_state.joint_positions;
+sdot_dataset = datasetStruct{1, 1}.Joint_state.joint_velocities;
 
-% Estimate acceleration
-stateSize = 3;
-sddot = zeros(size(sdot));
-for j = 1 : 6
-  x0 = [s(1,j); zeros(stateSize-1,1)];
-  kf = initKF(x0, stateSize);
-  % Run filter for entire traj
-  xh = zeros(stateSize, size(s,1));
-  for sample = 1 : size(s,1)
-    kf.z = s(sample,j);
-    kf = kalmanfilter(kf);
-    xh(:,sample) = kf.x;
-  end
-  sdot(:,j) = xh(2,:)';
-  sddot(:,j) = xh(3,:)';
-end
+[sdot_dataset,sddot_dataset] = estimate_joints_vel_acc(sdot_dataset);
 
 % Save the position of the input urdf
 input_urdf = 'URDF/iCub2_right_leg.urdf';
@@ -48,37 +33,45 @@ kinDynComp = iDynTree.KinDynComputations();
 kinDynComp.loadRobotModel(mdlLoader.model());
 nrOfDOFs = kinDynComp.model().getNrOfDOFs();
 
-jointPos = zeros(nrOfDOFs, 1);
-jointVel = zeros(nrOfDOFs, 1);
-jointAcc = zeros(nrOfDOFs, 1);
-s_idyn = iDynTree.VectorDynSize(nrOfDOFs);
-s_idyn.fromMatlab(jointPos);
-ds_idyn = iDynTree.VectorDynSize(nrOfDOFs);
-ds_idyn.fromMatlab(jointVel);
-dds_idyn = iDynTree.VectorDynSize(nrOfDOFs);
-dds_idyn.fromMatlab(jointAcc);
-
-base_acc = iDynTree.Vector6;
-
-
 grav = iDynTree.Vector3();
 grav.zero();
 grav.setVal(2, -9.80665);
 
-kinDynComp.setRobotState(q_idyn, ds_idyn, grav);
+base_acc = iDynTree.Vector6;
+base_acc.zero();
+
+kinDyn_joint_torques = zeros(size(tau_joint));
+
+s_idyn = iDynTree.VectorDynSize(nrOfDOFs);
+ds_idyn = iDynTree.VectorDynSize(nrOfDOFs);
+dds_idyn = iDynTree.VectorDynSize(nrOfDOFs);
 
 linkNetExtWrenches = iDynTree.LinkWrenches(kinDynComp.model());
 estContactForcesExtWrenchesEst = iDynTree.LinkContactWrenches(kinDynComp.model());
 estContactForcesExtWrenchesEst.computeNetWrenches(linkNetExtWrenches);
-
 tau_offline_sample = iDynTree.FreeFloatingGeneralizedTorques(kinDynComp.model());
 
-for sample = 1 : size(s,1)
-  dds_idyn.fromMatlab(sddot(sample,:));
-  
-  kinDynComp.inverseDynamics(base_acc,dds_idyn,linkNetExtWrenches,tau_offline_sample);
+for sample = 1:size(tau_joint,2)
+    % Read q at time instant
+    s = s_dataset(:,sample);
+    ds = sdot_dataset(:,sample);
+    dds = sddot_dataset(:,sample);
 
-  joint_torques = tau_offline_sample.jointTorques;
+    s_idyn.fromMatlab(s); 
+    ds_idyn.fromMatlab(ds); 
+    dds_idyn.fromMatlab(dds);
+
+    kinDynComp.setRobotState(s_idyn, ds_idyn, grav);
+    
+    kinDynComp.inverseDynamics(base_acc,dds_idyn,linkNetExtWrenches,tau_offline_sample);
+        
+    joint_torques = tau_offline_sample.jointTorques;
   
-  kinDyn_joint_torques(sample,:) = joint_torques.toMatlab()';
+    kinDyn_joint_torques(:,sample) = joint_torques.toMatlab()';
 end
+
+figure,
+plot(kinDyn_joint_torques')
+hold on
+plot(tau_joint')
+title('iDynTree_offline vs iDynTree_online')
