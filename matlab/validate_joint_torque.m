@@ -19,7 +19,7 @@ tau_joint = datasetStruct{1, 1}.Joint_state.joint_torques;
 s_dataset = datasetStruct{1, 1}.Joint_state.joint_positions;
 sdot_dataset = datasetStruct{1, 1}.Joint_state.joint_velocities;
 
-[sdot_dataset,sddot_dataset] = estimate_joints_vel_acc(sdot_dataset);
+[~,sddot_dataset] = estimate_joints_vel_acc(sdot_dataset);
 
 % Save the position of the input urdf
 input_urdf = 'URDF/iCub2_right_leg.urdf';
@@ -76,6 +76,8 @@ subplot(2,3,i)
 plot(kinDyn_joint_torques(i,:)')
 hold on
 plot(tau_joint(i,:)')
-title('iDynTree_offline vs iDynTree_online','Interpreter','none')
+title(['Joint ',num2str(i)],'Interpreter','none')
 legend('offline','online')
+xlabel('samples')
+ylabel('\tau')
 end
