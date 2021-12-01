@@ -1,2 +1,0 @@
-- Dataset1: trajectory position control right leg purple iCub. To be used to estimate tau offline and compare it with the one logged via YARP.
-
