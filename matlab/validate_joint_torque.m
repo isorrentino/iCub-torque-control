@@ -19,7 +19,8 @@ tau_joint = datasetStruct{1, 1}.Joint_state.joint_torques;
 s_dataset = datasetStruct{1, 1}.Joint_state.joint_positions;
 sdot_dataset = datasetStruct{1, 1}.Joint_state.joint_velocities;
 
-[~,sddot_dataset] = estimate_joints_vel_acc(sdot_dataset);
+[~,sddot_dataset] = estimate_joints_vel_acc(s_dataset);
+% sddot_dataset = zeros(size(sdot_dataset));
 
 % Save the position of the input urdf
 input_urdf = 'URDF/iCub2_right_leg.urdf';
@@ -77,7 +78,154 @@ plot(kinDyn_joint_torques(i,:)')
 hold on
 plot(tau_joint(i,:)')
 title(['Joint ',num2str(i)],'Interpreter','none')
-legend('offline','online')
+legend('offline not smoothed','online smoothed')
 xlabel('samples')
 ylabel('\tau')
 end
+
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(kinDyn_joint_torques(i,:)'-tau_joint(i,:)')
+title(['Joint ',num2str(i)],'Interpreter','none')
+% legend('offline','online')
+xlabel('samples')
+ylabel('error \tau')
+end
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(s_dataset(i,:)'.*180./pi)
+title(['Joint ',num2str(i)],'Interpreter','none')
+% legend('offline','online')
+xlabel('samples')
+ylabel('joint pos')
+end
+
+
+kinDyn_joint_torques_zero_jointAcc = zeros(size(tau_joint));
+
+for sample = 1:size(tau_joint,2)
+    % Read q at time instant
+    s = s_dataset(:,sample);
+    ds = sdot_dataset(:,sample);
+    dds = sddot_dataset(:,sample);
+
+    s_idyn.fromMatlab(s); 
+    ds_idyn.fromMatlab(ds); 
+    dds_idyn.fromMatlab(zeros(6,1));
+
+    kinDynComp.setRobotState(s_idyn, ds_idyn, grav);
+    
+    kinDynComp.inverseDynamics(base_acc,dds_idyn,linkNetExtWrenches,tau_offline_sample);
+        
+    joint_torques = tau_offline_sample.jointTorques;
+  
+    kinDyn_joint_torques_zero_jointAcc(:,sample) = joint_torques.toMatlab()';
+end
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(kinDyn_joint_torques_zero_jointAcc(i,:)')
+hold on
+plot(tau_joint(i,:)')
+title(['Joint ',num2str(i)],'Interpreter','none')
+legend('offline not smoothed','online smoothed')
+xlabel('samples')
+ylabel('\tau')
+end
+
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(kinDyn_joint_torques_zero_jointAcc(i,:)'-tau_joint(i,:)')
+title(['Joint ',num2str(i)],'Interpreter','none')
+% legend('offline','online')
+xlabel('samples')
+ylabel('error \tau')
+end
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(s_dataset(i,:)'.*180./pi)
+title(['Joint ',num2str(i)],'Interpreter','none')
+% legend('offline','online')
+xlabel('samples')
+ylabel('joint pos')
+end
+
+
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(kinDyn_joint_torques(i,:)')
+hold on
+plot(kinDyn_joint_torques_zero_jointAcc(i,:)')
+title(['Joint ',num2str(i)],'Interpreter','none')
+legend('acc from KF','acc = 0')
+xlabel('samples')
+ylabel('\tau')
+end
+
+
+%% Repeat the same but using PID references
+s_dataset = datasetStruct{1, 1}.PID.PID;
+
+[sdot_dataset,sddot_dataset] = estimate_joints_vel_acc(s_dataset);
+
+for sample = 1:size(tau_joint,2)
+    % Read q at time instant
+    s = s_dataset(:,sample);
+    ds = sdot_dataset(:,sample);
+    dds = sddot_dataset(:,sample);
+
+    s_idyn.fromMatlab(s); 
+    ds_idyn.fromMatlab(ds); 
+    dds_idyn.fromMatlab(dds);
+
+    kinDynComp.setRobotState(s_idyn, ds_idyn, grav);
+    
+    kinDynComp.inverseDynamics(base_acc,dds_idyn,linkNetExtWrenches,tau_offline_sample);
+        
+    joint_torques = tau_offline_sample.jointTorques;
+  
+    kinDyn_joint_torques(:,sample) = joint_torques.toMatlab()';
+end
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(kinDyn_joint_torques(i,:)')
+hold on
+plot(tau_joint(i,:)')
+title(['Joint ',num2str(i)],'Interpreter','none')
+legend('offline not smoothed','online smoothed')
+xlabel('samples')
+ylabel('\tau')
+end
+
+
+
+
+%% Filter estimated torques
+
+y = lowpass(kinDyn_joint_torques,100,300);
+
+figure,
+for i = 1 : 6
+subplot(2,3,i)
+plot(y(i,:)')
+hold on
+plot(kinDyn_joint_torques(i,:)')
+title(['Joint ',num2str(i)],'Interpreter','none')
+legend('offline smoothed','online smoothed')
+xlabel('samples')
+ylabel('\tau')
+end
+
