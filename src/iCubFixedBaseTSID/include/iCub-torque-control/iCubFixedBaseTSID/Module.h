@@ -28,6 +28,8 @@
 #include <BipedalLocomotion/TSID/SE3Task.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/System/Clock.h>
+#include <BipedalLocomotion/System/YarpClock.h>
 
 // iDynTree
 #include <iDynTree/KinDynComputations.h>

@@ -22,10 +22,12 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
+    BipedalLocomotion::System::ClockBuilder::setFactory(std::make_shared<BipedalLocomotion::System::YarpClockFactory>());
+
     // prepare and configure the resource finder
     yarp::os::ResourceFinder& rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
 
-    rf.setDefaultConfigFile("blf-joint-trajectory-player-options.ini");
+    rf.setDefaultConfigFile("iCub-fixedbaseTSID-options.ini");
 
     rf.configure(argc, argv);
 
