@@ -353,13 +353,13 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 void Module::logData()
 {
     // log data
-    m_log["time"].push_back(yarp::os::Time::now());
+    m_log["time"].push_back(BipedalLocomotion::clock().now().count());
+
     for (int i = 0; i < m_numOfJoints; i++)
     {
         m_log[m_jointNamesList[i] + "_pos"].push_back(m_currentJointPos[i]);
     }
 
-    m_log["time"].push_back(yarp::os::Time::now());
     for (int i = 0; i < m_numOfJoints; i++)
     {
         m_log[m_jointNamesList[i] + "_vel"].push_back(m_currentJointVel[i]);
