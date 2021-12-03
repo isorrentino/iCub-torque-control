@@ -25,6 +25,7 @@ using namespace iCubTorqueControl::iCubFixedBaseTSID;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
 double Module::getPeriod()
 {
@@ -271,6 +272,9 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_currentJointVel.resize(m_numOfJoints);
     m_currentJointVel.setZero();
     m_desJointTorque.resize(m_numOfJoints);
+    m_desJointPos.resize(m_numOfJoints);
+    m_desJointVel.resize(m_numOfJoints);
+    m_desJointAcc.resize(m_numOfJoints);
 
     m_sensorBridge.getJointPositions(m_currentJointPos);
     m_sensorBridge.getJointVelocities(m_currentJointVel);
@@ -347,6 +351,27 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     m_planner.setContactList(m_contactList);
 
+    // Double integrator to compute desired joint positions from desired joint accelerations
+    Eigen::MatrixXd A(m_numOfJoints*2,m_numOfJoints*2);
+    A << Eigen::MatrixXd::Zero(m_numOfJoints,m_numOfJoints),
+         Eigen::MatrixXd::Identity(m_numOfJoints,m_numOfJoints),
+         Eigen::MatrixXd::Zero(m_numOfJoints,m_numOfJoints*2);
+
+    Eigen::MatrixXd b(m_numOfJoints*2,m_numOfJoints);
+    b << Eigen::MatrixXd::Zero(m_numOfJoints,m_numOfJoints),
+         Eigen::MatrixXd::Identity(m_numOfJoints,m_numOfJoints);
+
+    m_accSystem.dynamics = std::make_shared<LinearTimeInvariantSystem>();
+    m_accSystem.dynamics->setSystemMatrices(A, b);
+
+    Eigen::VectorXd x0(m_numOfJoints*2);
+    x0 << m_currentJointPos, m_currentJointVel;
+    m_accSystem.dynamics->setState({x0});
+
+    m_accSystem.integrator = std::make_shared<ForwardEuler<LinearTimeInvariantSystem>>();
+    m_accSystem.integrator->setIntegrationStep(m_dT);
+    m_accSystem.integrator->setDynamicalSystem(m_accSystem.dynamics);
+
     return true;
 }
 
@@ -368,6 +393,21 @@ void Module::logData()
     for (int i = 0; i < m_numOfJoints; i++)
     {
         m_log[m_jointNamesList[i] + "_destrq"].push_back(m_desJointTorque[i]);
+    }
+
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_despos"].push_back(m_desJointPos[i]);
+    }
+
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_desvel"].push_back(m_desJointVel[i]);
+    }
+
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_desacc"].push_back(m_desJointAcc[i]);
     }
 
     Eigen::VectorXd generalizedBiasForces;
@@ -447,11 +487,31 @@ bool Module::updateModule()
 
     // get the output of the TSID
     m_desJointTorque = m_tsidAndTasks.tsid->getOutput().jointTorques;
-    if (!m_robotControl.setReferences(m_desJointTorque,
-                                      BipedalLocomotion::RobotInterface::IRobotControl::
-                                          ControlMode::Torque))
+    m_desJointAcc = m_tsidAndTasks.tsid->getOutput().jointAccelerations;
+
+    std::cout << "desired accelerations" << std::endl;
+    std::cout << m_desJointAcc << std::endl;
+
+    std::cout << "desired torques" << std::endl;
+    std::cout << m_desJointTorque << std::endl;
+
+    m_accSystem.dynamics->setControlInput({m_desJointAcc});
+    m_accSystem.integrator->integrate(0, m_dT);
+    Eigen::VectorXd solution = std::get<0>(m_accSystem.integrator->getSolution());
+
+    m_desJointPos = solution.head(m_numOfJoints);
+    m_desJointVel = solution.tail(m_numOfJoints);
+
+    std::cout << "desired" << std::endl;
+    std::cout << m_desJointPos << std::endl;
+
+    std::cout << "current" << std::endl;
+    std::cout << m_currentJointPos << std::endl;
+
+    if (!m_robotControl.setReferences(m_desJointPos, BipedalLocomotion::RobotInterface::IRobotControl::ControlMode::PositionDirect))
+
     {
-        std::cerr << "[Module::updateModule] Unable to set joint torques.";
+        std::cerr << "[Module::updateModule] Unable to set desired joint positions.";
         return false;
     }
 

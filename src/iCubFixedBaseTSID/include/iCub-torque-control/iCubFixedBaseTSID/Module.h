@@ -30,6 +30,8 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
 
 // iDynTree
 #include <iDynTree/KinDynComputations.h>
@@ -38,6 +40,7 @@
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::TSID;
+using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
 namespace iCubTorqueControl
 {
@@ -79,7 +82,10 @@ class Module : public yarp::os::RFModule
 
     Eigen::VectorXd m_currentJointPos; /**< Current joint positions. */
     Eigen::VectorXd m_currentJointVel; /**< Current joint velocities. */
-    Eigen::VectorXd m_desJointTorque; /**< Current joint positions. */
+    Eigen::VectorXd m_desJointTorque; /**< Desired joint torques. */
+    Eigen::VectorXd m_desJointPos; /**< Desired joint positions. */
+    Eigen::VectorXd m_desJointVel; /**< Desired joint velocities. */
+    Eigen::VectorXd m_desJointAcc; /**< Desired joint accelerations. */
     manif::SE3d m_currentEEPos; /**< Current end-effector position */
 
     BipedalLocomotion::Contacts::ContactList m_contactList;
@@ -87,6 +93,16 @@ class Module : public yarp::os::RFModule
     std::string m_controlledFrame;
 
     std::unordered_map<std::string, std::vector<double>> m_log; /**< Measured joint and motor quantities. */
+
+    struct AcccelerationIntegrator
+    {
+        std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler<
+            BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>>
+            integrator;
+        std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>
+            dynamics;
+    };
+    AcccelerationIntegrator m_accSystem;
 
 
     // Private methods
