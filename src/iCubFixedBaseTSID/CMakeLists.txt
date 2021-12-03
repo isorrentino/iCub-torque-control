@@ -15,6 +15,7 @@ add_iCub_torque_control_application(
     BipedalLocomotion::matioCppConversions
     BipedalLocomotion::TSID
     BipedalLocomotion::SystemYarpImplementation
+    BipedalLocomotion::ContinuousDynamicalSystem
     iDynTree::idyntree-high-level
     iDynTree::idyntree-model
     )
