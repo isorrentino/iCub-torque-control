@@ -90,7 +90,8 @@ bool Module::createFixedBaseTSID(std::shared_ptr<ParametersHandler::IParametersH
     }
     Eigen::VectorXd weight_se3;
     handler->getGroup("EE_SE3_TASK").lock()->getParameter("weight",weight_se3);
-    if (!m_tsidAndTasks.tsid->addTask(m_tsidAndTasks.se3Task, "se3_task", highPriority))
+    if (!m_tsidAndTasks.tsid->addTask(m_tsidAndTasks.se3Task, "se3_task", lowPriority, weight_se3))
+    //if (!m_tsidAndTasks.tsid->addTask(m_tsidAndTasks.se3Task, "se3_task", highPriority))
     {
         std::cerr << "[Module::createFixedBaseTSID] Impossible to add the se3task to the tsid.";
         return false;
@@ -342,6 +343,14 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
         return false;
     }
+    // fifth foot position
+    position(0) += 0.05;
+    transform.translation(position);
+    if (!m_contactList.addContact(transform, 12.0, 13.0))
+    {
+        std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
+        return false;
+    }
 
     if (!m_planner.initialize(parametersHandler->getGroup("PLANNER")))
     {
@@ -361,12 +370,19 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     b << Eigen::MatrixXd::Zero(m_numOfJoints,m_numOfJoints),
          Eigen::MatrixXd::Identity(m_numOfJoints,m_numOfJoints);
 
+    //std::cout << A << std::endl;
+    //std::cout << b << std::endl;
+
     m_accSystem.dynamics = std::make_shared<LinearTimeInvariantSystem>();
     m_accSystem.dynamics->setSystemMatrices(A, b);
 
     Eigen::VectorXd x0(m_numOfJoints*2);
-    x0 << m_currentJointPos, m_currentJointVel;
+    x0 << m_currentJointPos, Eigen::MatrixXd::Zero(m_numOfJoints,1);
+
     m_accSystem.dynamics->setState({x0});
+    //std::cout << x0 << std::endl;
+
+    //std::cout << "Sampling time = " << m_dT << std::endl;
 
     m_accSystem.integrator = std::make_shared<ForwardEuler<LinearTimeInvariantSystem>>();
     m_accSystem.integrator->setIntegrationStep(m_dT);
@@ -415,7 +431,7 @@ void Module::logData()
     m_kinDyn->generalizedBiasForces(generalizedBiasForces);
     for (int i = 0; i < m_numOfJoints; i++)
     {
-        m_log[m_jointNamesList[i] + "_bias"].push_back(generalizedBiasForces[i]);
+        m_log[m_jointNamesList[i] + "_bias"].push_back(generalizedBiasForces[i+6]);
     }
 
     // Check the end-effector pose error
@@ -443,6 +459,23 @@ void Module::logData()
     m_log["ee_des_ddx"].push_back(m_planner.getOutput().mixedAcceleration.data()[0]);
     m_log["ee_des_ddy"].push_back(m_planner.getOutput().mixedAcceleration.data()[1]);
     m_log["ee_des_ddz"].push_back(m_planner.getOutput().mixedAcceleration.data()[2]);
+
+    Eigen::MatrixXd eigMassMatrix(12, 12);
+    m_kinDyn->getFreeFloatingMassMatrix(iDynTree::make_matrix_view(eigMassMatrix));
+    Eigen::MatrixXd mass(6,6);
+    mass = eigMassMatrix.block<6,6>(6,6);
+    Eigen::VectorXd aa;
+    aa.resize(6);
+    aa = generalizedBiasForces.tail(m_numOfJoints);
+    Eigen::VectorXd bb;
+    aa = mass*m_desJointAcc + aa;
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
+        m_log[m_jointNamesList[i] + "_model"].push_back(aa[i]);
+    }
+
+    //std::cout << "Mass Matrix" << std::endl;
+    //std::cout << eigMassMatrix << std::endl;
 }
 
 bool Module::updateModule()
@@ -465,7 +498,8 @@ bool Module::updateModule()
         return false;
     }
 
-    if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
+    //if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
+    if (!m_kinDyn->setRobotState(m_desJointPos, m_desJointVel, m_gravity))
     {
         std::cerr << "[Module::updateModule] Unable to set the robot state in kinDyn object.";
         return false;
@@ -489,24 +523,27 @@ bool Module::updateModule()
     m_desJointTorque = m_tsidAndTasks.tsid->getOutput().jointTorques;
     m_desJointAcc = m_tsidAndTasks.tsid->getOutput().jointAccelerations;
 
-    std::cout << "desired accelerations" << std::endl;
-    std::cout << m_desJointAcc << std::endl;
+    //std::cout << "desired accelerations" << std::endl;
+    //std::cout << m_desJointAcc << std::endl;
 
-    std::cout << "desired torques" << std::endl;
-    std::cout << m_desJointTorque << std::endl;
+    //std::cout << "desired torques" << std::endl;
+    //std::cout << m_desJointTorque << std::endl;
 
     m_accSystem.dynamics->setControlInput({m_desJointAcc});
     m_accSystem.integrator->integrate(0, m_dT);
     Eigen::VectorXd solution = std::get<0>(m_accSystem.integrator->getSolution());
 
+    std::cout << "Solution tsid" << std::endl;
+    std::cout << m_tsidAndTasks.tsid->getOutput().baseAcceleration << std::endl;
+
     m_desJointPos = solution.head(m_numOfJoints);
     m_desJointVel = solution.tail(m_numOfJoints);
 
-    std::cout << "desired" << std::endl;
-    std::cout << m_desJointPos << std::endl;
+    //prioristd::cout << "desired" << std::endl;
+    //std::cout << m_desJointPos << std::endl;
 
-    std::cout << "current" << std::endl;
-    std::cout << m_currentJointPos << std::endl;
+    //std::cout << "current" << std::endl;
+    //std::cout << m_currentJointPos << std::endl;
 
     if (!m_robotControl.setReferences(m_desJointPos, BipedalLocomotion::RobotInterface::IRobotControl::ControlMode::PositionDirect))
 
