@@ -498,8 +498,8 @@ bool Module::updateModule()
         return false;
     }
 
-    //if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
-    if (!m_kinDyn->setRobotState(m_desJointPos, m_desJointVel, m_gravity))
+    if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
+    //if (!m_kinDyn->setRobotState(m_desJointPos, m_desJointVel, m_gravity))
     {
         std::cerr << "[Module::updateModule] Unable to set the robot state in kinDyn object.";
         return false;
@@ -545,7 +545,7 @@ bool Module::updateModule()
     //std::cout << "current" << std::endl;
     //std::cout << m_currentJointPos << std::endl;
 
-    if (!m_robotControl.setReferences(m_desJointPos, BipedalLocomotion::RobotInterface::IRobotControl::ControlMode::PositionDirect))
+    if (!m_robotControl.setReferences(m_desJointTorque, BipedalLocomotion::RobotInterface::IRobotControl::ControlMode::Torque))
 
     {
         std::cerr << "[Module::updateModule] Unable to set desired joint positions.";
