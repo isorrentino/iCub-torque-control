@@ -1,0 +1,42 @@
+
+joint_from_the_list
+idx_joint
+
+current_col = {};
+motor_torque_col = {};
+motor_vel_col = {};
+idx = {};
+joint_pos = {};
+
+for j = 1 : size(datasetStruct{joint_from_the_list},2)
+  current_col{j} = datasetStruct{joint_from_the_list}{j}.Motor_state.motor_currents(idx_joint,:)';
+  motor_torque_col{j} = datasetStruct{joint_from_the_list}{j}.Joint_state.joint_torques(idx_joint,:)' / gearbox_values(joint_from_the_list);
+  motor_vel_col{j} = datasetStruct{joint_from_the_list}{j}.Motor_state.motor_velocities(idx_joint,:)';
+  
+  joint_pos{j} = datasetStruct{joint_from_the_list}{j}.Joint_state.joint_positions(joint_from_the_list,1);
+  
+  idx{j} = find(abs(motor_vel_col{:,j}) < 10);
+end
+
+
+figure
+for j = 1 : size(datasetStruct{joint_from_the_list},2)
+  cc = repmat(j,length(motor_vel_col{j}(idx{j})),1);
+  scatter(current_col{j}(idx{j}),motor_torque_col{j}(idx{j}),10)
+  hold on
+end
+scatter(-2:0.1:2,(-2:0.1:)*k_tau)
+xlabel('i_m')
+ylabel('\tau_m')
+title(list_of_joints{joint_from_the_list},'Interpreter','none')
+legend(['q = ', num2str(joint_pos{1}(1)*180/pi)],['q = ', num2str(joint_pos{2}(1)*180/pi)],['q = ', num2str(joint_pos{3}(1)*180/pi)])
+
+
+% figure
+% for j = 1 : size(datasetStruct{joint_from_the_list},2)
+%   plot(motor_vel_col{j}(idx{j}))
+%   hold on
+% end
+% xlabel('samples')
+% ylabel('\omega_m deg/sec')
+% title(list_of_joints{joint_from_the_list})

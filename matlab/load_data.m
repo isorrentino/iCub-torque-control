@@ -1,21 +1,21 @@
 function datasetStruct = load_data(select_dataset)
-i = 1;
+
 datasetStruct = {};
 
-while (select_dataset)
-  % Load dataset to process
-  [file,path] = uigetfile('*.mat','Select dataset for identification');
-  load([path file]);
-  matToLoad = [path, file];
-  datasetStruct{i} = load(matToLoad);
-  answer = questdlg('Would you like to choose an additional dataset?', ...
-	'Menu', ...
-	'Yes please','No thank you','No thank you');
-  if strcmp(answer,'No thank you')
-    select_dataset = false;
-  else
-    i = i + 1;
-  end
-end
+cd '/home/isorrentino/dev/Datasets/YarpRobotLogger';
+[file,path] = uigetfile('*.mat','Select dataset for identification','MultiSelect', 'on');
+
+if ~iscell(file)
+    matToLoad = [path, file];
+    datasetStruct{1} = load(matToLoad);
+else
+    for dataset_j = 1 : size(file,2)
+      % Load dataset to process
+      matToLoad = [path, file{dataset_j}];
+      datasetStruct{dataset_j} = load(matToLoad);
+    end
 end
 
+cd '/home/isorrentino/dev/iCub-torque-control/matlab';
+
+end

@@ -8,7 +8,7 @@ addpath('URDF');
 % 'knee','anklepitch','ankleroll'};
 % [joint_from_the_list,tf] = listdlg('ListString',list);
 
-gearbox_values = [100.00  -100.00   100.00   100.00  -100.00   -100.00];
+gearbox_values = [100.00  -100.00   100.00   100.00  100.00   100.00];
 
 select_dataset = true;
 if (select_dataset)
