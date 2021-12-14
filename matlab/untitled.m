@@ -32,21 +32,18 @@ torque_low_curr = motor_torque(idx);
 vel_low_curr = motor_vel(idx);
 
 % Consider viscous + coulomb
-idx1 = find(vel_low_curr <= 0);
-regressor1 = [vel_low_curr(idx1), sign(vel_low_curr(idx1)), zeros(size(vel_low_curr(idx1),1),2)];
+regressor1 = [vel_low_curr(vel_low_curr >= 0), sign(vel_low_curr(vel_low_curr >= 0))];
 
-idx2 = find(vel_low_curr > 0);
-regressor2 = [zeros(size(vel_low_curr(idx2),1),2), vel_low_curr(idx2), sign(vel_low_curr(idx2))];
+k1 = regressor1 \ torque_low_curr(vel_low_curr >= 0);
 
-% regressor = [vel_low_curr, sign(vel_low_curr)];
-regressor = [regressor1; regressor2];
+regressor2 = [vel_low_curr(vel_low_curr <= 0), sign(vel_low_curr(vel_low_curr <= 0))];
 
-k = regressor \ torque_low_curr;
+k2 = regressor2 \ torque_low_curr(vel_low_curr <= 0);
 
-fv(joint_from_the_list) = k(1);
+% fv(joint_from_the_list) = k(1);
 % display(['fv = ', num2str(fv)]);
 
-fs(joint_from_the_list) = k(2);
+% fs(joint_from_the_list) = k(2);
 % display(['fs = ', num2str(fs)]);
 
 % Consider just viscous (called also bemf in the code)
@@ -66,14 +63,8 @@ ylabel('\tau friction (kbemf dotq)')
 figure,
 scatter(vel_low_curr,torque_low_curr)
 hold on
-scatter(min(vel_low_curr):0.01:max(vel_low_curr),(min(vel_low_curr):0.01:max(vel_low_curr))*fv(joint_from_the_list)+sign(min(vel_low_curr):0.01:max(vel_low_curr))*fs(joint_from_the_list))
-xlabel('motor velocity')
-ylabel('\tau friction (fv dotq + fs sng(dot q))')
-
-figure,
-scatter(vel_low_curr,torque_low_curr)
-hold on
-scatter(min(vel_low_curr(idx1)):0.01:max(vel_low_curr(idx1)),(min(vel_low_curr(idx1)):0.01:max(vel_low_curr(idx1)))*k(joint_from_the_list)+sign(min(vel_low_curr):0.01:max(vel_low_curr))*fs(joint_from_the_list))
+scatter(min(vel_low_curr(vel_low_curr >= 0)):0.01:max(vel_low_curr(vel_low_curr >= 0)),(min(vel_low_curr(vel_low_curr >= 0)):0.01:max(vel_low_curr(vel_low_curr >= 0)))*k1(1)+sign(min(vel_low_curr(vel_low_curr >= 0)):0.01:max(vel_low_curr(vel_low_curr >= 0)))*k1(2))
+scatter(min(vel_low_curr(vel_low_curr <= 0)):0.01:max(vel_low_curr(vel_low_curr <= 0)),(min(vel_low_curr(vel_low_curr <= 0)):0.01:max(vel_low_curr(vel_low_curr <= 0)))*k2(1)+sign(min(vel_low_curr(vel_low_curr <= 0)):0.01:max(vel_low_curr(vel_low_curr <= 0)))*k2(2))
 xlabel('motor velocity')
 ylabel('\tau friction (fv dotq + fs sng(dot q))')
 

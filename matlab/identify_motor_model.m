@@ -41,7 +41,12 @@ scatter(motor_vel,motor_torque-k_tau*current)
 hold on
 scatter(min(motor_vel):0.01:max(motor_vel),(min(motor_vel):0.01:max(motor_vel))*fv)
 
-
+figure,
+scatter(0:0.01:0.01*(length(motor_torque)-1),motor_torque*gearbox_values(joint_from_the_list))
+hold on
+scatter(0:0.01:0.01*(length(motor_torque)-1),k_tau*current + fv*motor_vel)
+xlabel('time (sec)')
+ylabel('\tau')
 
 
 
