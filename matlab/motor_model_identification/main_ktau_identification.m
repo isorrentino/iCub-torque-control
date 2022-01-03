@@ -31,6 +31,9 @@ clear;
 % Choose the joint from the list
 joint = 25;
 
+% How many datasets?
+num_datasets = 1;
+
 load_dataset;
 
 % Identify ktau^-1 (dot theta = 0)
