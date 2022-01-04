@@ -29,6 +29,7 @@
 clear;
 
 % Choose the joint from the list
+leg = 'right';
 joint = 25;
 
 % How many datasets?

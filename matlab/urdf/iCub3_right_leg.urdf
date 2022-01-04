@@ -1,0 +1,1798 @@
+<?xml version="1.0"?>
+<robot name="iDynTreeURDFModelExportModelName">
+  <link name="root_link_imu_frame"/>
+  <joint name="root_link_imu_frame_fixed_joint" type="fixed">
+    <origin xyz="0.08515499999999998 -0.011000000000000022 -0.11230899999999999" rpy="-2.0943952105869323 -0 -1.5707963267948963"/>
+    <parent link="root_link_imu_frame"/>
+    <child link="root_link"/>
+  </joint>
+  <link name="root_link">
+    <inertial>
+      <mass value="27.0146597"/>
+      <origin xyz="0.014665528957800678 -0.015769526512618304 -0.014224347412197831" rpy="0 -0 0"/>
+      <inertia ixx="1.535306721316758" ixy="-0.004390342913319381" ixz="-0.03845771636714068" iyy="1.472732985596566" iyz="-0.14626155673487581" izz="0.17826341924911335"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.036399999999999995 0 0.032" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_root_link_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03640000000000026 1.9073497642407844e-10 0.0319999999999997" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_lap_belt_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03640000000005946 -3.5735303605122226e-16 0.03199999999998346" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03639999980932397 8.770761894538737e-15 0.03199999999997982" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.036399999809320974 1.008915173628111e-14 0.03199999999998038" rpy="1.5707963267948972 1.2246467991473532e-16 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.036399999809320974 9.922618282587337e-15 0.032200000000000006" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03639999980931698 1.9075789559064305e-10 0.03219999999999995" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03639999980931498 1.9077837920544738e-10 0.032200000000000006" rpy="1.5707963267948966 -1.5655990037454967e-16 -1.570796326794896"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03639999962507398 1.9077638080400305e-10 0.03220000000000012" rpy="1.5707963267948966 -1.5655990037454967e-16 -1.570796326794896"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03634822750000304 6.781338490746691e-9 0.03200681518000004" rpy="1.570796314176403 -9.997812469220213e-9 -1.570796329473783"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_sole_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.018691500000000097 1.9073500199464442e-10 0.1753" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_lap_belt_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.018691500000000104 1.9073500199464442e-10 0.1748" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_chest_bb_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.03999577000000001 0.219024 0.17480000000000004" rpy="-1.5707963267948963 -3.5871833949913145e-16 2.094395210586932"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.0187562000000001 2.414820000000012e-4 0.17479999999999998" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.0186915000000001 1.9073500244493058e-10 0.1748" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_neck_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.018691500000000097 1.907350018421415e-10 0.17479999999999998" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_neck_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.0186915000000001 1.907350018421415e-10 0.1748" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_head_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.01061979999999978 -0.10939100000000004 0.2883" rpy="-3.141592629949765 1.3089970275211211 -0.26179927643926154"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999777 -0.10939100000000009 0.2883" rpy="-3.1415926535897913 1.308997006967741 2.3056457336008695e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999653 -0.1093910000000002 0.2882999999999999" rpy="-3.141592653589789 1.308997006967741 3.4839993257130004e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999856 -0.10939100000000017 0.28830000000000006" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999848 -0.10939100000000025 0.28730000000000006" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999844 -0.1093910000000002 0.28730000000000006" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999829 -0.1093910000000002 0.2873000000000001" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999898 0.10939099999999993 0.2883" rpy="-3.141592629949768 -1.3089970275211211 -2.879793377150528"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999895 0.10939099999999996 0.28830000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999813 0.10939099999999995 0.2882999999999999" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.01061979999999994 0.1093909999999999 0.28830000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999954 0.10939099999999996 0.2873000000000001" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.01061979999999993 0.10939099999999992 0.28730000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.010619799999999945 0.10939099999999992 0.2873000000000001" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.036399999999999995 0 0.032" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_root_link_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03640000000000026 1.9073497642407844e-10 0.0319999999999997" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_lap_belt_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03640000000005946 -3.5735303605122226e-16 0.03199999999998346" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03639999980932397 8.770761894538737e-15 0.03199999999997982" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.036399999809320974 1.008915173628111e-14 0.03199999999998038" rpy="1.5707963267948972 1.2246467991473532e-16 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.036399999809320974 9.922618282587337e-15 0.032200000000000006" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03639999980931698 1.9075789559064305e-10 0.03219999999999995" rpy="1.5707963267948961 -0 -1.570796326794897"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03639999980931498 1.9077837920544738e-10 0.032200000000000006" rpy="1.5707963267948966 -1.5655990037454967e-16 -1.570796326794896"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03639999962507398 1.9077638080400305e-10 0.03220000000000012" rpy="1.5707963267948966 -1.5655990037454967e-16 -1.570796326794896"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03634822750000304 6.781338490746691e-9 0.03200681518000004" rpy="1.570796314176403 -9.997812469220213e-9 -1.570796329473783"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_sole_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.018691500000000097 1.9073500199464442e-10 0.1753" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_lap_belt_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.018691500000000104 1.9073500199464442e-10 0.1748" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_chest_bb_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03999577000000001 0.219024 0.17480000000000004" rpy="-1.5707963267948963 -3.5871833949913145e-16 2.094395210586932"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0187562000000001 2.414820000000012e-4 0.17479999999999998" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0186915000000001 1.9073500244493058e-10 0.1748" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_neck_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.018691500000000097 1.907350018421415e-10 0.17479999999999998" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_neck_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0186915000000001 1.907350018421415e-10 0.1748" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_head_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.01061979999999978 -0.10939100000000004 0.2883" rpy="-3.141592629949765 1.3089970275211211 -0.26179927643926154"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999777 -0.10939100000000009 0.2883" rpy="-3.1415926535897913 1.308997006967741 2.3056457336008695e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999653 -0.1093910000000002 0.2882999999999999" rpy="-3.141592653589789 1.308997006967741 3.4839993257130004e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999856 -0.10939100000000017 0.28830000000000006" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999848 -0.10939100000000025 0.28730000000000006" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999844 -0.1093910000000002 0.28730000000000006" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999829 -0.1093910000000002 0.2873000000000001" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_l_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999898 0.10939099999999993 0.2883" rpy="-3.141592629949768 -1.3089970275211211 -2.879793377150528"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999895 0.10939099999999996 0.28830000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999813 0.10939099999999995 0.2882999999999999" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.01061979999999994 0.1093909999999999 0.28830000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999954 0.10939099999999996 0.2873000000000001" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.01061979999999993 0.10939099999999992 0.28730000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.010619799999999945 0.10939099999999992 0.2873000000000001" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_hip_pitch" type="revolute">
+    <origin xyz="0.006451499999999992 0.025999999999999968 -0.11991299999999999" rpy="0 -0 -3.141592653589793"/>
+    <axis xyz="-2.2204460492503136e-16 -1 0"/>
+    <parent link="root_link"/>
+    <child link="r_hip_1"/>
+  </joint>
+  <link name="r_hip_1">
+    <inertial>
+      <mass value="0.919978"/>
+      <origin xyz="-5.145000000000149e-4 -0.038075299999999986 -7.099999999998774e-5" rpy="0 -0 0"/>
+      <inertia ixx="5.800250000000001e-4" ixy="1.110549999999911e-6" ixz="-7.69473999999998e-7" iyy="4.04268e-4" iyz="-1.2685199999999987e-6" izz="5.747410000000001e-4"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04285150000011213 0.025999999999999232 0.1519129999999679" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.04285150000011213 0.025999999999999232 0.1519129999999679" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_hip_roll" type="revolute">
+    <origin xyz="0 -0.04409999999999998 0" rpy="0 -0 0"/>
+    <axis xyz="-1 0 -2.2204460492503136e-16"/>
+    <parent link="r_hip_1"/>
+    <child link="r_hip_2"/>
+  </joint>
+  <link name="r_hip_2">
+    <inertial>
+      <mass value="0.544573"/>
+      <origin xyz="-0.0012838766986244265 6.811558982907316e-5 -0.05325958065860771" rpy="0 -0 0"/>
+      <inertia ixx="4.933138023753367e-4" ixy="1.7024817936765136e-7" ixz="1.3795726713694557e-5" iyy="6.66162286308608e-4" iyz="1.0448064505901541e-6" izz="3.431173573348834e-4"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04285149980937101 0.07010000000000424 0.15191299999996632" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.042851499809366006 0.07010000000000247 0.1519129999999665" rpy="1.5707963267948972 1.2246467991473532e-16 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.04285149980937101 0.07010000000000424 0.15191299999996632" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.042851499809366006 0.07010000000000247 0.1519129999999665" rpy="1.5707963267948972 1.2246467991473532e-16 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_hip_yaw" type="revolute">
+    <origin xyz="-8.575000000000041e-4 -1.763491390772188e-18 -0.08869999999999995" rpy="0 -0 0"/>
+    <axis xyz="0 -2.2204460492503136e-16 -1"/>
+    <parent link="r_hip_2"/>
+    <child link="r_upper_leg"/>
+  </joint>
+  <link name="r_upper_leg">
+    <inertial>
+      <mass value="1.8035"/>
+      <origin xyz="0.003399900000000004 -2.9100000000018e-5 -0.078954" rpy="0 -0 0"/>
+      <inertia ixx="0.006467208238130082" ixy="5.4820509473938776e-6" ixz="-1.366130868747421e-4" iyy="0.006477514229987116" iyz="1.295794295884976e-4" izz="0.0014593786411035647"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04370899980936801 0.07010000000000305 0.24081299999999994" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.04370899980936801 0.07010000000000305 0.24081299999999994" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_knee" type="revolute">
+    <origin xyz="0 0 -0.14582499999999995" rpy="0 -0 0"/>
+    <axis xyz="-2.2204460492503136e-16 -1 0"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_lower_leg"/>
+  </joint>
+  <link name="r_lower_leg">
+    <inertial>
+      <mass value="1.472"/>
+      <origin xyz="0.0012363000000000027 -0.003513100000000033 -0.08879400000000004" rpy="0 -0 0"/>
+      <inertia ixx="0.004573585842061656" ixy="-5.556464594531462e-5" ixz="-2.64132979243237e-4" iyy="0.004239931674775328" iyz="2.2881454885381047e-4" izz="0.0015209504344685459"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04370899980936701 0.07010000019073806 0.38663799999999987" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.04370899980936701 0.07010000019073806 0.38663799999999987" rpy="1.5707963267948961 -0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_ankle_pitch" type="revolute">
+    <origin xyz="0 0 -0.20049999999999996" rpy="0 0.2617991794798451 0"/>
+    <axis xyz="-6.661338147750938e-16 1 4.440892098500625e-16"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_ankle_1"/>
+  </joint>
+  <link name="r_ankle_1">
+    <inertial>
+      <mass value="0.6803"/>
+      <origin xyz="0.015143405473968807 -8.685000000000082e-4 4.2859082720503316e-5" rpy="0 -0 0"/>
+      <inertia ixx="3.0823525542277936e-4" ixy="-3.0134424707443862e-5" ixz="2.576228813851896e-6" iyy="4.046207392315529e-4" iyz="7.496764457986968e-7" izz="4.4863261691500007e-4"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.10974272424511755 0.07010000019073763 0.5784445022502984" rpy="1.3089971473150515 -0 1.5707963267948972"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.10974272424511755 0.07010000019073763 0.5784445022502984" rpy="1.3089971473150515 -0 1.5707963267948972"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_ankle_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 -0 0"/>
+    <axis xyz="-0.9999999999999927 -6.013653080356639e-16 1.197939310368565e-7"/>
+    <parent link="r_ankle_1"/>
+    <child link="r_ankle_2"/>
+  </joint>
+  <link name="r_ankle_2">
+    <inertial>
+      <mass value="0.623218"/>
+      <origin xyz="0.021321149965230813 -0.0026184818190897944 -0.04751413462351517" rpy="0 -0 0"/>
+      <inertia ixx="4.745574648138389e-4" ixy="-1.131224548369626e-5" ixz="-1.763623845033666e-4" iyy="0.0016492922263843558" iyz="-2.0793072602235424e-5" izz="0.0016301028479848768"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.10974272442308745 0.07010000019073363 0.5784445022026116" rpy="1.3089971473150515 -0 1.5707963267948972"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.1097427255394834 0.07010000093695962 0.5782445022055046" rpy="1.3089971457672203 1.1719302309769223e-9 1.5707963267948983"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_sole_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.10974272442308745 0.07010000019073363 0.5784445022026116" rpy="1.3089971473150515 -0 1.5707963267948972"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.1097427255394834 0.07010000093695962 0.5782445022055046" rpy="1.3089971457672203 1.1719302309769223e-9 1.5707963267948983"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/2-5_plus/sim_sea_2-5_r_sole_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="base_link"/>
+  <joint name="base_link_fixed_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 -0 0"/>
+    <parent link="root_link"/>
+    <child link="base_link"/>
+  </joint>
+  <link name="root_link_ems_acc_eb5"/>
+  <joint name="root_link_ems_acc_eb5_fixed_joint" type="fixed">
+    <origin xyz="0.0493308 -0.012577100000000023 -0.11569100000000002" rpy="-3.141592653589793 1.2915440450258355 3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="root_link_ems_acc_eb5"/>
+  </joint>
+  <link name="root_link_imu_acc"/>
+  <joint name="root_link_imu_acc_fixed_joint" type="fixed">
+    <origin xyz="0.08515499999999998 -0.011000000000000022 -0.11230899999999999" rpy="-2.0943952105869323 -3.885780586188048e-16 -1.5707963267948963"/>
+    <parent link="root_link"/>
+    <child link="root_link_imu_acc"/>
+  </joint>
+  <link name="root_link_ems_gyro_eb5"/>
+  <joint name="root_link_ems_gyro_eb5_fixed_joint" type="fixed">
+    <origin xyz="0.0493308 -0.012577100000000023 -0.11569100000000002" rpy="-3.141592653589793 1.2915440450258355 3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="root_link_ems_gyro_eb5"/>
+  </joint>
+  <link name="torso_1"/>
+  <joint name="torso_1_fixed_joint" type="fixed">
+    <origin xyz="0 0.02693479999999999 0" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="torso_1"/>
+  </joint>
+  <link name="l_hip_1"/>
+  <joint name="l_hip_1_fixed_joint" type="fixed">
+    <origin xyz="0.006451499999999999 -0.026000000000000023 -0.11991299999999999" rpy="0 -0 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_hip_1"/>
+  </joint>
+  <link name="l_hip_2"/>
+  <joint name="l_hip_2_fixed_joint" type="fixed">
+    <origin xyz="0.006451500000000004 -0.07010000000000001 -0.11991299999999999" rpy="0 -0 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_hip_2"/>
+  </joint>
+  <link name="l_hip_3"/>
+  <joint name="l_hip_3_fixed_joint" type="fixed">
+    <origin xyz="0.007309000000000008 -0.07010000000000001 -0.19421299999999994" rpy="3.141592653589793 -0 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_hip_3"/>
+  </joint>
+  <link name="l_leg_ft_sensor"/>
+  <joint name="l_leg_ft_sensor_fixed_joint" type="fixed">
+    <origin xyz="0.007309000000000008 -0.07010000000000001 -0.19421299999999994" rpy="3.141592653589793 -0 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_leg_ft_sensor"/>
+  </joint>
+  <link name="l_upper_leg"/>
+  <joint name="l_upper_leg_fixed_joint" type="fixed">
+    <origin xyz="0.007309000000000008 -0.07010000000000001 -0.20861299999999994" rpy="0 -0 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg"/>
+  </joint>
+  <link name="l_upper_leg_back_contact"/>
+  <joint name="l_upper_leg_back_contact_fixed_joint" type="fixed">
+    <origin xyz="0.05856569999999999 -0.07010000000000001 -0.194013" rpy="0 1.5707963267948966 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_back_contact"/>
+  </joint>
+  <link name="l_upper_leg_dh_frame"/>
+  <joint name="l_upper_leg_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="0.007309000000000008 -0.07010000000000001 -0.3544379999999999" rpy="1.5707963267948966 -0 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_dh_frame"/>
+  </joint>
+  <link name="l_upper_leg_ems_acc_eb6"/>
+  <joint name="l_upper_leg_ems_acc_eb6_fixed_joint" type="fixed">
+    <origin xyz="0.019886100000000004 -0.029692800000000005 -0.29201999999999995" rpy="0 1.5707963267948966 1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_ems_acc_eb6"/>
+  </joint>
+  <link name="l_upper_leg_ems_acc_eb10"/>
+  <joint name="l_upper_leg_ems_acc_eb10_fixed_joint" type="fixed">
+    <origin xyz="0.019884100000000005 -0.11050700000000001 -0.24883999999999992" rpy="0 -1.5707963267948966 1.5707963267948966"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_ems_acc_eb10"/>
+  </joint>
+  <link name="l_upper_leg_mtb_acc_10b1"/>
+  <joint name="l_upper_leg_mtb_acc_10b1_fixed_joint" type="fixed">
+    <origin xyz="-0.03469262999999998 -0.10166500000000003 -0.15948099999999996" rpy="-1.570795518564555 -1.5706802103359454 2.4085535588779523"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_mtb_acc_10b1"/>
+  </joint>
+  <link name="l_upper_leg_mtb_acc_10b2"/>
+  <joint name="l_upper_leg_mtb_acc_10b2_fixed_joint" type="fixed">
+    <origin xyz="-0.04621208999999998 -0.07786570000000004 -0.16936099999999993" rpy="-1.5707963863768455 -1.5706802103923572 1.8325957061943186"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_mtb_acc_10b2"/>
+  </joint>
+  <link name="l_upper_leg_mtb_acc_10b3"/>
+  <joint name="l_upper_leg_mtb_acc_10b3_fixed_joint" type="fixed">
+    <origin xyz="-0.04647599999999998 -0.08517060000000001 -0.20443099999999997" rpy="0 -1.5707963267948966 -0"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_mtb_acc_10b3"/>
+  </joint>
+  <link name="l_upper_leg_mtb_acc_10b4"/>
+  <joint name="l_upper_leg_mtb_acc_10b4_fixed_joint" type="fixed">
+    <origin xyz="-0.046475999999999976 -0.05567060000000002 -0.20443099999999997" rpy="0 -1.5707963267948966 -0"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_mtb_acc_10b4"/>
+  </joint>
+  <link name="l_upper_leg_mtb_acc_10b5"/>
+  <joint name="l_upper_leg_mtb_acc_10b5_fixed_joint" type="fixed">
+    <origin xyz="-0.02682048999999998 -0.02860010000000003 -0.21347099999999997" rpy="0 -1.5707963267948966 -1.186823762544959"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_mtb_acc_10b5"/>
+  </joint>
+  <link name="l_upper_leg_mtb_acc_10b6"/>
+  <joint name="l_upper_leg_mtb_acc_10b6_fixed_joint" type="fixed">
+    <origin xyz="0.051093999999999994 -0.08791110000000002 -0.23502399999999993" rpy="-1.5707963267919405 1.5707743139363148 -1.57079632679994"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_mtb_acc_10b6"/>
+  </joint>
+  <link name="l_upper_leg_mtb_acc_10b7"/>
+  <joint name="l_upper_leg_mtb_acc_10b7_fixed_joint" type="fixed">
+    <origin xyz="0.05109400000000001 -0.055908200000000005 -0.23502399999999993" rpy="1.5707963267982468 1.5706473388946895 1.5707963267978775"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_mtb_acc_10b7"/>
+  </joint>
+  <link name="l_upper_leg_ems_gyro_eb6"/>
+  <joint name="l_upper_leg_ems_gyro_eb6_fixed_joint" type="fixed">
+    <origin xyz="0.020390000000000005 -0.029692800000000005 -0.29659199999999997" rpy="0 1.5707963267948966 1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_ems_gyro_eb6"/>
+  </joint>
+  <link name="l_upper_leg_ems_gyro_eb10"/>
+  <joint name="l_upper_leg_ems_gyro_eb10_fixed_joint" type="fixed">
+    <origin xyz="0.020388 -0.11050700000000001 -0.2442679999999999" rpy="0 -1.5707963267948966 1.5707963267948966"/>
+    <parent link="root_link"/>
+    <child link="l_upper_leg_ems_gyro_eb10"/>
+  </joint>
+  <link name="l_lower_leg"/>
+  <joint name="l_lower_leg_fixed_joint" type="fixed">
+    <origin xyz="0.007309000000000008 -0.07010000000000001 -0.3544379999999999" rpy="0 -0 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_lower_leg"/>
+  </joint>
+  <link name="l_lower_leg_ems_acc_eb7"/>
+  <joint name="l_lower_leg_ems_acc_eb7_fixed_joint" type="fixed">
+    <origin xyz="-0.036204729999999984 -0.08141459999999998 -0.4472029999999999" rpy="3.1415926535897922 -1.3526297834539558 -3.1415926535897922"/>
+    <parent link="root_link"/>
+    <child link="l_lower_leg_ems_acc_eb7"/>
+  </joint>
+  <link name="l_lower_leg_mtb_acc_10b8"/>
+  <joint name="l_lower_leg_mtb_acc_10b8_fixed_joint" type="fixed">
+    <origin xyz="-0.045824469999999985 -0.08728410000000003 -0.3587559999999999" rpy="-2.8972464875193467 -1.5707963118937354 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_lower_leg_mtb_acc_10b8"/>
+  </joint>
+  <link name="l_lower_leg_mtb_acc_10b9"/>
+  <joint name="l_lower_leg_mtb_acc_10b9_fixed_joint" type="fixed">
+    <origin xyz="-0.04714279999999998 -0.056300900000000015 -0.3587559999999999" rpy="-1.5707963664504991 -1.570680210443988 1.2217307262382544"/>
+    <parent link="root_link"/>
+    <child link="l_lower_leg_mtb_acc_10b9"/>
+  </joint>
+  <link name="l_lower_leg_mtb_acc_10b10"/>
+  <joint name="l_lower_leg_mtb_acc_10b10_fixed_joint" type="fixed">
+    <origin xyz="-0.018606099999999987 -0.11284399999999999 -0.3979059999999999" rpy="-1.5707936954748312 -1.5706802103474191 2.8797908430929597"/>
+    <parent link="root_link"/>
+    <child link="l_lower_leg_mtb_acc_10b10"/>
+  </joint>
+  <link name="l_lower_leg_mtb_acc_10b11"/>
+  <joint name="l_lower_leg_mtb_acc_10b11_fixed_joint" type="fixed">
+    <origin xyz="-0.011150299999999983 -0.028381299999999998 -0.44739599999999996" rpy="1.570795319271908 -1.57076999786407 -2.879792466561133"/>
+    <parent link="root_link"/>
+    <child link="l_lower_leg_mtb_acc_10b11"/>
+  </joint>
+  <link name="l_lower_leg_ems_gyro_eb7"/>
+  <joint name="l_lower_leg_ems_gyro_eb7_fixed_joint" type="fixed">
+    <origin xyz="-0.03719429199999998 -0.08191849999999998 -0.4427389999999999" rpy="3.1415926535897922 -1.3526297834539558 -3.1415926535897922"/>
+    <parent link="root_link"/>
+    <child link="l_lower_leg_ems_gyro_eb7"/>
+  </joint>
+  <link name="l_ankle_1"/>
+  <joint name="l_ankle_1_fixed_joint" type="fixed">
+    <origin xyz="0.007309000000000008 -0.07010000000000001 -0.5549379999999999" rpy="0 0.2617991794798451 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_ankle_1"/>
+  </joint>
+  <link name="l_ankle_2"/>
+  <joint name="l_ankle_2_fixed_joint" type="fixed">
+    <origin xyz="0.007309000000000008 -0.07010000000000001 -0.5549379999999999" rpy="0 0.2617991794798451 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_ankle_2"/>
+  </joint>
+  <link name="l_foot"/>
+  <joint name="l_foot_fixed_joint" type="fixed">
+    <origin xyz="0.026348299999999998 -0.07010000000000001 -0.612471" rpy="-3.141592643239301 0.2617991794798451 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_foot"/>
+  </joint>
+  <link name="l_sole"/>
+  <joint name="l_sole_fixed_joint" type="fixed">
+    <origin xyz="0.007360800000000025 -0.07010000006925801 -0.6244860000000001" rpy="9.99783810877977e-9 -1.2618488420823581e-8 3.1415926509108907"/>
+    <parent link="root_link"/>
+    <child link="l_sole"/>
+  </joint>
+  <link name="l_foot_dh_frame"/>
+  <joint name="l_foot_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="0.027383575375526076 -0.07010000004140197 -0.6163347035208242" rpy="-3.1415926149606688 -1.3090008205201549 3.1415926135979833"/>
+    <parent link="root_link"/>
+    <child link="l_foot_dh_frame"/>
+  </joint>
+  <link name="l_foot_ft_sensor"/>
+  <joint name="l_foot_ft_sensor_fixed_joint" type="fixed">
+    <origin xyz="0.026348299999999998 -0.07010000000000001 -0.612471" rpy="-3.141592643239301 0.2617991794798451 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="l_foot_ft_sensor"/>
+  </joint>
+  <link name="l_foot_mtb_acc_10b12"/>
+  <joint name="l_foot_mtb_acc_10b12_fixed_joint" type="fixed">
+    <origin xyz="-0.08935599999999999 -0.06928779999999815 -0.6192710000000006" rpy="-3.1415926409712993 9.997846023383273e-9 1.5707963241160308"/>
+    <parent link="root_link"/>
+    <child link="l_foot_mtb_acc_10b12"/>
+  </joint>
+  <link name="l_foot_mtb_acc_10b13"/>
+  <joint name="l_foot_mtb_acc_10b13_fixed_joint" type="fixed">
+    <origin xyz="-0.06435599999999983 -0.05828779999999853 -0.6192710000000005" rpy="-3.1415926409712993 9.997846023383273e-9 1.5707963241160308"/>
+    <parent link="root_link"/>
+    <child link="l_foot_mtb_acc_10b13"/>
+  </joint>
+  <link name="torso_2"/>
+  <joint name="torso_2_fixed_joint" type="fixed">
+    <origin xyz="0.05734460000000004 1.9073502152688881e-10 0.03199999999999997" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="torso_2"/>
+  </joint>
+  <link name="chest"/>
+  <joint name="chest_fixed_joint" type="fixed">
+    <origin xyz="-0.005497499999999947 1.9073498977142145e-10 0.08200000000000002" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="chest"/>
+  </joint>
+  <link name="chest_ems_acc_eb1"/>
+  <joint name="chest_ems_acc_eb1_fixed_joint" type="fixed">
+    <origin xyz="0.059211600000000114 -0.06478549999999998 0.14604299999999998" rpy="-1.5707963268156129 -2.826703556805911e-4 -1.8325956466220497"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_acc_eb1"/>
+  </joint>
+  <link name="chest_ems_acc_eb2"/>
+  <joint name="chest_ems_acc_eb2_fixed_joint" type="fixed">
+    <origin xyz="0.05866700000000011 -0.02045329999999998 0.17006299999999996" rpy="1.5707963267958123 -8.033420262433702e-6 1.3089970069677408"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_acc_eb2"/>
+  </joint>
+  <link name="chest_ems_acc_eb3"/>
+  <joint name="chest_ems_acc_eb3_fixed_joint" type="fixed">
+    <origin xyz="0.07040100000000007 0.02305880000000003 0.14601899999999998" rpy="-1.571200033436884 2.9859593984344696e-4 -1.3096957984120081"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_acc_eb3"/>
+  </joint>
+  <link name="chest_ems_acc_eb4"/>
+  <joint name="chest_ems_acc_eb4_fixed_joint" type="fixed">
+    <origin xyz="0.04749120000000007 0.062162100000000026 0.17006299999999996" rpy="1.5707963238737441 -8.030436522320931e-6 1.8325956466220652"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_acc_eb4"/>
+  </joint>
+  <link name="chest_mtb_acc_0b7"/>
+  <joint name="chest_mtb_acc_0b7_fixed_joint" type="fixed">
+    <origin xyz="-0.04973159999999998 0.060753999999999975 0.08021640000000003" rpy="-2.8985342442012194 1.426911264918205 -0.6271656811390045"/>
+    <parent link="root_link"/>
+    <child link="chest_mtb_acc_0b7"/>
+  </joint>
+  <link name="chest_mtb_acc_0b8"/>
+  <joint name="chest_mtb_acc_0b8_fixed_joint" type="fixed">
+    <origin xyz="-0.06224019999999997 0.045704699999999966 0.08015400000000004" rpy="2.9263027873365712 1.4289327462078347 -0.7112534257632289"/>
+    <parent link="root_link"/>
+    <child link="chest_mtb_acc_0b8"/>
+  </joint>
+  <link name="chest_mtb_acc_0b9"/>
+  <joint name="chest_mtb_acc_0b9_fixed_joint" type="fixed">
+    <origin xyz="-0.06321959999999993 -0.043903600000000036 0.08021590000000005" rpy="-2.9263102476581344 1.4289314196512493 0.7112457270073443"/>
+    <parent link="root_link"/>
+    <child link="chest_mtb_acc_0b9"/>
+  </joint>
+  <link name="chest_mtb_acc_0b10"/>
+  <joint name="chest_mtb_acc_0b10_fixed_joint" type="fixed">
+    <origin xyz="-0.05129559999999992 -0.05942860000000003 0.08014570000000004" rpy="2.898534754807423 1.4269132751354308 0.6271667092858008"/>
+    <parent link="root_link"/>
+    <child link="chest_mtb_acc_0b10"/>
+  </joint>
+  <link name="chest_ems_gyro_eb1"/>
+  <joint name="chest_ems_gyro_eb1_fixed_joint" type="fixed">
+    <origin xyz="0.058028300000000116 -0.06920159999999999 0.146548" rpy="-1.5707963268156129 -2.826703556805911e-4 -1.8325956466220497"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_gyro_eb1"/>
+  </joint>
+  <link name="chest_ems_gyro_eb2"/>
+  <joint name="chest_ems_gyro_eb2_fixed_joint" type="fixed">
+    <origin xyz="0.05985040000000011 -0.016037099999999974 0.16955899999999996" rpy="1.5707963267958123 -8.033420262433702e-6 1.3089970069677408"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_gyro_eb2"/>
+  </joint>
+  <link name="chest_ems_gyro_eb3"/>
+  <joint name="chest_ems_gyro_eb3_fixed_joint" type="fixed">
+    <origin xyz="0.07158100000000008 0.01864170000000003 0.14652099999999996" rpy="-1.571200033436884 2.9859593984344696e-4 -1.3096957984120081"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_gyro_eb3"/>
+  </joint>
+  <link name="chest_ems_gyro_eb4"/>
+  <joint name="chest_ems_gyro_eb4_fixed_joint" type="fixed">
+    <origin xyz="0.04630790000000007 0.06657840000000002 0.16955899999999996" rpy="1.5707963238737441 -8.030436522320931e-6 1.8325956466220652"/>
+    <parent link="root_link"/>
+    <child link="chest_ems_gyro_eb4"/>
+  </joint>
+  <link name="r_shoulder_1"/>
+  <joint name="r_shoulder_1_fixed_joint" type="fixed">
+    <origin xyz="-0.01346679999999996 0.120016 0.1748" rpy="-1.5707963267948963 -3.5871833949913145e-16 2.094395210586932"/>
+    <parent link="root_link"/>
+    <child link="r_shoulder_1"/>
+  </joint>
+  <link name="l_shoulder_1"/>
+  <joint name="l_shoulder_1_fixed_joint" type="fixed">
+    <origin xyz="-0.013466799999999838 -0.12001600000000003 0.1748" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="l_shoulder_1"/>
+  </joint>
+  <link name="neck_1"/>
+  <joint name="neck_1_fixed_joint" type="fixed">
+    <origin xyz="-0.010809299999999869 0.014299999999999986 0.254797" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="neck_1"/>
+  </joint>
+  <link name="neck_2"/>
+  <joint name="neck_2_fixed_joint" type="fixed">
+    <origin xyz="-0.031609269999999856 1.9073497642407844e-10 0.264297" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="neck_2"/>
+  </joint>
+  <link name="head"/>
+  <joint name="head_fixed_joint" type="fixed">
+    <origin xyz="-0.010809299999999869 1.9073498693475152e-10 0.241953" rpy="1.5707963267948961 -0 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="head"/>
+  </joint>
+  <link name="imu_frame"/>
+  <joint name="imu_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.020109299999999792 -0.009500000000000019 0.375397" rpy="5.053215498074299e-16 5.053215498074303e-16 -2.220446049250313e-16"/>
+    <parent link="root_link"/>
+    <child link="imu_frame"/>
+  </joint>
+  <link name="head_imu_acc_1x1"/>
+  <joint name="head_imu_acc_1x1_fixed_joint" type="fixed">
+    <origin xyz="-0.020109299999999792 -0.009500000000000019 0.375397" rpy="2.8327694488239883e-16 5.053215498074303e-16 2.220446049250313e-16"/>
+    <parent link="root_link"/>
+    <child link="head_imu_acc_1x1"/>
+  </joint>
+  <link name="l_shoulder_2"/>
+  <joint name="l_shoulder_2_fixed_joint" type="fixed">
+    <origin xyz="-0.021987199999999846 -0.10634500000000001 0.1748" rpy="-3.141592629949765 1.3089970275211211 -0.26179927643926154"/>
+    <parent link="root_link"/>
+    <child link="l_shoulder_2"/>
+  </joint>
+  <link name="l_shoulder_3"/>
+  <joint name="l_shoulder_3_fixed_joint" type="fixed">
+    <origin xyz="-0.01061979999999986 -0.10939100000000002 0.15174599999999996" rpy="-3.1415926535897913 1.308997006967741 2.3056457336008695e-15"/>
+    <parent link="root_link"/>
+    <child link="l_shoulder_3"/>
+  </joint>
+  <link name="l_upper_arm"/>
+  <joint name="l_upper_arm_fixed_joint" type="fixed">
+    <origin xyz="-0.025619799999999887 -0.109391 0.09499999999999996" rpy="3.1415926535897922 -1.1657341758564144e-15 -3.1415926535897927"/>
+    <parent link="root_link"/>
+    <child link="l_upper_arm"/>
+  </joint>
+  <link name="l_arm_ft_sensor"/>
+  <joint name="l_arm_ft_sensor_fixed_joint" type="fixed">
+    <origin xyz="-0.025619799999999887 -0.109391 0.09499999999999996" rpy="3.1415926535897922 -1.1657341758564144e-15 -3.1415926535897927"/>
+    <parent link="root_link"/>
+    <child link="l_arm_ft_sensor"/>
+  </joint>
+  <link name="l_upper_arm_mtb_acc_1b10"/>
+  <joint name="l_upper_arm_mtb_acc_1b10_fixed_joint" type="fixed">
+    <origin xyz="0.017435600000000072 -0.13807199999999997 0.0654720999999999" rpy="1.570796146959391 1.570503507406039 0.4590217252235935"/>
+    <parent link="root_link"/>
+    <child link="l_upper_arm_mtb_acc_1b10"/>
+  </joint>
+  <link name="l_upper_arm_mtb_acc_1b11"/>
+  <joint name="l_upper_arm_mtb_acc_1b11_fixed_joint" type="fixed">
+    <origin xyz="0.015598300000000016 -0.1389799999999999 0.018939599999999904" rpy="1.570796146959391 1.570503507406039 0.4590217252235935"/>
+    <parent link="root_link"/>
+    <child link="l_upper_arm_mtb_acc_1b11"/>
+  </joint>
+  <link name="l_upper_arm_mtb_acc_1b12"/>
+  <joint name="l_upper_arm_mtb_acc_1b12_fixed_joint" type="fixed">
+    <origin xyz="0.015599600000000102 -0.13897900000000002 0.09000789999999989" rpy="1.570795463761319 1.5707838122411666 0.45902104207564864"/>
+    <parent link="root_link"/>
+    <child link="l_upper_arm_mtb_acc_1b12"/>
+  </joint>
+  <link name="l_upper_arm_mtb_acc_1b13"/>
+  <joint name="l_upper_arm_mtb_acc_1b13_fixed_joint" type="fixed">
+    <origin xyz="-0.036212508999999865 -0.137742 0.10369139999999995" rpy="1.5707963270155092 -2.14520362040211e-4 -0.6635559090821336"/>
+    <parent link="root_link"/>
+    <child link="l_upper_arm_mtb_acc_1b13"/>
+  </joint>
+  <link name="l_elbow_1"/>
+  <joint name="l_elbow_1_fixed_joint" type="fixed">
+    <origin xyz="-0.02561980000000001 -0.07539109999999993 0.015740000000000018" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+    <parent link="root_link"/>
+    <child link="l_elbow_1"/>
+  </joint>
+  <link name="l_forearm"/>
+  <joint name="l_forearm_fixed_joint" type="fixed">
+    <origin xyz="-0.010619800000000014 -0.10939099999999993 -0.020060000000000022" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+    <parent link="root_link"/>
+    <child link="l_forearm"/>
+  </joint>
+  <link name="l_forearm_skin_0"/>
+  <joint name="l_forearm_skin_0_fixed_joint" type="fixed">
+    <origin xyz="0.007215699999999948 -0.07707409999999988 -0.062333600000000024" rpy="-3.141588609988001 1.499973610745905 -1.7109824270548672"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_0"/>
+  </joint>
+  <link name="l_forearm_skin_1"/>
+  <joint name="l_forearm_skin_1_fixed_joint" type="fixed">
+    <origin xyz="0.017187199999999958 -0.07832479999999986 -0.04715930000000002" rpy="-3.141590545650698 1.5282567482672573 -1.8780990727856202"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_1"/>
+  </joint>
+  <link name="l_forearm_skin_2"/>
+  <joint name="l_forearm_skin_2_fixed_joint" type="fixed">
+    <origin xyz="0.00865069999999996 -0.0758725999999999 -0.030113900000000002" rpy="3.1415711465136957 1.5568491343987823 -1.7322004676362395"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_2"/>
+  </joint>
+  <link name="l_forearm_skin_3"/>
+  <joint name="l_forearm_skin_3_fixed_joint" type="fixed">
+    <origin xyz="0.007288199999999979 -0.1380419999999999 -0.06243630000000007" rpy="-3.1415897674303532 1.5104516310125424 1.7111643781070176"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_3"/>
+  </joint>
+  <link name="l_forearm_skin_4"/>
+  <joint name="l_forearm_skin_4_fixed_joint" type="fixed">
+    <origin xyz="0.014514899999999975 -0.1352679999999999 -0.07909900000000009" rpy="3.1415893950823346 1.4713575036454423 1.8445693446284273"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_4"/>
+  </joint>
+  <link name="l_forearm_skin_5"/>
+  <joint name="l_forearm_skin_5_fixed_joint" type="fixed">
+    <origin xyz="0.029518199999999953 -0.12509999999999985 -0.08055400000000007" rpy="3.1415915017376985 1.4221987480843041 2.5687005281705972"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_5"/>
+  </joint>
+  <link name="l_forearm_skin_6"/>
+  <joint name="l_forearm_skin_6_fixed_joint" type="fixed">
+    <origin xyz="0.01718019999999998 -0.13669899999999993 -0.04718390000000006" rpy="3.1415871205204335 1.533330053104726 1.876079799646157"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_6"/>
+  </joint>
+  <link name="l_forearm_skin_7"/>
+  <joint name="l_forearm_skin_7_fixed_joint" type="fixed">
+    <origin xyz="0.008580399999999997 -0.1390929999999999 -0.030157100000000065" rpy="3.141546952391931 1.5567381150567088 1.7293378476150514"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_7"/>
+  </joint>
+  <link name="l_forearm_skin_8"/>
+  <joint name="l_forearm_skin_8_fixed_joint" type="fixed">
+    <origin xyz="0.03575289999999998 -0.1169369999999999 -0.03129350000000006" rpy="3.1415798306565743 1.561823355557109 2.948477099224974"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_8"/>
+  </joint>
+  <link name="l_forearm_skin_9"/>
+  <joint name="l_forearm_skin_9_fixed_joint" type="fixed">
+    <origin xyz="0.031969899999999975 -0.12610599999999988 -0.047577900000000076" rpy="-3.141589237524398 1.5337140768388533 2.5896342223924864"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_9"/>
+  </joint>
+  <link name="l_forearm_skin_10"/>
+  <joint name="l_forearm_skin_10_fixed_joint" type="fixed">
+    <origin xyz="0.03446709999999995 -0.11693699999999987 -0.06412050000000008" rpy="-3.141591455723017 1.502962602555288 2.9452978858528445"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_10"/>
+  </joint>
+  <link name="l_forearm_skin_11"/>
+  <joint name="l_forearm_skin_11_fixed_joint" type="fixed">
+    <origin xyz="0.03446229999999996 -0.09810779999999987 -0.06411720000000005" rpy="3.1415922070941615 1.5021236367022235 -2.9434572470263998"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_11"/>
+  </joint>
+  <link name="l_forearm_skin_12"/>
+  <joint name="l_forearm_skin_12_fixed_joint" type="fixed">
+    <origin xyz="0.03197159999999996 -0.08893539999999986 -0.04757350000000002" rpy="3.141585331251014 1.5319181330692142 -2.588902635689449"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_12"/>
+  </joint>
+  <link name="l_forearm_skin_13"/>
+  <joint name="l_forearm_skin_13_fixed_joint" type="fixed">
+    <origin xyz="0.035759999999999965 -0.09810319999999989 -0.03129390000000004" rpy="-3.1415797850684193 1.5618465526249394 -2.9494205555083295"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_13"/>
+  </joint>
+  <link name="l_forearm_skin_14"/>
+  <joint name="l_forearm_skin_14_fixed_joint" type="fixed">
+    <origin xyz="0.02941869999999995 -0.08999109999999985 -0.08052800000000004" rpy="-3.141590230312748 1.4180005263443762 -2.5538290986195205"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_14"/>
+  </joint>
+  <link name="l_forearm_skin_15"/>
+  <joint name="l_forearm_skin_15_fixed_joint" type="fixed">
+    <origin xyz="0.01427819999999994 -0.08000669999999985 -0.07900300000000005" rpy="-3.141589944746047 1.4576614381017077 -1.8359842532810913"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_15"/>
+  </joint>
+  <link name="l_forearm_skin_16"/>
+  <joint name="l_forearm_skin_16_fixed_joint" type="fixed">
+    <origin xyz="-0.020737900000000045 -0.07666419999999989 -0.062033800000000014" rpy="3.1415922366789295 1.4965949835853445 -1.4320423669978735"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_16"/>
+  </joint>
+  <link name="l_forearm_skin_17"/>
+  <joint name="l_forearm_skin_17_fixed_joint" type="fixed">
+    <origin xyz="-0.025857200000000052 -0.07942639999999987 -0.08037600000000003" rpy="3.141592156578972 1.4599883531868152 -1.2989865313658144"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_17"/>
+  </joint>
+  <link name="l_forearm_skin_19"/>
+  <joint name="l_forearm_skin_19_fixed_joint" type="fixed">
+    <origin xyz="-0.020737500000000023 -0.1384449999999999 -0.062242600000000044" rpy="-3.1415884974751993 1.507796456313051 1.432009505831962"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_19"/>
+  </joint>
+  <link name="l_forearm_skin_22"/>
+  <joint name="l_forearm_skin_22_fixed_joint" type="fixed">
+    <origin xyz="-0.026096500000000026 -0.13587399999999988 -0.08054400000000007" rpy="-3.141587984911062 1.4758976022985375 1.2888551941190993"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_22"/>
+  </joint>
+  <link name="l_forearm_skin_24"/>
+  <joint name="l_forearm_skin_24_fixed_joint" type="fixed">
+    <origin xyz="-0.04085658000000005 -0.11686799999999987 -0.10066700000000003" rpy="-3.141592602607373 1.3413474912395749 0.2431569315496848"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_24"/>
+  </joint>
+  <link name="l_forearm_skin_25"/>
+  <joint name="l_forearm_skin_25_fixed_joint" type="fixed">
+    <origin xyz="-0.04066759000000004 -0.1253749999999999 -0.08360200000000004" rpy="-3.1415924948198666 1.4223905530978838 0.5805701892399001"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_25"/>
+  </joint>
+  <link name="l_forearm_skin_28"/>
+  <joint name="l_forearm_skin_28_fixed_joint" type="fixed">
+    <origin xyz="-0.04055745000000005 -0.08973879999999987 -0.08355800000000002" rpy="3.141591005779523 1.417306264256164 -0.5964155904974553"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_28"/>
+  </joint>
+  <link name="l_forearm_skin_29"/>
+  <joint name="l_forearm_skin_29_fixed_joint" type="fixed">
+    <origin xyz="-0.040800280000000064 -0.09819739999999988 -0.100653" rpy="-3.1415920534992003 1.3400274861367547 -0.2574034083999341"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_skin_29"/>
+  </joint>
+  <link name="l_forearm_dh_frame"/>
+  <joint name="l_forearm_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.010619800000000066 -0.10939799999999984 -0.12656000000000006" rpy="-1.570796326794897 8.776388946035338e-16 -1.5707963267948961"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_dh_frame"/>
+  </joint>
+  <link name="l_forearm_mtb_acc_1b7"/>
+  <joint name="l_forearm_mtb_acc_1b7_fixed_joint" type="fixed">
+    <origin xyz="0.019947799999999946 -0.10390799999999986 -0.09145400000000005" rpy="-1.5707963157666072 3.502349990509832e-4 1.5703190018058912"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_mtb_acc_1b7"/>
+  </joint>
+  <link name="l_forearm_mtb_acc_1b8"/>
+  <joint name="l_forearm_mtb_acc_1b8_fixed_joint" type="fixed">
+    <origin xyz="-0.03667242700000005 -0.09136309999999988 -0.08027900000000002" rpy="3.140859052574898 -1.4255166945033564 2.462413621576966"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_mtb_acc_1b8"/>
+  </joint>
+  <link name="l_forearm_mtb_acc_1b9"/>
+  <joint name="l_forearm_mtb_acc_1b9_fixed_joint" type="fixed">
+    <origin xyz="0.009702199999999992 -0.13504799999999992 -0.03749350000000006" rpy="-2.925189886343563 -1.5185623001107742 -1.5771955560358029"/>
+    <parent link="root_link"/>
+    <child link="l_forearm_mtb_acc_1b9"/>
+  </joint>
+  <link name="l_wrist_1"/>
+  <joint name="l_wrist_1_fixed_joint" type="fixed">
+    <origin xyz="-0.008469800000000067 -0.10939799999999984 -0.12656000000000006" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+    <parent link="root_link"/>
+    <child link="l_wrist_1"/>
+  </joint>
+  <link name="l_hand"/>
+  <joint name="l_hand_fixed_joint" type="fixed">
+    <origin xyz="-0.010919800000000073 -0.08989809999999984 -0.12656000000000003" rpy="-3.141592653589789 1.3089970069677406 4.372177745413122e-15"/>
+    <parent link="root_link"/>
+    <child link="l_hand"/>
+  </joint>
+  <link name="l_hand_dh_frame"/>
+  <joint name="l_hand_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.009225000000000113 -0.08434129999999979 -0.18579400000000004" rpy="0 1.5707963267948966 -1.5707963267948963"/>
+    <parent link="root_link"/>
+    <child link="l_hand_dh_frame"/>
+  </joint>
+  <link name="r_shoulder_2"/>
+  <joint name="r_shoulder_2_fixed_joint" type="fixed">
+    <origin xyz="-0.021982999999999957 0.106346 0.1748" rpy="-3.141592629949768 -1.3089970275211211 -2.879793377150528"/>
+    <parent link="root_link"/>
+    <child link="r_shoulder_2"/>
+  </joint>
+  <link name="r_shoulder_3"/>
+  <joint name="r_shoulder_3_fixed_joint" type="fixed">
+    <origin xyz="-0.010619799999999992 0.109391 0.15171199999999999" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+    <parent link="root_link"/>
+    <child link="r_shoulder_3"/>
+  </joint>
+  <link name="r_upper_arm"/>
+  <joint name="r_upper_arm_fixed_joint" type="fixed">
+    <origin xyz="-0.025619800000000033 0.10939100000000002 0.09499999999999997" rpy="3.141592653589793 -1.1657341758564144e-15 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="r_upper_arm"/>
+  </joint>
+  <link name="r_arm_ft_sensor"/>
+  <joint name="r_arm_ft_sensor_fixed_joint" type="fixed">
+    <origin xyz="-0.025619800000000033 0.10939100000000002 0.09499999999999997" rpy="3.141592653589793 -1.1657341758564144e-15 -3.141592653589793"/>
+    <parent link="root_link"/>
+    <child link="r_arm_ft_sensor"/>
+  </joint>
+  <link name="r_upper_arm_mtb_acc_2b10"/>
+  <joint name="r_upper_arm_mtb_acc_2b10_fixed_joint" type="fixed">
+    <origin xyz="0.015599599999999922 0.13897900000000005 0.06547209999999995" rpy="-1.5707971899611568 -1.5707838122500382 -0.45902104195255455"/>
+    <parent link="root_link"/>
+    <child link="r_upper_arm_mtb_acc_2b10"/>
+  </joint>
+  <link name="r_upper_arm_mtb_acc_2b11"/>
+  <joint name="r_upper_arm_mtb_acc_2b11_fixed_joint" type="fixed">
+    <origin xyz="0.01743699999999987 0.13807100000000003 0.01893959999999996" rpy="1.5707965066356937 1.570503507406039 2.6825709283719674"/>
+    <parent link="root_link"/>
+    <child link="r_upper_arm_mtb_acc_2b11"/>
+  </joint>
+  <link name="r_upper_arm_mtb_acc_2b12"/>
+  <joint name="r_upper_arm_mtb_acc_2b12_fixed_joint" type="fixed">
+    <origin xyz="0.017435599999999947 0.138072 0.09000779999999996" rpy="0 1.5707963267948966 1.1117744216835483"/>
+    <parent link="root_link"/>
+    <child link="r_upper_arm_mtb_acc_2b12"/>
+  </joint>
+  <link name="r_upper_arm_mtb_acc_2b13"/>
+  <joint name="r_upper_arm_mtb_acc_2b13_fixed_joint" type="fixed">
+    <origin xyz="-0.03621303700000002 0.13774100000000006 0.105738" rpy="-1.570796326574283 2.145203620418127e-4 0.663555909082134"/>
+    <parent link="root_link"/>
+    <child link="r_upper_arm_mtb_acc_2b13"/>
+  </joint>
+  <link name="r_elbow_1"/>
+  <joint name="r_elbow_1_fixed_joint" type="fixed">
+    <origin xyz="-0.02561980000000012 0.08689110000000004 0.015739999999999976" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+    <parent link="root_link"/>
+    <child link="r_elbow_1"/>
+  </joint>
+  <link name="r_forearm"/>
+  <joint name="r_forearm_fixed_joint" type="fixed">
+    <origin xyz="-0.010619800000000148 0.10939100000000007 -0.020060000000000036" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+    <parent link="root_link"/>
+    <child link="r_forearm"/>
+  </joint>
+  <link name="r_forearm_skin_0"/>
+  <joint name="r_forearm_skin_0_fixed_joint" type="fixed">
+    <origin xyz="0.0072156999999998216 0.1394680000000001 -0.06233360000000006" rpy="-3.1415886099880037 1.499973610745905 -1.7109824270548688"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_0"/>
+  </joint>
+  <link name="r_forearm_skin_1"/>
+  <joint name="r_forearm_skin_1_fixed_joint" type="fixed">
+    <origin xyz="0.01718719999999983 0.13821700000000012 -0.04715930000000006" rpy="-3.1415905456507076 1.5282567482672573 -1.878099072785627"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_1"/>
+  </joint>
+  <link name="r_forearm_skin_2"/>
+  <joint name="r_forearm_skin_2_fixed_joint" type="fixed">
+    <origin xyz="0.008650699999999838 0.14067000000000005 -0.030113900000000034" rpy="3.141571146513658 1.5568491343987743 -1.7322004676362597"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_2"/>
+  </joint>
+  <link name="r_forearm_skin_3"/>
+  <joint name="r_forearm_skin_3_fixed_joint" type="fixed">
+    <origin xyz="0.0072881999999998386 0.07850000000000008 -0.06243630000000008" rpy="-3.141589767430349 1.5104516310125424 1.7111643781070183"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_3"/>
+  </joint>
+  <link name="r_forearm_skin_4"/>
+  <joint name="r_forearm_skin_4_fixed_joint" type="fixed">
+    <origin xyz="0.014514899999999838 0.08127470000000009 -0.07909900000000011" rpy="1.9468652168768215 1.2970843166663653 0.6370654556064808"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_4"/>
+  </joint>
+  <link name="r_forearm_skin_5"/>
+  <joint name="r_forearm_skin_5_fixed_joint" type="fixed">
+    <origin xyz="0.02951819999999981 0.0914427000000001 -0.0805540000000001" rpy="3.141591501737699 1.4221987480843048 2.5687005281705972"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_5"/>
+  </joint>
+  <link name="r_forearm_skin_6"/>
+  <joint name="r_forearm_skin_6_fixed_joint" type="fixed">
+    <origin xyz="0.017180199999999844 0.07984310000000008 -0.047183900000000084" rpy="3.1415871205204398 1.533330053104729 1.8760797996461613"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_6"/>
+  </joint>
+  <link name="r_forearm_skin_7"/>
+  <joint name="r_forearm_skin_7_fixed_joint" type="fixed">
+    <origin xyz="0.00858039999999986 0.07744880000000007 -0.030157100000000076" rpy="3.1415469523919506 1.5567381150567168 1.7293378476150638"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_7"/>
+  </joint>
+  <link name="r_forearm_skin_8"/>
+  <joint name="r_forearm_skin_8_fixed_joint" type="fixed">
+    <origin xyz="0.03575289999999985 0.09960480000000008 -0.03129350000000008" rpy="3.141579830656623 1.561823355557109 2.948477099225019"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_8"/>
+  </joint>
+  <link name="r_forearm_skin_9"/>
+  <joint name="r_forearm_skin_9_fixed_joint" type="fixed">
+    <origin xyz="0.03196989999999984 0.09043600000000007 -0.04757790000000009" rpy="-3.141589237524387 1.5337140768388564 2.589634222392494"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_9"/>
+  </joint>
+  <link name="r_forearm_skin_10"/>
+  <joint name="r_forearm_skin_10_fixed_joint" type="fixed">
+    <origin xyz="0.03446709999999982 0.09960490000000011 -0.06412050000000011" rpy="-3.1415914557230096 1.502962602555288 2.945297885852851"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_10"/>
+  </joint>
+  <link name="r_forearm_skin_11"/>
+  <joint name="r_forearm_skin_11_fixed_joint" type="fixed">
+    <origin xyz="0.034462299999999835 0.11843400000000011 -0.0641172000000001" rpy="3.1415922070941646 1.502123636702225 -2.9434572470263967"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_11"/>
+  </joint>
+  <link name="r_forearm_skin_12"/>
+  <joint name="r_forearm_skin_12_fixed_joint" type="fixed">
+    <origin xyz="0.031971599999999836 0.1276070000000001 -0.047573500000000046" rpy="3.141585331251014 1.5319181330692142 -2.5889026356894465"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_12"/>
+  </joint>
+  <link name="r_forearm_skin_13"/>
+  <joint name="r_forearm_skin_13_fixed_joint" type="fixed">
+    <origin xyz="0.03575999999999985 0.11843900000000007 -0.031293900000000076" rpy="-3.1415797850683727 1.5618465526249394 -2.9494205555082815"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_13"/>
+  </joint>
+  <link name="r_forearm_skin_14"/>
+  <joint name="r_forearm_skin_14_fixed_joint" type="fixed">
+    <origin xyz="0.029418699999999815 0.1265510000000001 -0.0805280000000001" rpy="-2.3567576508661285 1.3539776635471894 -1.7571517795235978"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_14"/>
+  </joint>
+  <link name="r_forearm_skin_15"/>
+  <joint name="r_forearm_skin_15_fixed_joint" type="fixed">
+    <origin xyz="0.014278199999999817 0.1365360000000001 -0.07900300000000007" rpy="-3.141589944746048 1.4576614381017066 -1.8359842532810915"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_15"/>
+  </joint>
+  <link name="r_forearm_skin_16"/>
+  <joint name="r_forearm_skin_16_fixed_joint" type="fixed">
+    <origin xyz="-0.020737900000000177 0.13987800000000009 -0.062033800000000035" rpy="3.1415922366789273 1.4965949835853445 -1.4320423669978743"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_16"/>
+  </joint>
+  <link name="r_forearm_skin_17"/>
+  <joint name="r_forearm_skin_17_fixed_joint" type="fixed">
+    <origin xyz="-0.025857200000000188 0.13711600000000013 -0.08037600000000004" rpy="3.141592156578969 1.459988353186814 -1.2989865313658167"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_17"/>
+  </joint>
+  <link name="r_forearm_skin_19"/>
+  <joint name="r_forearm_skin_19_fixed_joint" type="fixed">
+    <origin xyz="-0.02073750000000017 0.0780969000000001 -0.06224260000000006" rpy="-3.141588497475196 1.5077964563130528 1.4320095058319622"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_19"/>
+  </joint>
+  <link name="r_forearm_skin_22"/>
+  <joint name="r_forearm_skin_22_fixed_joint" type="fixed">
+    <origin xyz="-0.026096500000000175 0.08066870000000008 -0.08054400000000007" rpy="-3.141587984911061 1.4758976022985386 1.2888551941191"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_22"/>
+  </joint>
+  <link name="r_forearm_skin_24"/>
+  <joint name="r_forearm_skin_24_fixed_joint" type="fixed">
+    <origin xyz="-0.0408565800000002 0.09967460000000011 -0.10066700000000003" rpy="-3.141592602607375 1.3413474912395755 0.24315693154968285"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_24"/>
+  </joint>
+  <link name="r_forearm_skin_25"/>
+  <joint name="r_forearm_skin_25_fixed_joint" type="fixed">
+    <origin xyz="-0.040667590000000184 0.09116720000000007 -0.08360200000000005" rpy="-3.1415924948198666 1.4223905530978844 0.5805701892398996"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_25"/>
+  </joint>
+  <link name="r_forearm_skin_28"/>
+  <joint name="r_forearm_skin_28_fixed_joint" type="fixed">
+    <origin xyz="-0.04055745000000019 0.1268030000000001 -0.08355800000000004" rpy="-2.3862652418302495 1.3592238029500685 0.17017445368838535"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_28"/>
+  </joint>
+  <link name="r_forearm_skin_29"/>
+  <joint name="r_forearm_skin_29_fixed_joint" type="fixed">
+    <origin xyz="-0.0408002800000002 0.11834500000000012 -0.10065300000000003" rpy="-3.1415920534992012 1.3400274861367556 -0.25740340839993475"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_skin_29"/>
+  </joint>
+  <link name="r_forearm_dh_frame"/>
+  <joint name="r_forearm_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.010619800000000214 0.10939800000000013 -0.12656000000000006" rpy="1.570796326794896 7.028782525244828e-16 -1.5707963267948963"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_dh_frame"/>
+  </joint>
+  <link name="r_forearm_mtb_acc_2b7"/>
+  <joint name="r_forearm_mtb_acc_2b7_fixed_joint" type="fixed">
+    <origin xyz="0.019947799999999814 0.11488800000000012 -0.09145400000000006" rpy="-1.570796315766557 3.5023499905153626e-4 1.5703190018058908"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_mtb_acc_2b7"/>
+  </joint>
+  <link name="r_forearm_mtb_acc_2b8"/>
+  <joint name="r_forearm_mtb_acc_2b8_fixed_joint" type="fixed">
+    <origin xyz="-0.03667524500000019 0.12517700000000012 -0.08027400000000003" rpy="3.1408590525749 -1.4255166945033564 2.4624136215769648"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_mtb_acc_2b8"/>
+  </joint>
+  <link name="r_forearm_mtb_acc_2b9"/>
+  <joint name="r_forearm_mtb_acc_2b9_fixed_joint" type="fixed">
+    <origin xyz="0.00777809999999984 0.13731500000000008 -0.03753160000000004" rpy="2.926931183225872 -1.518582268049017 1.5754518176174555"/>
+    <parent link="root_link"/>
+    <child link="r_forearm_mtb_acc_2b9"/>
+  </joint>
+  <link name="r_wrist_1"/>
+  <joint name="r_wrist_1_fixed_joint" type="fixed">
+    <origin xyz="-0.008169800000000213 0.10939800000000013 -0.12656000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+    <parent link="root_link"/>
+    <child link="r_wrist_1"/>
+  </joint>
+  <link name="r_hand"/>
+  <joint name="r_hand_fixed_joint" type="fixed">
+    <origin xyz="-0.010619800000000209 0.08989810000000013 -0.12656000000000006" rpy="3.141592653589792 -1.308997006967741 -3.141592653589792"/>
+    <parent link="root_link"/>
+    <child link="r_hand"/>
+  </joint>
+  <link name="r_hand_dh_frame"/>
+  <joint name="r_hand_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.00892500000000025 0.08434130000000017 -0.18579400000000007" rpy="0 1.5707963267948966 -1.5707963267948966"/>
+    <parent link="root_link"/>
+    <child link="r_hand_dh_frame"/>
+  </joint>
+  <link name="r_hip_3"/>
+  <joint name="r_hip_3_fixed_joint" type="fixed">
+    <origin xyz="-8.575000000000041e-4 0 -0.07429999999999995" rpy="3.141592653589793 -0 0"/>
+    <parent link="r_hip_2"/>
+    <child link="r_hip_3"/>
+  </joint>
+  <link name="r_leg_ft_sensor"/>
+  <joint name="r_leg_ft_sensor_fixed_joint" type="fixed">
+    <origin xyz="-8.575000000000041e-4 0 -0.07429999999999995" rpy="3.141592653589793 -0 0"/>
+    <parent link="r_hip_2"/>
+    <child link="r_leg_ft_sensor"/>
+  </joint>
+  <link name="r_upper_leg_back_contact"/>
+  <joint name="r_upper_leg_back_contact_fixed_joint" type="fixed">
+    <origin xyz="-0.05119989999999999 0 0.014599999999999946" rpy="0 1.5707963267948966 0"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_back_contact"/>
+  </joint>
+  <link name="r_upper_leg_dh_frame"/>
+  <joint name="r_upper_leg_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="0 0 -0.14582499999999995" rpy="1.5707963267948966 -0 0"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_dh_frame"/>
+  </joint>
+  <link name="r_upper_leg_ems_acc_eb8"/>
+  <joint name="r_upper_leg_ems_acc_eb8_fixed_joint" type="fixed">
+    <origin xyz="-0.012575099999999985 0.04040719999999998 -0.040226999999999985" rpy="0 1.5707963267948966 -1.5707963267948972"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_ems_acc_eb8"/>
+  </joint>
+  <link name="r_upper_leg_ems_acc_eb11"/>
+  <joint name="r_upper_leg_ems_acc_eb11_fixed_joint" type="fixed">
+    <origin xyz="-0.0125771 -0.04040700000000001 -0.08340699999999998" rpy="0 1.5707963267948966 -1.5707963267948972"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_ems_acc_eb11"/>
+  </joint>
+  <link name="r_upper_leg_mtb_acc_11b1"/>
+  <joint name="r_upper_leg_mtb_acc_11b1_fixed_joint" type="fixed">
+    <origin xyz="0.04358861199999999 -0.030194999999999986 0.048939999999999984" rpy="2.526708438028075 -1.5704448425270403 -0.2228738249803637"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_mtb_acc_11b1"/>
+  </joint>
+  <link name="r_upper_leg_mtb_acc_11b2"/>
+  <joint name="r_upper_leg_mtb_acc_11b2_fixed_joint" type="fixed">
+    <origin xyz="0.05394669999999999 -0.0064064999999999955 0.03905600000000001" rpy="-3.129402120569715 -1.5703818149564719 -0.2739898525693509"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_mtb_acc_11b2"/>
+  </joint>
+  <link name="r_upper_leg_mtb_acc_11b3"/>
+  <joint name="r_upper_leg_mtb_acc_11b3_fixed_joint" type="fixed">
+    <origin xyz="0.05383129999999999 -0.013021400000000002 0.0039859999999999896" rpy="-2.8773108545103274 -1.5703518030956067 -0.26428182399152156"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_mtb_acc_11b3"/>
+  </joint>
+  <link name="r_upper_leg_mtb_acc_11b4"/>
+  <joint name="r_upper_leg_mtb_acc_11b4_fixed_joint" type="fixed">
+    <origin xyz="0.032271900000000006 0.042267499999999986 -0.005044999999999994" rpy="-1.873909988092778 -1.5702577132564008 -0.08085890295708931"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_mtb_acc_11b4"/>
+  </joint>
+  <link name="r_upper_leg_mtb_acc_11b5"/>
+  <joint name="r_upper_leg_mtb_acc_11b5_fixed_joint" type="fixed">
+    <origin xyz="0.0538313 0.016478599999999996 0.0039859999999999896" rpy="-2.8773108545103274 -1.5703518030956067 -0.26428182399152156"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_mtb_acc_11b5"/>
+  </joint>
+  <link name="r_upper_leg_mtb_acc_11b6"/>
+  <joint name="r_upper_leg_mtb_acc_11b6_fixed_joint" type="fixed">
+    <origin xyz="-0.043751799999999993 -0.015759400000000007 -0.026565000000000033" rpy="1.9541027553387757e-17 1.5703672368015567 -3.141592653589793"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_mtb_acc_11b6"/>
+  </joint>
+  <link name="r_upper_leg_mtb_acc_11b7"/>
+  <joint name="r_upper_leg_mtb_acc_11b7_fixed_joint" type="fixed">
+    <origin xyz="-0.04375179999999998 0.016238599999999985 -0.026566000000000006" rpy="0.2642525239007065 1.5703518066171753 -2.8773401047797322"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_mtb_acc_11b7"/>
+  </joint>
+  <link name="r_upper_leg_ems_gyro_eb8"/>
+  <joint name="r_upper_leg_ems_gyro_eb8_fixed_joint" type="fixed">
+    <origin xyz="-0.01307899999999998 0.04040719999999998 -0.035654999999999964" rpy="0 1.5707963267948966 -1.5707963267948972"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_ems_gyro_eb8"/>
+  </joint>
+  <link name="r_upper_leg_ems_gyro_eb11"/>
+  <joint name="r_upper_leg_ems_gyro_eb11_fixed_joint" type="fixed">
+    <origin xyz="-0.013081000000000002 -0.04040700000000001 -0.087979" rpy="0 1.5707963267948966 -1.5707963267948972"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_ems_gyro_eb11"/>
+  </joint>
+  <link name="r_lower_leg_skin_0"/>
+  <joint name="r_lower_leg_skin_0_fixed_joint" type="fixed">
+    <origin xyz="0.054411699999999986 -0.031213999999999992 -0.002634000000000025" rpy="2.091738090855474e-6 -1.415306762469463 2.48648458622082"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_0"/>
+  </joint>
+  <link name="r_lower_leg_skin_3"/>
+  <joint name="r_lower_leg_skin_3_fixed_joint" type="fixed">
+    <origin xyz="0.051578780000000005 0.03042049999999999 -0.0028429999999999844" rpy="0 -1.4295105408285225 -2.3039148418553874"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_3"/>
+  </joint>
+  <link name="r_lower_leg_skin_4"/>
+  <joint name="r_lower_leg_skin_4_fixed_joint" type="fixed">
+    <origin xyz="0.058310299999999995 0.016783599999999996 0.007272000000000001" rpy="-2.986363594545861e-7 -1.256367488755018 -2.7589238008709835"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_4"/>
+  </joint>
+  <link name="r_lower_leg_skin_5"/>
+  <joint name="r_lower_leg_skin_5_fixed_joint" type="fixed">
+    <origin xyz="0.06365029999999999 3.0940000000000134e-4 -0.0019720000000000293" rpy="0 -1.3865221506831835 -3.1414716980716264"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_5"/>
+  </joint>
+  <link name="r_lower_leg_skin_6"/>
+  <joint name="r_lower_leg_skin_6_fixed_joint" type="fixed">
+    <origin xyz="0.05208552 0.03044339999999998 -0.022148999999999974" rpy="-3.1415892795257623 -1.467851234106495 0.8374928890768587"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_6"/>
+  </joint>
+  <link name="r_lower_leg_skin_9"/>
+  <joint name="r_lower_leg_skin_9_fixed_joint" type="fixed">
+    <origin xyz="0.0598214 0.016797299999999987 -0.03096199999999999" rpy="-3.1415920235620423 -1.3422475532506952 0.37929447771782354"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_9"/>
+  </joint>
+  <link name="r_lower_leg_skin_10"/>
+  <joint name="r_lower_leg_skin_10_fixed_joint" type="fixed">
+    <origin xyz="0.0644607 3.4239999999997883e-4 -0.021204999999999974" rpy="3.141592653553929 -1.4709580354104244 4.3002167526072775e-4"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_10"/>
+  </joint>
+  <link name="r_lower_leg_skin_11"/>
+  <joint name="r_lower_leg_skin_11_fixed_joint" type="fixed">
+    <origin xyz="0.06071079999999999 -0.01609160000000001 -0.030884999999999996" rpy="-3.1415921825227295 -1.3281180406038593 -0.2721383678795473"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_11"/>
+  </joint>
+  <link name="r_lower_leg_skin_14"/>
+  <joint name="r_lower_leg_skin_14_fixed_joint" type="fixed">
+    <origin xyz="0.05504769999999999 -0.03117600000000001 -0.02190000000000003" rpy="-3.1415918188482506 -1.46502735635212 -0.6540334071673009"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_14"/>
+  </joint>
+  <link name="r_lower_leg_skin_15"/>
+  <joint name="r_lower_leg_skin_15_fixed_joint" type="fixed">
+    <origin xyz="0.05917079999999999 -0.016178800000000007 0.0072429999999999994" rpy="4.274842569949443e-7 -1.2520363307607896 2.8679885947088186"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_15"/>
+  </joint>
+  <link name="r_lower_leg_skin_16"/>
+  <joint name="r_lower_leg_skin_16_fixed_joint" type="fixed">
+    <origin xyz="0.027287499999999985 -0.050287 -0.004549000000000025" rpy="1.3307591512293707e-5 -1.5326085351498484 1.9628024283508803"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_16"/>
+  </joint>
+  <link name="r_lower_leg_skin_17"/>
+  <joint name="r_lower_leg_skin_17_fixed_joint" type="fixed">
+    <origin xyz="0.027874999999999987 -0.05031200000000001 -0.023882000000000014" rpy="-3.141564526201752 -1.563662402374793 -1.1802250875588731"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_17"/>
+  </joint>
+  <link name="r_lower_leg_skin_19"/>
+  <joint name="r_lower_leg_skin_19_fixed_joint" type="fixed">
+    <origin xyz="0.035753400000000005 0.04106279999999999 0.006064999999999987" rpy="-8.90877714555694e-7 -1.434986969778282 -2.158636180167247"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_19"/>
+  </joint>
+  <link name="r_lower_leg_skin_20"/>
+  <joint name="r_lower_leg_skin_20_fixed_joint" type="fixed">
+    <origin xyz="0.023441900000000012 0.04799079999999998 -0.004952000000000012" rpy="-3.2055655013538996e-6 -1.5001551303072314 -1.8675509241250052"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_20"/>
+  </joint>
+  <link name="r_lower_leg_skin_21"/>
+  <joint name="r_lower_leg_skin_21_fixed_joint" type="fixed">
+    <origin xyz="0.02427040000000001 0.04853779999999998 -0.024276999999999993" rpy="2.296711495213217e-5 -1.555455138805714 -1.8741197231627162"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_21"/>
+  </joint>
+  <link name="r_lower_leg_skin_28"/>
+  <joint name="r_lower_leg_skin_28_fixed_joint" type="fixed">
+    <origin xyz="0.04087214999999999 -0.04244000000000002 -0.03275600000000001" rpy="3.1415808886539165 -1.522524621691866 -0.9296810297631274"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_28"/>
+  </joint>
+  <link name="r_lower_leg_skin_29"/>
+  <joint name="r_lower_leg_skin_29_fixed_joint" type="fixed">
+    <origin xyz="0.038466369999999986 -0.04351600000000001 -0.05242000000000002" rpy="3.1415801704422774 -1.534298415625813 -0.9154363466305139"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_29"/>
+  </joint>
+  <link name="r_lower_leg_skin_31"/>
+  <joint name="r_lower_leg_skin_31_fixed_joint" type="fixed">
+    <origin xyz="0.03914637999999999 -0.04227099999999999 0.006327000000000027" rpy="-6.583817471389408e-7 -1.4186494462021595 2.2085303298592955"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_31"/>
+  </joint>
+  <link name="r_lower_leg_skin_32"/>
+  <joint name="r_lower_leg_skin_32_fixed_joint" type="fixed">
+    <origin xyz="0.045983010000000005 0.032584699999999966 -0.080733" rpy="-3.141590149878832 -1.5223828979770977 0.6459403808870791"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_32"/>
+  </joint>
+  <link name="r_lower_leg_skin_35"/>
+  <joint name="r_lower_leg_skin_35_fixed_joint" type="fixed">
+    <origin xyz="0.047748659999999984 -0.031231999999999996 -0.08011299999999999" rpy="-3.1415866827530343 -1.5175846733225296 -0.5415324864684377"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_35"/>
+  </joint>
+  <link name="r_lower_leg_skin_36"/>
+  <joint name="r_lower_leg_skin_36_fixed_joint" type="fixed">
+    <origin xyz="0.05322408999999999 -0.01560180000000004 -0.088362" rpy="-3.141590341443774 -1.5158726528065047 -0.20740733566010086"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_36"/>
+  </joint>
+  <link name="r_lower_leg_skin_37"/>
+  <joint name="r_lower_leg_skin_37_fixed_joint" type="fixed">
+    <origin xyz="0.05525719999999999 9.643999999999903e-4 -0.078318" rpy="-3.1415818045233417 -1.5231833689799856 0.007524505830633039"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_37"/>
+  </joint>
+  <link name="r_lower_leg_skin_38"/>
+  <joint name="r_lower_leg_skin_38_fixed_joint" type="fixed">
+    <origin xyz="0.04880466999999999 -0.031263 -0.060757000000000005" rpy="3.1415866519890927 -1.5157299554037063 -0.5421535995897713"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_38"/>
+  </joint>
+  <link name="r_lower_leg_skin_41"/>
+  <joint name="r_lower_leg_skin_41_fixed_joint" type="fixed">
+    <origin xyz="0.05660089999999999 -0.01591290000000002 -0.049853999999999954" rpy="-3.1415919882511 -1.40681343597041 -0.24823308941290148"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_41"/>
+  </joint>
+  <link name="r_lower_leg_skin_42"/>
+  <joint name="r_lower_leg_skin_42_fixed_joint" type="fixed">
+    <origin xyz="0.057010599999999995 7.96199999999983e-4 -0.059079999999999966" rpy="3.141589702392633 -1.4352475041611767 0.006879436515037955"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_42"/>
+  </joint>
+  <link name="r_lower_leg_skin_43"/>
+  <joint name="r_lower_leg_skin_43_fixed_joint" type="fixed">
+    <origin xyz="0.04712542 0.03236529999999998 -0.06136200000000003" rpy="-3.1415913662061943 -1.538430382371867 0.6242175236666732"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_43"/>
+  </joint>
+  <link name="r_lower_leg_skin_46"/>
+  <joint name="r_lower_leg_skin_46_fixed_joint" type="fixed">
+    <origin xyz="0.0558156 0.01721639999999998 -0.05018" rpy="-3.141589878093782 -1.4275988160283248 0.3256077108756132"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_46"/>
+  </joint>
+  <link name="r_lower_leg_skin_47"/>
+  <joint name="r_lower_leg_skin_47_fixed_joint" type="fixed">
+    <origin xyz="0.052641629999999995 0.01763889999999997 -0.08886" rpy="3.141589635185034 -1.5169055940579284 0.26264042505774415"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_47"/>
+  </joint>
+  <link name="r_lower_leg_skin_49"/>
+  <joint name="r_lower_leg_skin_49_fixed_joint" type="fixed">
+    <origin xyz="0.04113137 0.032438499999999953 -0.138859" rpy="-3.1415893475069225 -1.489961356950246 0.7297635921130964"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_49"/>
+  </joint>
+  <link name="r_lower_leg_skin_50"/>
+  <joint name="r_lower_leg_skin_50_fixed_joint" type="fixed">
+    <origin xyz="0.04301694700000001 0.03252729999999996 -0.11946899999999999" rpy="3.1415906959631426 -1.499007326361644 0.6957840200808761"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_50"/>
+  </joint>
+  <link name="r_lower_leg_skin_51"/>
+  <joint name="r_lower_leg_skin_51_fixed_joint" type="fixed">
+    <origin xyz="0.051415829999999996 0.017758999999999962 -0.10820600000000002" rpy="-3.141588901786459 -1.5062847571686888 0.27207993571349487"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_51"/>
+  </joint>
+  <link name="r_lower_leg_skin_52"/>
+  <joint name="r_lower_leg_skin_52_fixed_joint" type="fixed">
+    <origin xyz="0.052998319999999995 0.0012663999999999592 -0.11689500000000003" rpy="-3.141591640420276 -1.5031867442105076 0.010871726099408735"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_52"/>
+  </joint>
+  <link name="r_lower_leg_skin_53"/>
+  <joint name="r_lower_leg_skin_53_fixed_joint" type="fixed">
+    <origin xyz="0.05207311999999999 -0.015433900000000042 -0.10765399999999997" rpy="3.1415906398667093 -1.505953074471221 -0.2114073228916678"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_53"/>
+  </joint>
+  <link name="r_lower_leg_skin_54"/>
+  <joint name="r_lower_leg_skin_54_fixed_joint" type="fixed">
+    <origin xyz="0.045127079999999986 -0.030749000000000026 -0.11878700000000003" rpy="3.141588251928225 -1.4974514557145626 -0.5751153744726967"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_54"/>
+  </joint>
+  <link name="r_lower_leg_skin_55"/>
+  <joint name="r_lower_leg_skin_55_fixed_joint" type="fixed">
+    <origin xyz="0.04350266299999999 -0.030489000000000016 -0.13814300000000007" rpy="3.1415890648626297 -1.4899578703820777 -0.597219943788527"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_55"/>
+  </joint>
+  <link name="r_lower_leg_skin_56"/>
+  <joint name="r_lower_leg_skin_56_fixed_joint" type="fixed">
+    <origin xyz="0.049268389999999995 -0.015121000000000051 -0.1462179999999999" rpy="-3.141589204039199 -1.4912481982751573 -0.22348447640041147"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_56"/>
+  </joint>
+  <link name="r_lower_leg_skin_60"/>
+  <joint name="r_lower_leg_skin_60_fixed_joint" type="fixed">
+    <origin xyz="0.04836967 0.01805599999999996 -0.14693799999999996" rpy="-3.141591733372508 -1.4898596852742687 0.30295187195442563"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_60"/>
+  </joint>
+  <link name="r_lower_leg_skin_61"/>
+  <joint name="r_lower_leg_skin_61_fixed_joint" type="fixed">
+    <origin xyz="0.051619519999999995 0.0014265999999999723 -0.13616899999999993" rpy="-3.141591009251115 -1.4960209708613403 0.01320142752049114"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_61"/>
+  </joint>
+  <link name="r_lower_leg_ems_acc_eb9"/>
+  <joint name="r_lower_leg_ems_acc_eb9_fixed_joint" type="fixed">
+    <origin xyz="0.04351373 0.01383959999999998 -0.09276499999999999" rpy="3.1415926535897922 -1.3526297834539558 1.0015766540504487e-15"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_ems_acc_eb9"/>
+  </joint>
+  <link name="r_lower_leg_mtb_acc_11b8"/>
+  <joint name="r_lower_leg_mtb_acc_11b8_fixed_joint" type="fixed">
+    <origin xyz="0.05362921999999999 -0.01519580000000001 -0.0043179999999999885" rpy="-1.5707969943117426 -1.5706802100978696 -1.8151418254260296"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_mtb_acc_11b8"/>
+  </joint>
+  <link name="r_lower_leg_mtb_acc_11b9"/>
+  <joint name="r_lower_leg_mtb_acc_11b9_fixed_joint" type="fixed">
+    <origin xyz="0.0537517 0.01572289999999999 -0.0043179999999999885" rpy="-1.5707962918786202 -1.570680210443032 -1.221730721500941"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_mtb_acc_11b9"/>
+  </joint>
+  <link name="r_lower_leg_mtb_acc_11b10"/>
+  <joint name="r_lower_leg_mtb_acc_11b10_fixed_joint" type="fixed">
+    <origin xyz="0.02789449999999999 -0.042214 -0.04346800000000001" rpy="0 -1.5707963267948966 1.8325955062747417"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_mtb_acc_11b10"/>
+  </joint>
+  <link name="r_lower_leg_mtb_acc_11b11"/>
+  <joint name="r_lower_leg_mtb_acc_11b11_fixed_joint" type="fixed">
+    <origin xyz="0.01648010000000001 0.04224899999999997 -0.09295800000000004" rpy="-1.5707936954748312 -1.5706802103474191 -0.26180181049683376"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_mtb_acc_11b11"/>
+  </joint>
+  <link name="r_lower_leg_ems_gyro_eb9"/>
+  <joint name="r_lower_leg_ems_gyro_eb9_fixed_joint" type="fixed">
+    <origin xyz="0.044503292 0.014343499999999974 -0.08830099999999996" rpy="3.1415926535897922 -1.3526297834539558 1.0015766540504487e-15"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_ems_gyro_eb9"/>
+  </joint>
+  <link name="r_foot"/>
+  <joint name="r_foot_fixed_joint" type="fixed">
+    <origin xyz="-0.0034999280659716164 0 -0.060500343280208146" rpy="3.141592652417863 -0 0"/>
+    <parent link="r_ankle_2"/>
+    <child link="r_foot"/>
+  </joint>
+  <link name="r_sole"/>
+  <joint name="r_sole_fixed_joint" type="fixed">
+    <origin xyz="0.0179502979936772 -7.841709392865824e-12 -0.06719161993268341" rpy="-1.2132694871910076e-9 -0.2617991810276664 3.14017499256229e-10"/>
+    <parent link="r_ankle_2"/>
+    <child link="r_sole"/>
+  </joint>
+  <link name="r_foot_dh_frame"/>
+  <joint name="r_foot_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.0034999280659716164 -4.687720923907689e-12 -0.06450034328020815" rpy="3.1904839458729833e-4 -1.5707926535755432 3.141273605195208"/>
+    <parent link="r_ankle_2"/>
+    <child link="r_foot_dh_frame"/>
+  </joint>
+  <link name="r_foot_ft_sensor"/>
+  <joint name="r_foot_ft_sensor_fixed_joint" type="fixed">
+    <origin xyz="-0.0034999280659716164 0 -0.060500343280208146" rpy="3.141592652417863 -0 0"/>
+    <parent link="r_ankle_2"/>
+    <child link="r_foot_ft_sensor"/>
+  </joint>
+  <link name="r_foot_mtb_acc_11b12"/>
+  <joint name="r_foot_mtb_acc_11b12_fixed_joint" type="fixed">
+    <origin xyz="0.1080436016906306 8.122000350267046e-4 -0.037652247099757945" rpy="2.8797934725621364 -7.227154193400335e-8 1.570796052699907"/>
+    <parent link="r_ankle_2"/>
+    <child link="r_foot_mtb_acc_11b12"/>
+  </joint>
+  <link name="r_foot_mtb_acc_11b13"/>
+  <joint name="r_foot_mtb_acc_11b13_fixed_joint" type="fixed">
+    <origin xyz="0.08389545468202511 0.01181220002744376 -0.04412271819679596" rpy="2.8797934725621266 1.1719286211535366e-9 1.5707963267948981"/>
+    <parent link="r_ankle_2"/>
+    <child link="r_foot_mtb_acc_11b13"/>
+  </joint>
+</robot>
