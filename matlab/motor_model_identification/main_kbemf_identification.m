@@ -48,7 +48,7 @@ scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),-kbemf*mtr_vel_deg_sec(a
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+title(robot_logger_device.description_list{joint})
 
 idx_neg = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec<=0);
 idx_pos = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec>=0);
@@ -67,5 +67,5 @@ scatter(mtr_vel_deg_sec(idx_pos),-k2(1)*sign(mtr_vel_deg_sec(idx_pos)) - k2(2)*m
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+title(robot_logger_device.description_list{joint})
 

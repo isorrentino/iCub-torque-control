@@ -51,4 +51,4 @@ scatter(mtr_curr(abs(mtr_vel_rad_sec) < threshold_vel),invKtau*mtr_curr(abs(mtr_
 xlabel('motor current')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+title(robot_logger_device.description_list{joint})

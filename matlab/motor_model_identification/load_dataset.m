@@ -15,9 +15,9 @@ for ii = 1 : num_datasets
         mtr_vel_rad_sec = [];
     end
 
-    joint_trq = [joint_trq;Joint_state.joint_torques(joint,:)'];
-    mtr_curr = [mtr_curr;Motor_state.motor_currents(joint,:)'];
-    mtr_vel_rad_sec = [mtr_vel_rad_sec;Motor_state.motor_velocities(joint,:)' * pi/180]; % rad/sec
+    joint_trq = [joint_trq;robot_logger_device.joints_state.torques.data(joint,:)'];
+    mtr_curr = [mtr_curr;robot_logger_device.motors_state.currents.data(joint,:)'];
+    mtr_vel_rad_sec = [mtr_vel_rad_sec;robot_logger_device.motors_state.velocities.data(joint,:)' * pi/180]; % rad/sec
 end
 
 mtr_vel_deg_sec = mtr_vel_rad_sec * 180/pi; % deg/sec    
