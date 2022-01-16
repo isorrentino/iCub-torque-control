@@ -1,91 +1,153 @@
-addpath(genpath('..'));
+load_dataset_bool = false;
 
-modelPath = '../urdf/';
-modelName = 'iCub3_right_leg.urdf';
+if load_dataset_bool
+    clear;
+    close all;
+    num_datasets = 1;
+    load_dataset_bool = true;
+end
 
-num_datasets = 1;
-load_dataset_bool = true;
-leg = 'right';
+%% Load dataset
+
+use_joint_acceleration = true;
+
+new_logger_dataset = true;
+
 joint = 21:26;
-load_dataset;
 
-%% Prepare data
-[~, joint_acc] = estimateVelAccFromPos(joint_pos);
+if new_logger_dataset
+    load_dataset_new;
+else
+    load_dataset_old;
+end
 
-%% Load the estimator
+% Estimate joint acceleration **pure kinematic KF filter**
+[~, joint_acc] = estimateVelAccFromPos(joint_pos, time(2)-time(1));
+
+
+%% Load model and estimator
+
+icubModelsInstallPrefix = getenv('ROBOTOLOGY_SUPERBUILD_INSTALL_PREFIX');
+robotName='iCubGenova09';
+
+modelPath = [icubModelsInstallPrefix '/share/iCub/robots/' robotName '/'];
+fileName='model.urdf';
+
+consideredJoints = {'r_hip_pitch';
+    'r_hip_roll';
+    'r_hip_yaw';
+    'r_knee';
+    'r_ankle_pitch';
+    'r_ankle_roll'};
+
+% Get joint information
+dofs = length(consideredJoints);
+
+consideredFT = {'r_foot_front_ft_sensor';
+    'r_foot_rear_ft_sensor'};
+
+nrOfFTSensors = 2;
+
+dofs = length(consideredJoints);
+consideredJointsiDyn = iDynTree.StringVector();
+for i=1:dofs
+    consideredJointsiDyn.push_back((consideredJoints{i}));
+end
+for i=1:length(consideredFT)
+    consideredJointsiDyn.push_back((consideredFT{i}));
+end
+
+
 estimator = iDynTree.ExtWrenchesAndJointTorquesEstimator();
 
 % Load model and sensors from the URDF file
-estimator.loadModelAndSensorsFromFile(strcat(modelPath,modelName));
+estimatorLoader = iDynTree.ModelLoader();
+estimatorLoader.loadReducedModelFromFile(strcat(modelPath,fileName),consideredJointsiDyn);
+estimator.setModelAndSensors(estimatorLoader.model(),estimatorLoader.sensors);
+
 estimator.model().toString() % print model
 
-%% Set kinematics information
+
+%% Set kinematic information
+
+% Gravity vector
 grav_idyn = iDynTree.Vector3();
 grav = [0.0;0.0;-9.81];
 grav_idyn.fromMatlab(grav);
 
-% Get joint information
-dofs = estimator.model().getNrOfDOFs();
+% Set contact information
+contact_frame_index = estimator.model().getFrameIndex('root_link');
 
+% We first need a new set of unknown wrenches acting at the
+% root_link and right foot (rear and front links).
+fullBodyUnknownsExtWrenchEst = iDynTree.LinkUnknownWrenchContacts(estimator.model());
+
+framesNames = {'r_foot_front','r_foot_rear','root_link'};
+for frame=1:length(framesNames)
+    fullBodyUnknownsExtWrenchEst.addNewUnknownFullWrenchInFrameOrigin(estimator.model(),estimator.model().getFrameIndex(framesNames{frame}));
+end
+
+% Joint state as iDyntree vectors
 qj_idyn   = iDynTree.JointPosDoubleArray(dofs);
 dqj_idyn  = iDynTree.JointDOFsDoubleArray(dofs);
 ddqj_idyn = iDynTree.JointDOFsDoubleArray(dofs);
 
-qj = joint_pos(:,1);
-dqj = joint_vel(:,1);
-ddqj = joint_acc(:,1);
+% We also need to allocate the output
+% The estimated FT sensor measurements
+estFTmeasurements = iDynTree.SensorsMeasurements(estimator.sensors());
 
-qj_idyn.fromMatlab(qj);
-dqj_idyn.fromMatlab(dqj);
-ddqj_idyn.fromMatlab(ddqj);
-
-% Set the kinematics information in the estimator
-root_link_index = estimator.model().getFrameIndex('root_link');
-estimator.updateKinematicsFromFixedBase(qj_idyn,dqj_idyn,ddqj_idyn,root_link_index,grav_idyn);
-
-%% Specify unknown wrenches
-% We need to set the location of the unknown wrench. We express the unknown
-% wrench at the origin of the l_sole frame
-unknownWrench = iDynTree.UnknownWrenchContact();
-unknownWrench.unknownType = iDynTree.FULL_WRENCH;
-
-%% Set contacts
-framesNames={'r_foot_rear','r_foot_front','root_link'};
-for frame=1:length(framesNames) 
-    fullBodyUnknownsExtWrenchEst.addNewUnknownFullWrenchInFrameOrigin(estimator.model(),estimator.model().getFrameIndex(framesNames{frame}));
-end
-
-% The estimated external wrenches
+% Eexternal wrenches
 estContactForcesExtWrenchesEst = iDynTree.LinkContactWrenches(estimator.model());
 
-
-% The estimated joint torques
+% Joint torques
 estJointTorquesExtWrenchesEst = iDynTree.JointDOFsDoubleArray(dofs);
 
+%size of arrays with the expected Data
+externalWrenchData = zeros(length(framesNames),length(time),6);
 
-for ftIndex = 0:(nrOfFTSensors-1)
-    sens = estimator.sensors().getSensor(iDynTree.SIX_AXIS_FORCE_TORQUE,ftIndex).getName();
-    matchup(ftIndex+1) = find(strcmp(sensorNames,sens ));
-end
+estimatedJointTorques = zeros(size(joint_pos));
+
+wrench_idyn= iDynTree.Wrench();
 
 
-for t=1:size(joint_pos,1)
-    qj=joint_pos(:,t);
-    dqj=dqj_all(:,t);
-    ddqj=ddqj_all(:,t);
+%% For each time instant
+disp('Computing the joint torques and external wrenches');
+
+for sample = 1 : length(time)
+    qj_idyn.fromMatlab(joint_pos(:,sample)');
+    dqj_idyn.fromMatlab(joint_vel(:,sample)');
     
-    
-    qj_idyn.fromMatlab(qj);
-    dqj_idyn.fromMatlab(dqj);
-    ddqj_idyn.fromMatlab(ddqj);
-    
-    if(length(contactFrameName)>1)
-        contact_index = estimator.model().getFrameIndex(char(contactFrameName(t)));
+    if use_joint_acceleration == true
+        ddqj_idyn.fromMatlab(joint_acc(:,sample)');
+    else
+        ddqj_idyn.fromMatlab(zeros(6,1)');
     end
     
-    ok = estimator.updateKinematicsFromFixedBase(qj_idyn,dqj_idyn,ddqj_idyn,contact_index,grav_idyn);
+    wrench_idyn.fromMatlab(right_front_wrench_client(:,sample));
+    estFTmeasurements.setMeasurement(iDynTree.SIX_AXIS_FORCE_TORQUE,0,wrench_idyn);
+    
+    wrench_idyn.fromMatlab(right_rear_wrench_client(:,sample));
+    estFTmeasurements.setMeasurement(iDynTree.SIX_AXIS_FORCE_TORQUE,1,wrench_idyn);
+    
+    estimator.updateKinematicsFromFixedBase(qj_idyn,dqj_idyn,ddqj_idyn,contact_frame_index,grav_idyn);
+    
+    estimator.estimateExtWrenchesAndJointTorques(fullBodyUnknownsExtWrenchEst,estFTmeasurements,estContactForcesExtWrenchesEst,estJointTorquesExtWrenchesEst);
+    
+    estimatedJointTorques(:,sample) = estJointTorquesExtWrenchesEst.toMatlab();
 end
 
 
+%% Plot measured joint torques VS estimated joint torques
 
+figure
+for i = 1 : 6
+    subplot(3,2,i)
+    plot(time-time(1),joint_trq(i,:))
+    hold on
+    plot(time-time(1),estimatedJointTorques(i,:))
+    xlabel('time (sec)')
+    ylabel('\tau')
+    title(consideredJoints{i},'Interpreter','None')
+    legend('Measured','Estimated')
+end
 
