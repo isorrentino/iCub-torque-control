@@ -1,4 +1,8 @@
-load_dataset_bool = false;
+addpath(genpath('../'));
+
+%% Load dataset
+
+load_dataset_bool = true;
 
 if load_dataset_bool
     clear;
@@ -7,11 +11,9 @@ if load_dataset_bool
     load_dataset_bool = true;
 end
 
-%% Load dataset
+use_joint_acceleration = false;
 
-use_joint_acceleration = true;
-
-new_logger_dataset = true;
+new_logger_dataset = false;
 
 joint = 21:26;
 
@@ -34,17 +36,16 @@ modelPath = [icubModelsInstallPrefix '/share/iCub/robots/' robotName '/'];
 fileName='model.urdf';
 
 consideredJoints = {'r_hip_pitch';
-    'r_hip_roll';
-    'r_hip_yaw';
-    'r_knee';
-    'r_ankle_pitch';
-    'r_ankle_roll'};
+                    'r_hip_roll';
+                    'r_hip_yaw';
+                    'r_knee';
+                    'r_ankle_pitch';
+                    'r_ankle_roll'};
 
 % Get joint information
 dofs = length(consideredJoints);
 
-consideredFT = {'r_foot_front_ft_sensor';
-    'r_foot_rear_ft_sensor'};
+consideredFT = {'r_foot_front_ft_sensor';'r_foot_rear_ft_sensor'};
 
 nrOfFTSensors = 2;
 
@@ -82,9 +83,9 @@ contact_frame_index = estimator.model().getFrameIndex('root_link');
 % root_link and right foot (rear and front links).
 fullBodyUnknownsExtWrenchEst = iDynTree.LinkUnknownWrenchContacts(estimator.model());
 
-framesNames = {'r_foot_front','r_foot_rear','root_link'};
-for frame=1:length(framesNames)
-    fullBodyUnknownsExtWrenchEst.addNewUnknownFullWrenchInFrameOrigin(estimator.model(),estimator.model().getFrameIndex(framesNames{frame}));
+frameNames = {'root_link','r_foot_front','r_foot_rear'};
+for frame=1:length(frameNames)
+    fullBodyUnknownsExtWrenchEst.addNewUnknownFullWrenchInFrameOrigin(estimator.model(),estimator.model().getFrameIndex(frameNames{frame}));
 end
 
 % Joint state as iDyntree vectors
@@ -103,7 +104,7 @@ estContactForcesExtWrenchesEst = iDynTree.LinkContactWrenches(estimator.model())
 estJointTorquesExtWrenchesEst = iDynTree.JointDOFsDoubleArray(dofs);
 
 %size of arrays with the expected Data
-externalWrenchData = zeros(length(framesNames),length(time),6);
+externalWrenchData = zeros(length(frameNames),length(time),6);
 
 estimatedJointTorques = zeros(size(joint_pos));
 
@@ -134,6 +135,13 @@ for sample = 1 : length(time)
     estimator.estimateExtWrenchesAndJointTorques(fullBodyUnknownsExtWrenchEst,estFTmeasurements,estContactForcesExtWrenchesEst,estJointTorquesExtWrenchesEst);
     
     estimatedJointTorques(:,sample) = estJointTorquesExtWrenchesEst.toMatlab();
+    
+    linkNetExtWrenches = iDynTree.LinkWrenches(estimator.model());%
+    estContactForcesExtWrenchesEst.computeNetWrenches(linkNetExtWrenches);
+    for i=1:length(frameNames)
+        wrench = linkNetExtWrenches(estimator.model().getFrameLink(estimator.model().getFrameIndex(frameNames{i})));
+        externalWrenchData(i,sample,:) = wrench.toMatlab();
+    end
 end
 
 
@@ -151,3 +159,28 @@ for i = 1 : 6
     legend('Measured','Estimated')
 end
 
+
+figure
+for i = 1 : 6
+    subplot(3,2,i)
+    plot(time-time(1),right_front_wrench_client(i,:))
+    hold on
+    plot(time-time(1),reshape(externalWrenchData(2,:,i),size(externalWrenchData,2),1))
+    xlabel('time (sec)')
+    ylabel('f_{ext}')
+    title(frameNames{2},'Interpreter','None')
+    legend('Measured','Estimated')
+end
+
+
+figure
+for i = 1 : 6
+    subplot(3,2,i)
+    plot(time-time(1),right_rear_wrench_client(i,:))
+    hold on
+    plot(time-time(1),reshape(externalWrenchData(3,:,i),size(externalWrenchData,2),1))
+    xlabel('time (sec)')
+    ylabel('f_{ext}')
+    title(frameNames{3},'Interpreter','None')
+    legend('Measured','Estimated')
+end
