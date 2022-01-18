@@ -42,9 +42,9 @@ if load_dataset_bool
         end
         right_rear_ft_client(:,:) = [right_rear_ft_client;robot_logger_device.FTs.right_rear_ft_client.data];
         
-        if ~exist('time','var')
+        if ~exist('timestamp','var')
             time = [];
         end
-        time = [time;robot_logger_device.joints_state.positions.timestamps];
+        timestamp = [timestamp;robot_logger_device.joints_state.positions.timestamps];
     end
 end

@@ -24,7 +24,7 @@ else
 end
 
 % Estimate joint acceleration **pure kinematic KF filter**
-[~, joint_acc] = estimateVelAccFromPos(joint_pos, time(2)-time(1));
+[~, joint_acc] = estimateVelAccFromPos(joint_pos, timestamp(2)-timestamp(1));
 
 
 %% Load model and estimator
@@ -104,17 +104,17 @@ estContactForcesExtWrenchesEst = iDynTree.LinkContactWrenches(estimator.model())
 estJointTorquesExtWrenchesEst = iDynTree.JointDOFsDoubleArray(dofs);
 
 %size of arrays with the expected Data
-externalWrenchData = zeros(length(frameNames),length(time),6);
+externalWrenchData = zeros(length(frameNames),length(timestamp),6);
 
 estimatedJointTorques = zeros(size(joint_pos));
 
 wrench_idyn= iDynTree.Wrench();
 
 
-%% For each time instant
+%% For each timestamp instant
 disp('Computing the joint torques and external wrenches');
 
-for sample = 1 : length(time)
+for sample = 1 : length(timestamp)
     qj_idyn.fromMatlab(joint_pos(:,sample)');
     dqj_idyn.fromMatlab(joint_vel(:,sample)');
     
@@ -147,26 +147,39 @@ end
 
 %% Plot measured joint torques VS estimated joint torques
 
+% Load desired torques
+[file,path] = uigetfile('*.mat','Select dataset for identification');
+matToLoad = [path, file];
+load(matToLoad);
+
+joint_trq_des(1,:) = r_hip_pitch_destrq;
+joint_trq_des(2,:) = r_hip_roll_destrq;
+joint_trq_des(3,:) = r_hip_yaw_destrq;
+joint_trq_des(4,:) = r_knee_destrq;
+joint_trq_des(5,:) = r_ankle_pitch_destrq;
+joint_trq_des(6,:) = r_ankle_roll_destrq;
+
 figure
 for i = 1 : 6
-    subplot(3,2,i)
-    plot(time-time(1),joint_trq(i,:))
+    subplot(2,3,i)
+    plot(time,joint_trq_des(i,:))
     hold on
-    plot(time-time(1),estimatedJointTorques(i,:))
-    xlabel('time (sec)')
+    plot(timestamp,joint_trq(i,:))
+    plot(timestamp,estimatedJointTorques(i,:))
+    xlabel('timestamp (sec)')
     ylabel('\tau')
     title(consideredJoints{i},'Interpreter','None')
-    legend('Measured','Estimated')
+    legend('Desired','Measured','Estimated')
 end
 
 
 figure
 for i = 1 : 6
-    subplot(3,2,i)
-    plot(time-time(1),right_front_wrench_client(i,:))
+    subplot(2,3,i)
+    plot(timestamp-timestamp(1),right_front_wrench_client(i,:))
     hold on
-    plot(time-time(1),reshape(externalWrenchData(2,:,i),size(externalWrenchData,2),1))
-    xlabel('time (sec)')
+    plot(timestamp-timestamp(1),reshape(externalWrenchData(2,:,i),size(externalWrenchData,2),1))
+    xlabel('timestamp (sec)')
     ylabel('f_{ext}')
     title(frameNames{2},'Interpreter','None')
     legend('Measured','Estimated')
@@ -175,11 +188,11 @@ end
 
 figure
 for i = 1 : 6
-    subplot(3,2,i)
-    plot(time-time(1),right_rear_wrench_client(i,:))
+    subplot(2,3,i)
+    plot(timestamp-timestamp(1),right_rear_wrench_client(i,:))
     hold on
-    plot(time-time(1),reshape(externalWrenchData(3,:,i),size(externalWrenchData,2),1))
-    xlabel('time (sec)')
+    plot(timestamp-timestamp(1),reshape(externalWrenchData(3,:,i),size(externalWrenchData,2),1))
+    xlabel('timestamp (sec)')
     ylabel('f_{ext}')
     title(frameNames{3},'Interpreter','None')
     legend('Measured','Estimated')

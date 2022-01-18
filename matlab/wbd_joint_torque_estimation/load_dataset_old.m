@@ -40,5 +40,9 @@ if load_dataset_bool
         end
         right_front_ft_client = [right_front_ft_client;FT.right_front_ft_client];
         
+        if ~exist('timestamp','var')
+            timestamp = [];
+        end
+        timestamp = [timestamp;time];
     end
 end
