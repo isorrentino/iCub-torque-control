@@ -20,25 +20,25 @@ if load_dataset_bool
         joint_trq = [joint_trq;Joint_state.joint_torques(joint,:)];
         
         if ~exist('right_front_wrench_client','var')
-            right_front_wrench_client = [];
+            right_front_wrench = [];
         end
-        right_front_wrench_client = [right_front_wrench_client;CartesianWrench.right_front_wrench_client];
+        right_front_wrench = [right_front_wrench;CartesianWrench.right_front_wrench_client];
         
         if ~exist('right_rear_wrench_client','var')
-            right_rear_wrench_client = [];
+            right_rear_wrench = [];
         end
-        right_rear_wrench_client = [right_rear_wrench_client;CartesianWrench.right_rear_wrench_client];
+        right_rear_wrench = [right_rear_wrench;CartesianWrench.right_rear_wrench_client];
         
         
         if ~exist('right_rear_ft_client','var')
-            right_rear_ft_client = [];
+            right_rear_ft = [];
         end
-        right_rear_ft_client = [right_rear_ft_client;FT.right_rear_ft_client];
+        right_rear_ft = [right_rear_ft;FT.right_rear_ft_client];
         
         if ~exist('right_front_ft_client','var')
-            right_front_ft_client = [];
+            right_front_ft = [];
         end
-        right_front_ft_client = [right_front_ft_client;FT.right_front_ft_client];
+        right_front_ft = [right_front_ft;FT.right_front_ft_client];
         
         if ~exist('timestamp','var')
             timestamp = [];
