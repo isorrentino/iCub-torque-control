@@ -31,7 +31,17 @@ clear;
 % Choose the joint from the list
 joint = 25;
 
-load_dataset;
+% How many datasets?
+num_datasets = 2;
+load_dataset_bool = true;
+
+new_logger_dataset = false;
+
+if new_logger_dataset
+    load_dataset_new;
+else
+    load_dataset_old;
+end
 
 % Identify kbemf (im = 0)
 threshold_curr = 0.1;
@@ -45,7 +55,12 @@ scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),-kbemf*mtr_vel_deg_sec(a
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+if new_logger_dataset
+    title(robot_logger_device.description_list{joint},'Interpreter','none')
+else
+    title(Joint_state.joints{joint},'Interpreter','none')
+end
+
 
 idx_neg = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec<=0);
 idx_pos = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec>=0);
@@ -64,5 +79,19 @@ scatter(mtr_vel_deg_sec(idx_pos),-k2(1)*sign(mtr_vel_deg_sec(idx_pos)) - k2(2)*m
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+
+if new_logger_dataset
+    title(robot_logger_device.description_list{joint},'Interpreter','none')
+else
+    title(Joint_state.joints{joint},'Interpreter','none')
+end
+
+load('parameters_friction.mat')
+parameters{joint}.kbemf = kbemf;
+parameters{joint}.kc_neg = k1(1);
+parameters{joint}.kv_neg = k1(2);
+parameters{joint}.kc_pos = k2(1);
+parameters{joint}.kv_pos = k2(2);
+save('parameters_friction.mat','parameters');
+
 
