@@ -1,13 +1,11 @@
 for ii = 1 : num_datasets
-    if load_dataset_bool
-        if ii==1
-            [file,path] = uigetfile('~/dev/Datasets/*.mat','Select dataset for identification');
-        else
-            [file,path] = uigetfile(path,'Select dataset for identification');
-        end
-        matToLoad = [path, file];
-        load(matToLoad);
+    if ii==1
+        [file,path] = uigetfile('~/dev/Datasets/*.mat','Select dataset for identification');
+    else
+        [file,path] = uigetfile(path,'Select dataset for identification');
     end
+    matToLoad = [path, file];
+    load(matToLoad);
     
     if ii == 1
         joint_trq = [];
