@@ -276,9 +276,11 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_desJointPos.resize(m_numOfJoints);
     m_desJointVel.resize(m_numOfJoints);
     m_desJointAcc.resize(m_numOfJoints);
+    m_currentJointTrq.resize(m_numOfJoints);
 
     m_sensorBridge.getJointPositions(m_currentJointPos);
     m_sensorBridge.getJointVelocities(m_currentJointVel);
+    m_sensorBridge.getJointTorques(m_currentJointTrq);
 
     m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     m_kinDyn->loadRobotModel(m_loader.model());
@@ -408,6 +410,11 @@ void Module::logData()
 
     for (int i = 0; i < m_numOfJoints; i++)
     {
+        m_log[m_jointNamesList[i] + "_trq"].push_back(m_currentJointTrq[i]);
+    }
+
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
         m_log[m_jointNamesList[i] + "_destrq"].push_back(m_desJointTorque[i]);
     }
 
@@ -498,8 +505,14 @@ bool Module::updateModule()
         return false;
     }
 
-    //if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
-    if (!m_kinDyn->setRobotState(m_desJointPos, m_desJointVel, m_gravity))
+    if (!m_sensorBridge.getJointTorques(m_currentJointTrq))
+    {
+        std::cerr << "[Module::updateModule] Error in reading current torque." << std::endl;
+        return false;
+    }
+
+    if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
+//    if (!m_kinDyn->setRobotState(m_desJointPos, m_desJointVel, m_gravity))
     {
         std::cerr << "[Module::updateModule] Unable to set the robot state in kinDyn object.";
         return false;
@@ -545,10 +558,12 @@ bool Module::updateModule()
     //std::cout << "current" << std::endl;
     //std::cout << m_currentJointPos << std::endl;
 
-    if (!m_robotControl.setReferences(m_desJointPos, BipedalLocomotion::RobotInterface::IRobotControl::ControlMode::PositionDirect))
-
+//    if (!m_robotControl.setReferences(m_desJointPos, BipedalLocomotion::RobotInterface::IRobotControl::ControlMode::PositionDirect))
+    if (!m_robotControl.setReferences(m_desJointTorque,
+                                          BipedalLocomotion::RobotInterface::IRobotControl::
+                                              ControlMode::Torque))
     {
-        std::cerr << "[Module::updateModule] Unable to set desired joint positions.";
+        std::cerr << "[Module::updateModule] Unable to set desired joint torques.";
         return false;
     }
 
