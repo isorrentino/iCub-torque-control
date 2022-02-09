@@ -569,11 +569,11 @@ bool Module::updateModule()
 
     logData();
 
-    if (!m_planner.advance())
-    {
-        std::cerr << "[Module::updateModule] Unable to compute next desired pose.";
-        return false;
-    }
+//    if (!m_planner.advance())
+//    {
+//        std::cerr << "[Module::updateModule] Unable to compute next desired pose.";
+//        return false;
+//    }
 
     m_currentEEPos = Conversions::toManifPose(m_kinDyn->getWorldTransform(m_controlledFrame));
 
