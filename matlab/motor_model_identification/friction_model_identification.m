@@ -28,16 +28,34 @@
 
 clear;
 
+% Available models:
+% - linear              =>     tau_f = kbemf dq
+% - coulomb + viscous   =>     tau_f = kc sgn(dq) + kv dq
+
 % Choose the joint from the list
-joint = 25;
+joint = 22;
 
 % How many datasets?
 num_datasets = 1;
 
-load_dataset;
+% Load dataset with latest or previous yarp-robot-logger-device version?
+new_logger_version = true;
+
+if new_logger_version
+    load_dataset_new;
+else
+    load_dataset_old;
+end
 
 % Identify kbemf (im = 0)
+% Threshold on the current (current is in Ampere)
 threshold_curr = 0.1;
+
+
+%% Linear model
+
+disp('Condition number of regressor')
+cond(-mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr))
 
 kbemf = -mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr) \ joint_trq(abs(mtr_curr) < threshold_curr);
 
@@ -48,15 +66,30 @@ scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),-kbemf*mtr_vel_deg_sec(a
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+if new_logger_version
+    title(robot_logger_device.description_list{joint},'Interpreter','none')
+else
+    title(Joint_state.joints{joint},'Interpreter','none')
+end
+
+load('kbemf_list.mat')
+friction_params_list{joint}.kbemf = kbemf;
+save('kbemf_list.mat','friction_params_list');
+
+
+%% Coulomb + Viscous
 
 idx_neg = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec<=0);
 idx_pos = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec>=0);
 
 reg1 = [sign(mtr_vel_deg_sec(idx_neg)), mtr_vel_deg_sec(idx_neg)];
+disp('Condition number of regressor - negative part')
+cond(-reg1)
 k1 = -reg1 \ joint_trq(idx_neg);
 
 reg2 = [sign(mtr_vel_deg_sec(idx_pos)), mtr_vel_deg_sec(idx_pos)];
+disp('Condition number of regressor - positive part')
+cond(-reg2)
 k2 = -reg2 \ joint_trq(idx_pos);
 
 figure,
@@ -67,5 +100,18 @@ scatter(mtr_vel_deg_sec(idx_pos),-k2(1)*sign(mtr_vel_deg_sec(idx_pos)) - k2(2)*m
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+
+if new_logger_version
+    title(robot_logger_device.description_list{joint},'Interpreter','none')
+else
+    title(Joint_state.joints{joint},'Interpreter','none')
+end
+
+load('kckv_list.mat')
+friction_params_list{joint}.kc_neg = k1(1);
+friction_params_list{joint}.kv_neg = k1(2);
+friction_params_list{joint}.kc_pos = k2(1);
+friction_params_list{joint}.kv_pos = k2(2);
+save('kckv_list.mat','friction_params_list');
+
 

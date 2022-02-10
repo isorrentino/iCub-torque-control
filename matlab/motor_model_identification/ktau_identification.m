@@ -29,12 +29,18 @@
 clear;
 
 % Choose the joint from the list
-joint = 25;
+joint = 22;
 
 % How many datasets?
-num_datasets = 1;
+num_datasets = 3;
 
-load_dataset;
+new_logger_dataset = true;
+
+if new_logger_dataset
+    load_dataset_new;
+else
+    load_dataset_old;
+end
 
 % Identify ktau^-1 (dot theta = 0)
 threshold_vel = 0.05;
@@ -51,4 +57,16 @@ scatter(mtr_curr(abs(mtr_vel_rad_sec) < threshold_vel),invKtau*mtr_curr(abs(mtr_
 xlabel('motor current')
 ylabel('joint torque')
 legend('measured','estimated')
-title(Joint_state.joints{joint})
+if new_logger_dataset
+    title(robot_logger_device.description_list{joint},'Interpreter','none')
+else
+    title(Joint_state.joints{joint},'Interpreter','none')
+end
+
+
+load('ktau_list.mat');
+ktau_list{joint}.invktau = invKtau;
+ktau_list{joint}.ktau = Ktau;
+save('ktau_list.mat','ktau_list');
+
+
