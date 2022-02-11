@@ -49,20 +49,20 @@ end
 
 % Identify kbemf (im = 0)
 % Threshold on the current (current is in Ampere)
-threshold_curr = 0.1;
+threshold_curr = 100;
 
 
 %% Linear model
 
 disp('Condition number of regressor')
-cond(-mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr))
+cond(-mtr_vel_deg_sec(abs(mtr_curr_mA) < threshold_curr))
 
-kbemf = -mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr) \ joint_trq(abs(mtr_curr) < threshold_curr);
+kbemf = -mtr_vel_deg_sec(abs(mtr_curr_mA) < threshold_curr) \ joint_trq(abs(mtr_curr_mA) < threshold_curr);
 
 figure,
-scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),joint_trq(abs(mtr_curr) < threshold_curr))
+scatter(mtr_vel_deg_sec(abs(mtr_curr_mA) < threshold_curr),joint_trq(abs(mtr_curr_mA) < threshold_curr))
 hold on
-scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),-kbemf*mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr))
+scatter(mtr_vel_deg_sec(abs(mtr_curr_mA) < threshold_curr),-kbemf*mtr_vel_deg_sec(abs(mtr_curr_mA) < threshold_curr))
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
@@ -79,8 +79,8 @@ save('kbemf_list.mat','friction_params_list');
 
 %% Coulomb + Viscous
 
-idx_neg = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec<=0);
-idx_pos = find(abs(mtr_curr) < threshold_curr & mtr_vel_deg_sec>=0);
+idx_neg = find(abs(mtr_curr_mA) < threshold_curr & mtr_vel_deg_sec < 500 & joint_trq > 3);
+idx_pos = find(abs(mtr_curr_mA) < threshold_curr & mtr_vel_deg_sec > 500 & joint_trq < -3);
 
 reg1 = [sign(mtr_vel_deg_sec(idx_neg)), mtr_vel_deg_sec(idx_neg)];
 disp('Condition number of regressor - negative part')
@@ -93,7 +93,7 @@ cond(-reg2)
 k2 = -reg2 \ joint_trq(idx_pos);
 
 figure,
-scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),joint_trq(abs(mtr_curr) < threshold_curr))
+scatter(mtr_vel_deg_sec(abs(mtr_curr_mA) < threshold_curr),joint_trq(abs(mtr_curr_mA) < threshold_curr))
 hold on
 scatter(mtr_vel_deg_sec(idx_neg),-k1(1)*sign(mtr_vel_deg_sec(idx_neg)) - k1(2)*mtr_vel_deg_sec(idx_neg))
 scatter(mtr_vel_deg_sec(idx_pos),-k2(1)*sign(mtr_vel_deg_sec(idx_pos)) - k2(2)*mtr_vel_deg_sec(idx_pos))

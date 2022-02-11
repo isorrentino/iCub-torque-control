@@ -50,7 +50,7 @@ else
     load_dataset_old;
 end
 
-threshold_velocity = 0.1; % deg/sec
+threshold_velocity = 1; % deg/sec
 
 if strcmp(friction_model, 'linear')
     
@@ -59,12 +59,12 @@ if strcmp(friction_model, 'linear')
     % Ax = b
     % current * ktau = tau - tau_f
     
-    A = mtr_curr;
+    A = mtr_curr_mA;
     b = joint_trq + friction_params_list{joint}.kbemf * mtr_vel_deg_sec;
     disp('Conditioning regressor')
     cond(A)
     invktau = A \ b;
-    ktau = 1000 / invktau;
+    ktau = 1 / invktau;
     
     ktau_list{joint}.invktau = invktau;
     ktau_list{joint}.ktau = ktau;
@@ -77,12 +77,12 @@ elseif strcmp(friction_model, 'coulomb_viscous')
     % Ax = b
     % current * ktau = tau - tau_f
     
-    current_vel_neg = mtr_curr(mtr_vel_deg_sec <= -threshold_velocity);
-    current_vel_pos = mtr_curr(mtr_vel_deg_sec >= threshold_velocity);
-    mtr_vel_neg = mtr_vel_deg_sec(mtr_vel_deg_sec <= -threshold_velocity);
-    mtr_vel_pos = mtr_vel_deg_sec(mtr_vel_deg_sec >= threshold_velocity);
-    trq_vel_neg = joint_trq(mtr_vel_deg_sec <= -threshold_velocity);
-    trq_vel_pos = joint_trq(mtr_vel_deg_sec >= threshold_velocity);
+    current_vel_neg = mtr_curr_mA(mtr_vel_deg_sec <= -threshold_velocity & joint_trq < 30);
+    current_vel_pos = mtr_curr_mA(mtr_vel_deg_sec >= threshold_velocity & joint_trq > -30);
+    mtr_vel_neg = mtr_vel_deg_sec(mtr_vel_deg_sec <= -threshold_velocity & joint_trq < 30);
+    mtr_vel_pos = mtr_vel_deg_sec(mtr_vel_deg_sec >= threshold_velocity & joint_trq > -30);
+    trq_vel_neg = joint_trq(mtr_vel_deg_sec <= -threshold_velocity & joint_trq < 30);
+    trq_vel_pos = joint_trq(mtr_vel_deg_sec >= threshold_velocity & joint_trq > -30);
     
     A_neg = current_vel_neg;
     b_vel_neg = trq_vel_neg - friction_params_list{joint}.kc_neg + friction_params_list{joint}.kv_neg * mtr_vel_neg;
@@ -96,8 +96,8 @@ elseif strcmp(friction_model, 'coulomb_viscous')
     cond(A_pos)
     invktau_vel_pos = A_pos \ b_vel_pos;
     
-    ktau_neg = 1000/invktau_vel_neg;
-    ktau_pos = 1000/invktau_vel_pos;
+    ktau_neg = 1/invktau_vel_neg;
+    ktau_pos = 1/invktau_vel_pos;
     
     load('ktau_given_friction_list.mat');
     ktau_list{joint}.invktau_vel_neg = invktau_vel_neg;
@@ -107,7 +107,7 @@ elseif strcmp(friction_model, 'coulomb_viscous')
     save('ktau_given_friction_list.mat','ktau_list');
     
     figure,
-    scatter(mtr_curr, joint_trq)
+    scatter(mtr_curr_mA, joint_trq)
     hold on
     scatter([current_vel_neg; current_vel_pos], [invktau_vel_neg* ...
         current_vel_neg+friction_params_list{joint}.kc_neg-friction_params_list{joint}.kv_neg*mtr_vel_neg; ...
