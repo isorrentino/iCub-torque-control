@@ -30,14 +30,14 @@ clear;
 
 % Load parameters
 % load('ktau_list.mat');
-% load('ktau_given_friction_list.mat');
-% load('kckv_list.mat');
+load('ktau_given_friction_list.mat');
+load('kckv_list.mat');
 % load('kbemf_list.mat');
 % load('ktau_kbemf.mat');
-load('ktau_kckv.mat')
+% load('ktau_kckv.mat')
 
 % Choose the joint from the list
-joint = 24;
+joint = 21;
 
 % How many datasets?
 num_datasets = 1;
@@ -57,14 +57,14 @@ end
 friction_model = 'coulomb_viscous';
 ktau_depends_on_friction = true;
 
-num_samples = length(mtr_curr) - 10;
+num_samples = length(mtr_curr_mA) - 10;
 
 
 if strcmp(friction_model,'linear')
     %% First model
     
     x1 = linspace(min(mtr_vel_deg_sec)-500,max(mtr_vel_deg_sec)+500,100);
-    y1 = linspace(min(mtr_curr),max(mtr_curr),50);
+    y1 = linspace(min(mtr_curr_mA),max(mtr_curr_mA),50);
     
     [X1,Y1] = meshgrid(x1,y1);
     
@@ -77,22 +77,22 @@ if strcmp(friction_model,'linear')
     zlabel('joint torque')
     title(['Joint ', num2str(joint), ' - \tau = k_{\tau} i - k_{bemf} dq'])
     hold on
-    scatter3(mtr_vel_deg_sec(1:num_samples),mtr_curr(1:num_samples),joint_trq(1:num_samples),10)
+    scatter3(mtr_vel_deg_sec(1:num_samples),mtr_curr_mA(1:num_samples),joint_trq(1:num_samples),10)
     
     
-    estim_joint_trq = ktau_list{joint}.invktau * mtr_curr(1:num_samples) - friction_params_list{joint}.kbemf * mtr_vel_deg_sec(1:num_samples);
+    estim_joint_trq = ktau_list{joint}.invktau * mtr_curr_mA(1:num_samples) - friction_params_list{joint}.kbemf * mtr_vel_deg_sec(1:num_samples);
     
     figure,
-    scatter(0:num_samples-1, joint_trq(1:num_samples),10)
+    plot(0:num_samples-1, joint_trq(1:num_samples))
     hold on
-    scatter(0:num_samples-1, estim_joint_trq(1:num_samples),10)
+    plot(0:num_samples-1, estim_joint_trq(1:num_samples))
     xlabel('samples')
     ylabel('\tau')
     title(['Joint ', num2str(joint), ' - \tau = k_{\tau} i - k_{bemf} dq'])
     legend('measured','estimated')
     
     figure,
-    scatter(0:num_samples-1, joint_trq(1:num_samples)-estim_joint_trq(1:num_samples), 10)
+    plot(0:num_samples-1, joint_trq(1:num_samples)-estim_joint_trq(1:num_samples))
     xlabel('samples')
     ylabel('\tau error')
     title(['Joint ', num2str(joint), ' - \tau = k_{\tau} i - k_{bemf} dq'])
@@ -100,7 +100,7 @@ if strcmp(friction_model,'linear')
     
     
     disp('RMSE - linear friction model')
-    RMSE_kbemf = sqrt(mean((joint_trq(1:num_samples) - ktau_list{joint}.invktau * mtr_curr(1:num_samples) - friction_params_list{joint}.kbemf * mtr_vel_deg_sec(1:num_samples)).^2));
+    RMSE_kbemf = sqrt(mean((joint_trq(1:num_samples) - ktau_list{joint}.invktau * mtr_curr_mA(1:num_samples) - friction_params_list{joint}.kbemf * mtr_vel_deg_sec(1:num_samples)).^2));
     disp(RMSE_kbemf)
     
 elseif strcmp(friction_model,'coulomb_viscous')
@@ -109,12 +109,12 @@ elseif strcmp(friction_model,'coulomb_viscous')
     if ktau_depends_on_friction
         
         x2 = linspace(min(mtr_vel_deg_sec)-500,0,50);
-        y2 = linspace(min(mtr_curr),max(mtr_curr),50);
+        y2 = linspace(min(mtr_curr_mA),max(mtr_curr_mA),50);
         
         [X2,Y2] = meshgrid(x2,y2);
         
         x3 = linspace(0,max(mtr_vel_deg_sec)+500,50);
-        y3 = linspace(min(mtr_curr),max(mtr_curr),50);
+        y3 = linspace(min(mtr_curr_mA),max(mtr_curr_mA),50);
         
         [X3,Y3] = meshgrid(x3,y3);
         
@@ -125,23 +125,23 @@ elseif strcmp(friction_model,'coulomb_viscous')
         estim_joint_trq = zeros(length(joint_trq),1);
         for i = 1 : num_samples
             if mtr_vel_deg_sec(i) >= 0
-                estim_joint_trq(i) = ktau_list{joint}.invktau_vel_neg*mtr_curr(i) - friction_params_list{joint}.kc_pos - friction_params_list{joint}.kv_pos*mtr_vel_deg_sec(i);
+                estim_joint_trq(i) = ktau_list{joint}.invktau_vel_neg*mtr_curr_mA(i) - friction_params_list{joint}.kc_pos - friction_params_list{joint}.kv_pos*mtr_vel_deg_sec(i);
             else
-                estim_joint_trq(i) = ktau_list{joint}.invktau_vel_pos*mtr_curr(i) + friction_params_list{joint}.kc_neg - friction_params_list{joint}.kv_neg*mtr_vel_deg_sec(i);
+                estim_joint_trq(i) = ktau_list{joint}.invktau_vel_pos*mtr_curr_mA(i) + friction_params_list{joint}.kc_neg - friction_params_list{joint}.kv_neg*mtr_vel_deg_sec(i);
             end
         end
         
         figure,
-        scatter(0:num_samples-1, joint_trq(1:num_samples),10)
+        plot(0:num_samples-1, joint_trq(1:num_samples))
         hold on
-        scatter(0:num_samples-1, estim_joint_trq(1:num_samples),10)
+        plot(0:num_samples-1, estim_joint_trq(1:num_samples))
         xlabel('samples')
         ylabel('\tau')
         title(['Joint ', num2str(joint), '- \tau = k_{\tau} i - k_{c} sgn(dq) - kv dq'])
         legend('measured','estimated')
         
         figure,
-        scatter(0:num_samples-1, joint_trq(1:num_samples)-estim_joint_trq(1:num_samples), 10)
+        plot(0:num_samples-1, joint_trq(1:num_samples)-estim_joint_trq(1:num_samples))
         xlabel('samples')
         ylabel('\tau error')
         title(['Joint ', num2str(joint), '- \tau = k_{\tau} i - k_{c} sgn(dq) - kv dq'])
@@ -155,13 +155,13 @@ elseif strcmp(friction_model,'coulomb_viscous')
         ylabel('motor current')
         zlabel('joint torque')
         title(['Joint ', num2str(joint), ' - \tau = k_{\tau} i - k_{c} sgn(dq) - kv dq'])
-        scatter3(mtr_vel_deg_sec(1:num_samples),mtr_curr(1:num_samples),joint_trq(1:num_samples),10)
+        scatter3(mtr_vel_deg_sec(1:num_samples),mtr_curr_mA(1:num_samples),joint_trq(1:num_samples),10)
         
         vel_neg = mtr_vel_deg_sec(mtr_vel_deg_sec(1:num_samples) <= 0);
-        curr_vel_neg = mtr_curr(mtr_vel_deg_sec(1:num_samples) <= 0);
+        curr_vel_neg = mtr_curr_mA(mtr_vel_deg_sec(1:num_samples) <= 0);
         trq_vel_neg = joint_trq(mtr_vel_deg_sec(1:num_samples) <= 0);
         vel_pos = mtr_vel_deg_sec(mtr_vel_deg_sec(1:num_samples) >= 0);
-        curr_vel_pos = mtr_curr(mtr_vel_deg_sec(1:num_samples) >= 0);
+        curr_vel_pos = mtr_curr_mA(mtr_vel_deg_sec(1:num_samples) >= 0);
         trq_vel_pos = joint_trq(mtr_vel_deg_sec(1:num_samples) >= 0);
         
         yhat_vel_neg = ktau_list{joint}.invktau_vel_neg*curr_vel_neg + friction_params_list{joint}.kc_neg - friction_params_list{joint}.kv_neg*vel_neg;
@@ -174,12 +174,12 @@ elseif strcmp(friction_model,'coulomb_viscous')
     else
         
         x2 = linspace(min(mtr_vel_deg_sec)-500,0,50);
-        y2 = linspace(min(mtr_curr),max(mtr_curr),50);
+        y2 = linspace(min(mtr_curr_mA),max(mtr_curr_mA),50);
         
         [X2,Y2] = meshgrid(x2,y2);
         
         x3 = linspace(0,max(mtr_vel_deg_sec)+500,50);
-        y3 = linspace(min(mtr_curr),max(mtr_curr),50);
+        y3 = linspace(min(mtr_curr_mA),max(mtr_curr_mA),50);
         
         [X3,Y3] = meshgrid(x3,y3);
         
@@ -190,23 +190,23 @@ elseif strcmp(friction_model,'coulomb_viscous')
         estim_joint_trq = zeros(length(joint_trq),1);
         for i = 1 : num_samples
             if mtr_vel_deg_sec(i) >= 0
-                estim_joint_trq(i) = ktau_list{joint}.invktau*mtr_curr(i) - friction_params_list{joint}.kc_pos - friction_params_list{joint}.kv_pos*mtr_vel_deg_sec(i);
+                estim_joint_trq(i) = ktau_list{joint}.invktau*mtr_curr_mA(i) - friction_params_list{joint}.kc_pos - friction_params_list{joint}.kv_pos*mtr_vel_deg_sec(i);
             else
-                estim_joint_trq(i) = ktau_list{joint}.invktau*mtr_curr(i) + friction_params_list{joint}.kc_neg - friction_params_list{joint}.kv_neg*mtr_vel_deg_sec(i);
+                estim_joint_trq(i) = ktau_list{joint}.invktau*mtr_curr_mA(i) + friction_params_list{joint}.kc_neg - friction_params_list{joint}.kv_neg*mtr_vel_deg_sec(i);
             end
         end
         
         figure,
-        scatter(0:num_samples-1, joint_trq(1:num_samples),10)
+        plot(0:num_samples-1, joint_trq(1:num_samples))
         hold on
-        scatter(0:num_samples-1, estim_joint_trq(1:num_samples),10)
+        plot(0:num_samples-1, estim_joint_trq(1:num_samples))
         xlabel('samples')
         ylabel('\tau')
         title(['Joint ', num2str(joint), '- \tau = k_{\tau} i - k_{c} sgn(dq) - kv dq'])
         legend('measured','estimated')
         
         figure,
-        scatter(0:num_samples-1, joint_trq(1:num_samples)-estim_joint_trq(1:num_samples), 10)
+        plot(0:num_samples-1, joint_trq(1:num_samples)-estim_joint_trq(1:num_samples))
         xlabel('samples')
         ylabel('\tau error')
         title(['Joint ', num2str(joint), '- \tau = k_{\tau} i - k_{c} sgn(dq) - kv dq'])
@@ -220,13 +220,13 @@ elseif strcmp(friction_model,'coulomb_viscous')
         ylabel('motor current')
         zlabel('joint torque')
         title(['Joint ', num2str(joint), ' - \tau = k_{\tau} i - k_{c} sgn(dq) - kv dq'])
-        scatter3(mtr_vel_deg_sec(1:num_samples),mtr_curr(1:num_samples),joint_trq(1:num_samples),10)
+        scatter3(mtr_vel_deg_sec(1:num_samples),mtr_curr_mA(1:num_samples),joint_trq(1:num_samples),10)
         
         vel_neg = mtr_vel_deg_sec(mtr_vel_deg_sec(1:num_samples) <= 0);
-        curr_vel_neg = mtr_curr(mtr_vel_deg_sec(1:num_samples) <= 0);
+        curr_vel_neg = mtr_curr_mA(mtr_vel_deg_sec(1:num_samples) <= 0);
         trq_vel_neg = joint_trq(mtr_vel_deg_sec(1:num_samples) <= 0);
         vel_pos = mtr_vel_deg_sec(mtr_vel_deg_sec(1:num_samples) >= 0);
-        curr_vel_pos = mtr_curr(mtr_vel_deg_sec(1:num_samples) >= 0);
+        curr_vel_pos = mtr_curr_mA(mtr_vel_deg_sec(1:num_samples) >= 0);
         trq_vel_pos = joint_trq(mtr_vel_deg_sec(1:num_samples) >= 0);
         
         yhat_vel_neg = ktau_list{joint}.invktau*curr_vel_neg + friction_params_list{joint}.kc_neg - friction_params_list{joint}.kv_neg*vel_neg;
