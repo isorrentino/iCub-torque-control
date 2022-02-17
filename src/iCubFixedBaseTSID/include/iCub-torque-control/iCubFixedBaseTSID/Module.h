@@ -82,6 +82,7 @@ class Module : public yarp::os::RFModule
 
     Eigen::VectorXd m_currentJointPos; /**< Current joint positions. */
     Eigen::VectorXd m_currentJointVel; /**< Current joint velocities. */
+    Eigen::VectorXd m_currentJointAcc; /**< Current joint velocities. */
     Eigen::VectorXd m_desJointTorque; /**< Desired joint torques. */
     Eigen::VectorXd m_desJointPos; /**< Desired joint positions. */
     Eigen::VectorXd m_desJointVel; /**< Desired joint velocities. */

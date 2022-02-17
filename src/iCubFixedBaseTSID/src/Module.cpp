@@ -272,14 +272,21 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_currentJointPos.resize(m_numOfJoints);
     m_currentJointVel.resize(m_numOfJoints);
     m_currentJointVel.setZero();
+    m_currentJointVel.resize(m_numOfJoints);
+    m_currentJointVel.setZero();
     m_desJointTorque.resize(m_numOfJoints);
     m_desJointPos.resize(m_numOfJoints);
     m_desJointVel.resize(m_numOfJoints);
     m_desJointAcc.resize(m_numOfJoints);
     m_currentJointTrq.resize(m_numOfJoints);
 
-    m_sensorBridge.getJointPositions(m_currentJointPos);
+    if (!m_sensorBridge.getJointPositions(m_currentJointPos))
+    {
+        std::cerr << "[Module::configure] Sono false." << std::endl;
+        return false;
+    }
     m_sensorBridge.getJointVelocities(m_currentJointVel);
+    m_sensorBridge.getJointAccelerations(m_currentJointAcc);
     m_sensorBridge.getJointTorques(m_currentJointTrq);
 
     m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
@@ -306,6 +313,8 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         std::cerr << "[Module::configure] Unable to set setpoint for regularization task." << std::endl;
         return false;
     }
+
+    std::cout << m_tsidAndTasks.regularizationTask->getA() << std::endl;
 
     //// Create and configure the planner
     parametersHandler->getGroup("TSID").lock()->getGroup("EE_SE3_TASK").lock()->getParameter("frame_name",m_controlledFrame);
@@ -410,6 +419,11 @@ void Module::logData()
 
     for (int i = 0; i < m_numOfJoints; i++)
     {
+        m_log[m_jointNamesList[i] + "_acc"].push_back(m_currentJointAcc[i]);
+    }
+
+    for (int i = 0; i < m_numOfJoints; i++)
+    {
         m_log[m_jointNamesList[i] + "_trq"].push_back(m_currentJointTrq[i]);
     }
 
@@ -467,18 +481,20 @@ void Module::logData()
     m_log["ee_des_ddy"].push_back(m_planner.getOutput().mixedAcceleration.data()[1]);
     m_log["ee_des_ddz"].push_back(m_planner.getOutput().mixedAcceleration.data()[2]);
 
-    Eigen::MatrixXd eigMassMatrix(12, 12);
+    Eigen::MatrixXd eigMassMatrix(6+m_numOfJoints, 6+m_numOfJoints);
     m_kinDyn->getFreeFloatingMassMatrix(iDynTree::make_matrix_view(eigMassMatrix));
     Eigen::MatrixXd mass(6,6);
     mass = eigMassMatrix.block<6,6>(6,6);
     Eigen::VectorXd aa;
-    aa.resize(6);
+    aa.resize(m_numOfJoints);
     aa = generalizedBiasForces.tail(m_numOfJoints);
-    Eigen::VectorXd bb;
     aa = mass*m_desJointAcc + aa;
+    Eigen::VectorXd bb = mass*m_desJointAcc;
     for (int i = 0; i < m_numOfJoints; i++)
     {
+        m_log[m_jointNamesList[i] + "_massXDesAcc"].push_back(bb[i]);
         m_log[m_jointNamesList[i] + "_model"].push_back(aa[i]);
+        m_log[m_jointNamesList[i] + "_WBDplusMddq"].push_back(bb[i] + m_currentJointTrq[i]);
     }
 
     //std::cout << "Mass Matrix" << std::endl;
@@ -500,6 +516,12 @@ bool Module::updateModule()
     }
 
     if (!m_sensorBridge.getJointVelocities(m_currentJointVel))
+    {
+        std::cerr << "[Module::updateModule] Error in reading current velocity." << std::endl;
+        return false;
+    }
+
+    if (!m_sensorBridge.getJointAccelerations(m_currentJointAcc))
     {
         std::cerr << "[Module::updateModule] Error in reading current velocity." << std::endl;
         return false;
@@ -546,8 +568,8 @@ bool Module::updateModule()
     m_accSystem.integrator->integrate(0, m_dT);
     Eigen::VectorXd solution = std::get<0>(m_accSystem.integrator->getSolution());
 
-    std::cout << "Solution tsid" << std::endl;
-    std::cout << m_tsidAndTasks.tsid->getOutput().baseAcceleration << std::endl;
+//    std::cout << "Solution tsid" << std::endl;
+//    std::cout << m_tsidAndTasks.tsid->getOutput().baseAcceleration << std::endl;
 
     m_desJointPos = solution.head(m_numOfJoints);
     m_desJointVel = solution.tail(m_numOfJoints);
