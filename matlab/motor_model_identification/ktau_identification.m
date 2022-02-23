@@ -47,13 +47,13 @@ threshold_vel = 0.05;
 
 % The motor current is logged in Ampere, while the k_tau considers the
 % current in mA (that's why we need to multiply times 1000)
-invKtau = mtr_curr(abs(mtr_vel_rad_sec) < threshold_vel) \ joint_trq(abs(mtr_vel_rad_sec) < threshold_vel);
-Ktau = 1000 / invKtau;
+invKtau = mtr_curr_mA(abs(mtr_vel_rad_sec) < threshold_vel) \ joint_trq(abs(mtr_vel_rad_sec) < threshold_vel);
+Ktau = 1 / invKtau;
 
 figure,
-scatter(mtr_curr(abs(mtr_vel_rad_sec) < threshold_vel),joint_trq(abs(mtr_vel_rad_sec) < threshold_vel))
+scatter(mtr_curr_mA(abs(mtr_vel_rad_sec) < threshold_vel),joint_trq(abs(mtr_vel_rad_sec) < threshold_vel))
 hold on
-scatter(mtr_curr(abs(mtr_vel_rad_sec) < threshold_vel),invKtau*mtr_curr(abs(mtr_vel_rad_sec) < threshold_vel))
+scatter(mtr_curr_mA(abs(mtr_vel_rad_sec) < threshold_vel),invKtau*mtr_curr_mA(abs(mtr_vel_rad_sec) < threshold_vel))
 xlabel('motor current')
 ylabel('joint torque')
 legend('measured','estimated')

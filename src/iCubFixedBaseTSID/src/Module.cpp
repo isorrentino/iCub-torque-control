@@ -27,6 +27,8 @@ using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
+double m_time = 0;
+
 double Module::getPeriod()
 {
     return m_dT;
@@ -272,8 +274,8 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_currentJointPos.resize(m_numOfJoints);
     m_currentJointVel.resize(m_numOfJoints);
     m_currentJointVel.setZero();
-    m_currentJointVel.resize(m_numOfJoints);
-    m_currentJointVel.setZero();
+    m_currentJointAcc.resize(m_numOfJoints);
+    m_currentJointAcc.setZero();
     m_desJointTorque.resize(m_numOfJoints);
     m_desJointPos.resize(m_numOfJoints);
     m_desJointVel.resize(m_numOfJoints);
@@ -483,22 +485,25 @@ void Module::logData()
 
     Eigen::MatrixXd eigMassMatrix(6+m_numOfJoints, 6+m_numOfJoints);
     m_kinDyn->getFreeFloatingMassMatrix(iDynTree::make_matrix_view(eigMassMatrix));
-    Eigen::MatrixXd mass(6,6);
-    mass = eigMassMatrix.block<6,6>(6,6);
+    Eigen::MatrixXd mass(m_numOfJoints,m_numOfJoints);
+    mass = eigMassMatrix.block(6,6,m_numOfJoints,m_numOfJoints);
     Eigen::VectorXd aa;
     aa.resize(m_numOfJoints);
     aa = generalizedBiasForces.tail(m_numOfJoints);
     aa = mass*m_desJointAcc + aa;
-    Eigen::VectorXd bb = mass*m_desJointAcc;
+    Eigen::VectorXd Mddq_des = mass*m_desJointAcc;
+    Eigen::VectorXd Mddq = mass*m_currentJointAcc;
     for (int i = 0; i < m_numOfJoints; i++)
     {
-        m_log[m_jointNamesList[i] + "_massXDesAcc"].push_back(bb[i]);
+        m_log[m_jointNamesList[i] + "_Mddq"].push_back(Mddq[i]);
+        m_log[m_jointNamesList[i] + "_Mddq_des"].push_back(Mddq_des[i]);
         m_log[m_jointNamesList[i] + "_model"].push_back(aa[i]);
-        m_log[m_jointNamesList[i] + "_WBDplusMddq"].push_back(bb[i] + m_currentJointTrq[i]);
+        m_log[m_jointNamesList[i] + "_WBDplusMddq_des"].push_back(Mddq_des[i] + m_currentJointTrq[i]);
+        m_log[m_jointNamesList[i] + "_WBDplusMddq"].push_back(Mddq[i] + m_currentJointTrq[i]);
     }
 
-    //std::cout << "Mass Matrix" << std::endl;
-    //std::cout << eigMassMatrix << std::endl;
+    std::cout << "Mass Matrix" << std::endl;
+    std::cout << eigMassMatrix << std::endl;
 }
 
 bool Module::updateModule()
@@ -548,6 +553,18 @@ bool Module::updateModule()
         return false;
     }
 
+    double amp = 15 * 3.14 / 180;
+    double freq = 0.3;
+    m_desJointPos(0) = amp * sin(2*3.14*freq*m_time);
+    m_desJointVel(0) = amp*2*3.14*freq * cos(2*3.14*freq*m_time);
+    m_desJointAcc(0) = -amp*2*3.14*freq*2*3.14*freq * sin(2*3.14*freq*m_time);
+
+    if (!m_tsidAndTasks.regularizationTask->setSetPoint(m_desJointPos, m_desJointVel, m_desJointAcc))
+    {
+        std::cerr << "[Module::configure] Unable to set setpoint for regularization task." << std::endl;
+        return false;
+    }
+
     if (!m_tsidAndTasks.tsid->advance())
     {
         std::cerr << "[Module::updateModule] Unable to update tsidAndTasks object.";
@@ -556,7 +573,7 @@ bool Module::updateModule()
 
     // get the output of the TSID
     m_desJointTorque = m_tsidAndTasks.tsid->getOutput().jointTorques;
-    m_desJointAcc = m_tsidAndTasks.tsid->getOutput().jointAccelerations;
+//    m_desJointAcc = m_tsidAndTasks.tsid->getOutput().jointAccelerations;
 
     //std::cout << "desired accelerations" << std::endl;
     //std::cout << m_desJointAcc << std::endl;
@@ -564,15 +581,15 @@ bool Module::updateModule()
     //std::cout << "desired torques" << std::endl;
     //std::cout << m_desJointTorque << std::endl;
 
-    m_accSystem.dynamics->setControlInput({m_desJointAcc});
-    m_accSystem.integrator->integrate(0, m_dT);
-    Eigen::VectorXd solution = std::get<0>(m_accSystem.integrator->getSolution());
+//    m_accSystem.dynamics->setControlInput({m_desJointAcc});
+//    m_accSystem.integrator->integrate(0, m_dT);
+//    Eigen::VectorXd solution = std::get<0>(m_accSystem.integrator->getSolution());
 
 //    std::cout << "Solution tsid" << std::endl;
 //    std::cout << m_tsidAndTasks.tsid->getOutput().baseAcceleration << std::endl;
 
-    m_desJointPos = solution.head(m_numOfJoints);
-    m_desJointVel = solution.tail(m_numOfJoints);
+//    m_desJointPos = solution.head(m_numOfJoints);
+//    m_desJointVel = solution.tail(m_numOfJoints);
 
     //prioristd::cout << "desired" << std::endl;
     //std::cout << m_desJointPos << std::endl;
@@ -598,6 +615,8 @@ bool Module::updateModule()
 //    }
 
     m_currentEEPos = Conversions::toManifPose(m_kinDyn->getWorldTransform(m_controlledFrame));
+
+    m_time += m_dT;
 
     return true;
 }
