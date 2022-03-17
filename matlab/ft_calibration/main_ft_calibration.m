@@ -48,26 +48,26 @@ for i = 1 : length(config.ft_to_calibrate_urdf)
     end
     estimated_ft.(config.ft_to_calibrata_dataset{i}) = estimated_ft.(config.ft_to_calibrata_dataset{i})';
     
-    figure,
-    plot3(dataset.ft_values.(config.ft_to_calibrata_dataset{i})(:,1),...
-        dataset.ft_values.(config.ft_to_calibrata_dataset{i})(:,2),dataset.ft_values.(config.ft_to_calibrata_dataset{i})(:,3))
-    hold on
-    plot3(dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,1),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,2),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,3))
-    xlabel('fx')
-    ylabel('fy')
-    zlabel('fz')
-    title('left arm')
-    
-        
-    figure,
-    plot3(estimated_ft.(config.ft_to_calibrata_dataset{i})(:,1),estimated_ft.(config.ft_to_calibrata_dataset{i})(:,2),estimated_ft.(config.ft_to_calibrata_dataset{i})(:,3))
-    hold on
-    plot3(dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,1),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,2),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,3))
-    xlabel('fx')
-    ylabel('fy')
-    zlabel('fz')
-    title('left arm')
-    
+%     figure,
+%     plot3(dataset.ft_values.(config.ft_to_calibrata_dataset{i})(:,1),...
+%         dataset.ft_values.(config.ft_to_calibrata_dataset{i})(:,2),dataset.ft_values.(config.ft_to_calibrata_dataset{i})(:,3))
+%     hold on
+%     plot3(dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,1),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,2),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,3))
+%     xlabel('fx')
+%     ylabel('fy')
+%     zlabel('fz')
+%     title('left arm')
+%     
+%         
+%     figure,
+%     plot3(estimated_ft.(config.ft_to_calibrata_dataset{i})(:,1),estimated_ft.(config.ft_to_calibrata_dataset{i})(:,2),estimated_ft.(config.ft_to_calibrata_dataset{i})(:,3))
+%     hold on
+%     plot3(dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,1),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,2),dataset.expected_fts.(config.ft_to_calibrate_urdf{i})(:,3))
+%     xlabel('fx')
+%     ylabel('fy')
+%     zlabel('fz')
+%     title('left arm')
+%     
     
 end
 
