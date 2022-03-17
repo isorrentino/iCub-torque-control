@@ -13,7 +13,7 @@ config.dataset_file = strcat('./data/',config.experiment,'.mat');
 
 config.contact_link = 'root_link';
 
-config.compute_expected_fts = true;
+config.compute_expected_fts = false;
 
 config.ft_names_urdf = {'l_arm_ft_sensor';'r_arm_ft_sensor';'l_foot_front_ft_sensor'; ...
                        'l_foot_rear_ft_sensor';'r_foot_front_ft_sensor';'r_foot_rear_ft_sensor';'r_leg_ft_sensor'};

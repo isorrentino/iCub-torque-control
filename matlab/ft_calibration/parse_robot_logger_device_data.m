@@ -57,7 +57,7 @@ if config.estimate_acceleration
     
     dataset.ddq = ddx_kf';
 else
-    dataset.ddq = zeros(dataset.dq); 
+    dataset.ddq = zeros(size(dataset.dq));
 end
 
 
