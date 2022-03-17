@@ -8,6 +8,8 @@ grav_idyn.fromMatlab(grav);
 %    % velocity and acceleration to 0 to prove if they are neglegible. (slow
 %    % experiment scenario)
 
+dofs = length(dataset.joint_names);
+
 q_idyn   = iDynTree.JointPosDoubleArray(dofs);
 dq_idyn  = iDynTree.JointDOFsDoubleArray(dofs);
 ddq_idyn = iDynTree.JointDOFsDoubleArray(dofs);
@@ -46,7 +48,7 @@ for i = 1 : len
     
     q   = dataset.q(i,:);
     dq  = dataset.dq(i,:);
-    ddq = zeros(size(dataset.dq(i,:)));
+    ddq = dataset.ddq(i,:);
     
     q_idyn.fromMatlab(q);
     dq_idyn.fromMatlab(dq);
@@ -90,25 +92,6 @@ for i = 1 : len
 end
 
 dataset.expected_fts = expected_fts;
-
-
-figure,
-% subplot(1,2,1)
-plot3(dataset.ft_values.left_arm_ft_client(:,1),dataset.ft_values.left_arm_ft_client(:,2),dataset.ft_values.left_arm_ft_client(:,3))
-hold on
-plot3(expected_fts.l_arm_ft_sensor(:,1),expected_fts.l_arm_ft_sensor(:,2),expected_fts.l_arm_ft_sensor(:,3))
-xlabel('fx')
-ylabel('fy')
-zlabel('fz')
-
-% subplot(1,2,2)
-% plot3(dataset.ft_values.left_arm_ft_client(:,4),dataset.ft_values.left_arm_ft_client(:,5),dataset.ft_values.left_arm_ft_client(:,6))
-% hold on
-% plot3(expected_fts.l_arm_ft_sensor(:,4),expected_fts.l_arm_ft_sensor(:,5),expected_fts.l_arm_ft_sensor(:,6))
-% xlabel('mx')
-% ylabel('my')
-% zlabel('mz')
-
 
 save(strcat('./data/parsed/',config.experiment,'_parsed.mat'),'dataset');
 

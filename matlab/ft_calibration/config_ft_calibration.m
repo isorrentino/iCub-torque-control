@@ -1,16 +1,19 @@
+addpath('../filters/kf');
+
 config.robot = 'iCubGenova09';
 
-config.ft_name_to_calibrate = 'l_arm_ft_sensor';
+config.ft_to_calibrate_urdf = {'l_arm_ft_sensor','r_arm_ft_sensor'};
+config.ft_to_calibrata_dataset =  {'left_arm_ft_client','right_arm_ft_client'};
 
-config.ft_robot_part_name = 'left_arm';
+config.experiment = 'robot_logger_device_2022_03_14_12_26_03_vel_20';
 
-config.experiment = 'robot_logger_device_2022_03_14_12_14_48_vel_5';
+config.estimate_acceleration = true;
 
 config.dataset_file = strcat('./data/',config.experiment,'.mat');
 
 config.contact_link = 'root_link';
 
-config.compute_expected_fts = false;
+config.compute_expected_fts = true;
 
 config.ft_names_urdf = {'l_arm_ft_sensor';'r_arm_ft_sensor';'l_foot_front_ft_sensor'; ...
                        'l_foot_rear_ft_sensor';'r_foot_front_ft_sensor';'r_foot_rear_ft_sensor';'r_leg_ft_sensor'};
