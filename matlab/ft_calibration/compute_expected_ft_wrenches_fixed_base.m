@@ -1,4 +1,4 @@
-function dataset = compute_expected_ft_wrenches(config, dataset, estimator)
+function dataset = compute_expected_ft_wrenches_fixed_base(config, dataset, estimator)
 
 % Gravity vector
 grav_idyn = iDynTree.Vector3();
@@ -19,7 +19,7 @@ ddq_idyn = iDynTree.JointDOFsDoubleArray(dofs);
 n_fts = estimator.sensors().getNrOfSensors(iDynTree.SIX_AXIS_FORCE_TORQUE);
 
 % The estimated FT sensor measurements
-estFTmeasurements = iDynTree.SensorsMeasurements(estimator.sensors());
+expFTmeasurements = iDynTree.SensorsMeasurements(estimator.sensors());
 
 % The estimated external wrenches
 estContactForces = iDynTree.LinkContactWrenches(estimator.model());
@@ -42,13 +42,17 @@ end
 
 len = size(dataset.q,1);
 
-progress_bar('Computing expected ft values: ');
+estimated_jnt_trqs = zeros(size(dataset.q));
+
+% progress_bar('Computing expected ft values: ');
 
 for i = 1 : len
     
     q   = dataset.q(i,:);
-    dq  = dataset.dq(i,:);
-    ddq = dataset.ddq(i,:);
+%     dq  = dataset.dq(i,:);
+%     ddq = dataset.ddq(i,:);
+    dq  = 0*dataset.dq(i,:);
+    ddq = 0*dataset.ddq(i,:);
     
     q_idyn.fromMatlab(q);
     dq_idyn.fromMatlab(dq);
@@ -78,17 +82,16 @@ for i = 1 : len
     
     
     % run the estimation
-    estimator.computeExpectedFTSensorsMeasurements(fullBodyUnknowns,estFTmeasurements,estContactForces,estJointTorques);
-    
+    estimator.computeExpectedFTSensorsMeasurements(fullBodyUnknowns,expFTmeasurements,estContactForces,estJointTorques);
     
     % store the estimated measurements
     for j = 0:(n_fts-1)
-        estFTmeasurements.getMeasurement(iDynTree.SIX_AXIS_FORCE_TORQUE, j, estimatedSensorWrench);
+        expFTmeasurements.getMeasurement(iDynTree.SIX_AXIS_FORCE_TORQUE, j, estimatedSensorWrench);
         
         expected_fts.(ft_names_from_urdf{j+1})(i,:) = estimatedSensorWrench.toMatlab()';
     end
     
-    progress_bar(i*100/len);
+%     progress_bar(i*100/len);
 end
 
 dataset.expected_fts = expected_fts;
