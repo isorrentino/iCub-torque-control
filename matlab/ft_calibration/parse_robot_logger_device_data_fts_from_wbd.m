@@ -2,7 +2,6 @@ function [dataset] = parse_robot_logger_device_data(config)
 
 load(config.dataset_file);
 
-
 dataset.timestamp = robot_logger_device.joints_state.positions.timestamps;
 
 dataset.joint_names = robot_logger_device.description_list;
@@ -17,10 +16,11 @@ dataset.ft_names = fieldnames(robot_logger_device.FTs);
 
 for i = 1 : size(dataset.ft_names,1)
     
-    dataset.ft_values.(dataset.ft_names{i}) = reshape(robot_logger_device.FTs.(dataset.ft_names{i}).data,6,[])';
+    dataset.ft_values.(config.ft_names_urdf{i}) = reshape(robot_logger_device.wbd.fts.(config.ft_names_urdf{i}).filtered.data,6,[])';
     
 end
 
+dataset.samples_to_consider = size(dataset.q,1) - size(dataset.ft_values.(config.ft_names_urdf{1}),1) + 1;
 
 dataset.cartesian_wrench_names = fieldnames(robot_logger_device.cartesian_wrenches);
 
@@ -29,7 +29,6 @@ for i = 1 : size(dataset.cartesian_wrench_names,1)
     dataset.cartesian_wrench_values.(dataset.cartesian_wrench_names{i}) = reshape(robot_logger_device.cartesian_wrenches.(dataset.cartesian_wrench_names{i}).data,6,[])';
     
 end
-
 
 if config.estimate_acceleration
     fs = 100;
@@ -58,6 +57,19 @@ if config.estimate_acceleration
     dataset.ddq = ddx_kf';
 else
     dataset.ddq = zeros(size(dataset.dq));
+end
+
+
+dataset.q = dataset.q(dataset.samples_to_consider:end,:);
+dataset.dq = dataset.dq(dataset.samples_to_consider:end,:);
+dataset.ddq = dataset.ddq(dataset.samples_to_consider:end,:);
+
+% for i = 1 : size(dataset.ft_names,1)
+%     dataset.ft_values.(dataset.ft_names{i}) = dataset.ft_values.(dataset.ft_names{i})(dataset.cartesian_wrench_names{i})(dataset.samples_to_consider:end);
+% end
+
+for i = 1 : size(dataset.cartesian_wrench_names,1)
+    dataset.cartesian_wrench_values.(dataset.cartesian_wrench_names{i}) = dataset.cartesian_wrench_values.(dataset.cartesian_wrench_names{i})(dataset.samples_to_consider:end,:);
 end
 
 

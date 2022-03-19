@@ -18,6 +18,12 @@ for i = 2 : num_samples
     i
 end
 
+cost = cost / num_samples;
+
+lab = 10;
+
+cost = cost + lab * sumsqr(C - eye(6));
+
 opti.minimize(cost);
 
 opti.solver('ipopt');
