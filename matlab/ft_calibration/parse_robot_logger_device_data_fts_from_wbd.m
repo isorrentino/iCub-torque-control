@@ -1,4 +1,4 @@
-function [dataset] = parse_robot_logger_device_data(config)
+function [dataset] = parse_robot_logger_device_data_fts_from_wbd(config)
 
 load(config.dataset_file);
 

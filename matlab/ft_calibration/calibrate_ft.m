@@ -20,9 +20,9 @@ end
 
 cost = cost / num_samples;
 
-lab = 10;
+lam = 5;
 
-cost = cost + lab * sumsqr(C - eye(6));
+cost = cost + lam * sumsqr(C - eye(6));
 
 opti.minimize(cost);
 

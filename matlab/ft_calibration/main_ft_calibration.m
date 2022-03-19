@@ -64,8 +64,8 @@ for i = 1 : length(config.ft_to_calibrate_from_urdf)
     ylabel('fy')
     zlabel('fz')
     title(config.ft_to_calibrate_from_urdf{i},'Interpreter','none')
-
-
+    
+    
     figure,
     plot3(dataset.estimated_ft.(config.ft_to_calibrate_from_urdf{i})(:,1),dataset.estimated_ft.(config.ft_to_calibrate_from_urdf{i})(:,2),dataset.estimated_ft.(config.ft_to_calibrate_from_urdf{i})(:,3))
     hold on
@@ -85,16 +85,21 @@ for j = 1 : length(config.ft_names_urdf)
     end
 end
 
-for j = 1 : length(config.ft_names_urdf)
-    dataset.ft_names_urdf.(config.ft_names_urdf{j}) = dataset.ft_values.(config.ft_names_urdf{j});
-end
 
 if config.estimate_external_wrenches
-    dataset = compute_expected_contact_wrenches(config, dataset, dataset.ft_names_urdf);
-else
-    load(strcat('./data/parsed/',config.experiment,'_parsed.mat'));
+    dataset = compute_expected_contact_wrenches(config, dataset, dataset.estimated_ft);
+    
+    dataset.tested_external_wrenches_estimated_ft = dataset.tested_external_wrenches;
+    
+    for j = 1 : length(config.ft_names_urdf)
+        dataset.ft_measured.(config.ft_names_urdf{j}) = dataset.ft_values.(config.ft_names_urdf{j});
+    end
+    
+    dataset = compute_expected_contact_wrenches(config, dataset, dataset.ft_measured);
+    
+    dataset.tested_external_wrenches_measured_ft = dataset.tested_external_wrenches;
 end
 
 figure,
-plot(dataset.external_wrenches.l_upper_arm(:,1:3))
+plot(dataset.tested_external_wrenches_estimated_ft.l_upper_arm(:,1:3))
 
