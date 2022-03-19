@@ -315,6 +315,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         std::cerr << "[Module::configure] Unable to set setpoint for regularization task." << std::endl;
         return false;
     }
+    m_desJointPos = m_currentJointPos;
 
     std::cout << m_tsidAndTasks.regularizationTask->getA() << std::endl;
 
@@ -567,17 +568,18 @@ bool Module::updateModule()
         return false;
     }
 
-    double amp = 15 * 3.14 / 180;
-    double freq = 0.3;
-    m_desJointPos(0) = amp * sin(2*3.14*freq*m_time);
-    m_desJointVel(0) = amp*2*3.14*freq * cos(2*3.14*freq*m_time);
-    m_desJointAcc(0) = -amp*2*3.14*freq*2*3.14*freq * sin(2*3.14*freq*m_time);
+//    double amp = 25 * 3.14 / 180;
+//    double freq = 0.4;
+//    double offset = -8 * 3.14 / 180;
+//    m_desJointPos(0) = offset + amp * sin(2*3.14*freq*m_time);
+//    m_desJointVel(0) = amp*2*3.14*freq * cos(2*3.14*freq*m_time);
+//    m_desJointAcc(0) = -amp*2*3.14*freq*2*3.14*freq * sin(2*3.14*freq*m_time);
 
-    if (!m_tsidAndTasks.regularizationTask->setSetPoint(m_desJointPos, m_desJointVel, m_desJointAcc))
-    {
-        std::cerr << "[Module::configure] Unable to set setpoint for regularization task." << std::endl;
-        return false;
-    }
+//    if (!m_tsidAndTasks.regularizationTask->setSetPoint(m_desJointPos, m_desJointVel, m_desJointAcc))
+//    {
+//        std::cerr << "[Module::configure] Unable to set setpoint for regularization task." << std::endl;
+//        return false;
+//    }
 
     if (!m_tsidAndTasks.tsid->advance())
     {
