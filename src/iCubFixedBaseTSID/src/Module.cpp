@@ -401,6 +401,8 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_accSystem.integrator->setIntegrationStep(m_dT);
     m_accSystem.integrator->setDynamicalSystem(m_accSystem.dynamics);
 
+    portLog.open("/TSIDLogger");
+
     return true;
 }
 
@@ -504,6 +506,18 @@ void Module::logData()
 
     std::cout << "Mass Matrix" << std::endl;
     std::cout << eigMassMatrix << std::endl;
+
+    auto & data = portLog.prepare();
+    data.vectors["TSID::pos_des"].assign(m_desJointPos.data(), m_desJointPos.data() + m_desJointPos.size());
+    data.vectors["TSID::pos_meas"].assign(m_currentJointPos.data(), m_currentJointPos.data() + m_currentJointPos.size());
+    data.vectors["TSID::trq_des"].assign(m_desJointTorque.data(), m_desJointTorque.data() + m_desJointTorque.size());
+    data.vectors["TSID::trq_meas"].assign(m_currentJointTrq.data(), m_currentJointTrq.data() + m_currentJointTrq.size());
+    Eigen::VectorXd ee_meas = endEffectorPose.translation();
+    Eigen::VectorXd ee_des = m_planner.getOutput().transform.translation();
+    data.vectors["TSID::ee_des"].assign(ee_des.data(), ee_des.data() + ee_des.size());
+    data.vectors["TSID::ee_meas"].assign(ee_meas.data(), ee_meas.data() + ee_meas.size());
+    portLog.write();
+
 }
 
 bool Module::updateModule()

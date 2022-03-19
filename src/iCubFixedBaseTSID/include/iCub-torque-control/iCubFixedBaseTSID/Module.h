@@ -32,10 +32,13 @@
 #include <BipedalLocomotion/System/YarpClock.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 // iDynTree
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
+#include <yarp/os/BufferedPort.h>
+
 
 
 using namespace BipedalLocomotion;
@@ -50,6 +53,8 @@ namespace iCubFixedBaseTSID
 class Module : public yarp::os::RFModule
 {
     double m_dT; /**< RFModule period. */
+
+    yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection> portLog;
 
     std::string m_robot; /**< Robot name. */
 

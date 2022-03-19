@@ -18,6 +18,7 @@ add_iCub_torque_control_application(
     BipedalLocomotion::ContinuousDynamicalSystem
     iDynTree::idyntree-high-level
     iDynTree::idyntree-model
+    BipedalLocomotion::VectorsCollection
     )
 
 install_ini_files(${CMAKE_CURRENT_SOURCE_DIR}/config)
