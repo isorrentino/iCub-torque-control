@@ -26,7 +26,9 @@ config.ft_names_urdf = {'l_arm_ft_sensor';'r_arm_ft_sensor';'l_foot_front_ft_sen
 config.ft_names_yarp = {'left_arm_ft_client';'right_arm_ft_client';'left_front_ft_client'; ...
                        'left_rear_ft_client';'right_front_ft_client';'right_rear_ft_client';'right_upper_leg_ft_client'};
                    
-config.ft_ext_wrench_frames = {'l_foot_front','l_foot_rear','r_foot_front','r_foot_rear','r_upper_leg','l_upper_arm','r_upper_arm',};
+config.ft_ext_wrench_frames = {'l_foot_front','l_foot_rear','r_foot_front','r_foot_rear','r_upper_leg','l_upper_arm','r_upper_arm'};
+
+config.scaling_opt = true;
 
 
 

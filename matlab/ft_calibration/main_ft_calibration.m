@@ -37,7 +37,7 @@ mkdir(strcat('./calibration_results/',config.experiment));
 for i = 1 : length(config.ft_to_calibrate_from_urdf)
     
     %% Calibrate ft left arm
-    sol.(config.ft_to_calibrate_from_dataset{i}) = calibrate_ft(dataset.expected_fts.(config.ft_to_calibrate_from_urdf{i}), dataset.ft_values.(config.ft_to_calibrate_from_urdf{i}));
+    sol.(config.ft_to_calibrate_from_dataset{i}) = calibrate_ft(config,dataset.expected_fts.(config.ft_to_calibrate_from_urdf{i})(1:end-1000,:), dataset.ft_values.(config.ft_to_calibrate_from_urdf{i})(1:end-1000,:));
     
     % dataset = validate_calibration([], o, dataset.ft_values.left_arm_ft_client);
     
@@ -51,8 +51,8 @@ for i = 1 : length(config.ft_to_calibrate_from_urdf)
     
     dataset.estimated_ft.(config.ft_to_calibrate_from_urdf{i}) = dataset.estimated_ft.(config.ft_to_calibrate_from_dataset{i})';
     
-    writematrix(sol.(config.ft_to_calibrate_from_dataset{i}).C,strcat('./calibration_results/',config.experiment,'/C_',config.ft_to_calibrate_from_urdf{i},'.txt'));
-    writematrix(sol.(config.ft_to_calibrate_from_dataset{i}).o',strcat('./calibration_results/',config.experiment,'/offset_',config.ft_to_calibrate_from_urdf{i},'.txt'));
+    writematrix(sol.(config.ft_to_calibrate_from_dataset{i}).C,strcat('./calibration_results/',config.experiment,'/C_',config.ft_to_calibrate_from_urdf{i},'_lam_0_scaling.txt'));
+    writematrix(sol.(config.ft_to_calibrate_from_dataset{i}).o',strcat('./calibration_results/',config.experiment,'/offset_',config.ft_to_calibrate_from_urdf{i},'_lam_0_scaling.txt'));
     save(strcat('./calibration_results/',config.experiment,'/calibration_results.mat'),'sol');
     
     figure,
@@ -78,28 +78,30 @@ for i = 1 : length(config.ft_to_calibrate_from_urdf)
 end
 
 
-
-for j = 1 : length(config.ft_names_urdf)
-    if isempty(find(strcmp(config.ft_names_urdf{j},config.ft_to_calibrate_from_urdf)))
-        dataset.estimated_ft.(config.ft_names_urdf{j}) = dataset.expected_fts.(config.ft_names_urdf{i});
-    end
-end
-
-
-if config.estimate_external_wrenches
-    dataset = compute_expected_contact_wrenches(config, dataset, dataset.estimated_ft);
-    
-    dataset.tested_external_wrenches_estimated_ft = dataset.tested_external_wrenches;
-    
-    for j = 1 : length(config.ft_names_urdf)
-        dataset.ft_measured.(config.ft_names_urdf{j}) = dataset.ft_values.(config.ft_names_urdf{j});
-    end
-    
-    dataset = compute_expected_contact_wrenches(config, dataset, dataset.ft_measured);
-    
-    dataset.tested_external_wrenches_measured_ft = dataset.tested_external_wrenches;
-end
-
-figure,
-plot(dataset.tested_external_wrenches_estimated_ft.l_upper_arm(:,1:3))
-
+save(strcat('./data/workspace_calibration/',config.experiment));
+% 
+% 
+% for j = 1 : length(config.ft_names_urdf)
+%     if isempty(find(strcmp(config.ft_names_urdf{j},config.ft_to_calibrate_from_urdf)))
+%         dataset.estimated_ft.(config.ft_names_urdf{j}) = dataset.expected_fts.(config.ft_names_urdf{i});
+%     end
+% end
+% 
+% 
+% if config.estimate_external_wrenches
+%     dataset = compute_expected_contact_wrenches(config, dataset, dataset.estimated_ft);
+%     
+%     dataset.tested_external_wrenches_estimated_ft = dataset.tested_external_wrenches;
+%     
+%     for j = 1 : length(config.ft_names_urdf)
+%         dataset.ft_measured.(config.ft_names_urdf{j}) = dataset.ft_values.(config.ft_names_urdf{j});
+%     end
+%     
+%     dataset = compute_expected_contact_wrenches(config, dataset, dataset.ft_measured);
+%     
+%     dataset.tested_external_wrenches_measured_ft = dataset.tested_external_wrenches;
+% end
+% 
+% figure,
+% plot(dataset.tested_external_wrenches_estimated_ft.l_upper_arm(:,1:3))
+% 
