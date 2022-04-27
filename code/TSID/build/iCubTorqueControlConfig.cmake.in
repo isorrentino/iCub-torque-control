@@ -1,0 +1,18 @@
+set(iCubTorqueControl_VERSION @PACKAGE_VERSION@)
+
+@PACKAGE_INIT@
+
+@PACKAGE_DEPENDENCIES@
+
+if(NOT TARGET iCubTorqueControl::TorqueControlApplications)
+  include("${CMAKE_CURRENT_LIST_DIR}/iCubTorqueControlTargets.cmake")
+endif()
+
+# Compatibility
+get_property(iCubTorqueControl_TorqueControlApplications_INCLUDE_DIR TARGET iCubTorqueControl::TorqueControlApplications PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
+
+set(iCubTorqueControl_LIBRARIES iCubTorqueControl::TorqueControlApplications)
+set(iCubTorqueControl_INCLUDE_DIRS "${iCubTorqueControl_TorqueControlApplications_INCLUDE_DIR}")
+list(REMOVE_DUPLICATES iCubTorqueControl_INCLUDE_DIRS)
+
+@INCLUDED_FILE_CONTENT@
