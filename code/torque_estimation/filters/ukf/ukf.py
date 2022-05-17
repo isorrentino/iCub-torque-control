@@ -90,7 +90,7 @@ class UKF:
 
         return f_sigma_pts
 
-    def compute_mean_covariance(self, sigma_pts, M, adjust=False, indices=None):
+    def compute_mean_covariance(self, sigma_pts, M):
         """
         Utility functon to compute the mean and covariance in both the prediciton and update stages
         Inupt: sigma_pts: sigma points transfored by the process or the measurement
