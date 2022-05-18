@@ -29,22 +29,22 @@
 clear;
 
 % Choose the joint from the list
-joint = 25;
+joint = 26;
 
 % How many datasets?
 num_datasets = 1;
 
-load_dataset;
+load_dataset_new;
 
 % Identify kbemf (im = 0)
-threshold_curr = 0.1;
+threshold_curr = 0.5;
 
-kbemf = -mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr) \ joint_trq(abs(mtr_curr) < threshold_curr);
+kbemf = -mtr_vel_deg_sec(abs(mtr_curr_A) < threshold_curr) \ joint_trq(abs(mtr_curr_A) < threshold_curr);
 
 figure,
-scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),joint_trq(abs(mtr_curr) < threshold_curr))
+scatter(mtr_vel_deg_sec(abs(mtr_curr_A) < threshold_curr),joint_trq(abs(mtr_curr_A) < threshold_curr))
 hold on
-scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),-kbemf*mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr))
+scatter(mtr_vel_deg_sec(abs(mtr_curr_A) < threshold_curr),-kbemf*mtr_vel_deg_sec(abs(mtr_curr_A) < threshold_curr))
 xlabel('motor velocity')
 ylabel('joint torque')
 legend('measured','estimated')
@@ -60,12 +60,11 @@ reg2 = [sign(mtr_vel_deg_sec(idx_pos)), mtr_vel_deg_sec(idx_pos)];
 k2 = -reg2 \ joint_trq(idx_pos);
 
 figure,
-scatter(mtr_vel_deg_sec(abs(mtr_curr) < threshold_curr),joint_trq(abs(mtr_curr) < threshold_curr))
+scatter(mtr_vel_deg_sec(abs(mtr_curr_A) < threshold_curr),joint_trq(abs(mtr_curr_A) < threshold_curr))
 hold on
 scatter(mtr_vel_deg_sec(idx_neg),-k1(1)*sign(mtr_vel_deg_sec(idx_neg)) - k1(2)*mtr_vel_deg_sec(idx_neg))
 scatter(mtr_vel_deg_sec(idx_pos),-k2(1)*sign(mtr_vel_deg_sec(idx_pos)) - k2(2)*mtr_vel_deg_sec(idx_pos))
-xlabel('motor velocity')
-ylabel('joint torque')
+t
 legend('measured','estimated')
 title(Joint_state.joints{joint})
 
