@@ -1,0 +1,15 @@
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/bin/iCubFixedBaseTSID-0.0.1
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/bin/iCubFixedBaseTSID
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGazeboV3/iCub-fixedbaseTSID-options.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGazeboV3/planner.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGazeboV3/tsid.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGenova04/iCub-fixedbaseTSID-options.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGenova04/planner.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGenova04/tsid.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGenova09/iCub-fixedbaseTSID-options.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGenova09/planner.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/share/BipedalLocomotionFramework/robots/iCubGenova09/tsid.ini
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/include/iCubTorqueControl/TorqueControlApplications.h
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/lib/cmake/iCubTorqueControl/iCubTorqueControlConfigVersion.cmake
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/lib/cmake/iCubTorqueControl/iCubTorqueControlConfig.cmake
+/home/isorrentino/dev/iCub-torque-control/code/cpp/build/install/lib/cmake/iCubTorqueControl/iCubTorqueControlTargets.cmake
