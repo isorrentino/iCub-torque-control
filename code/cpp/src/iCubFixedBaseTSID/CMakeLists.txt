@@ -6,7 +6,7 @@
 add_iCub_torque_control_application(
     NAME iCubFixedBaseTSID
     SOURCES src/Main.cpp src/Module.cpp
-    HEADERS include/iCub-torque-control/iCubFixedBaseTSID/Module.h
+    HEADERS include/iCubFixedBaseTSID/Module.h
     LINK_LIBRARIES  YARP::YARP_dev
     BipedalLocomotion::ParametersHandlerYarpImplementation
     BipedalLocomotion::RobotInterfaceYarpImplementation

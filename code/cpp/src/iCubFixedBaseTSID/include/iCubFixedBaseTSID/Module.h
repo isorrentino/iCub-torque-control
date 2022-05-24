@@ -89,6 +89,7 @@ class Module : public yarp::os::RFModule
     Eigen::VectorXd m_desJointAcc; /**< Desired joint accelerations. */
     manif::SE3d m_currentEEPos; /**< Current end-effector position */
     Eigen::VectorXd m_currentJointTrq; /**< Current joint torques. */
+    Eigen::VectorXd m_initialJointPos; /**< Initial joint positions. */
 
     BipedalLocomotion::Contacts::ContactList m_contactList;
 

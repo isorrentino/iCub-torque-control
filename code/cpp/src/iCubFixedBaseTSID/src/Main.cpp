@@ -10,7 +10,7 @@
 #include <yarp/os/Network.h>
 #include <yarp/os/RFModule.h>
 
-#include <iCub-torque-control/iCubFixedBaseTSID/Module.h>
+#include <iCubFixedBaseTSID/Module.h>
 
 int main(int argc, char* argv[])
 {

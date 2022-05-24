@@ -49,4 +49,6 @@ function(add_iCub_torque_control_application)
 
       message(STATUS "Created target application ${name}.")
 
+      message(STATUS "------------------------------------------------------ ${CMAKE_CURRENT_SOURCE_DIR}" )
+
 endfunction()

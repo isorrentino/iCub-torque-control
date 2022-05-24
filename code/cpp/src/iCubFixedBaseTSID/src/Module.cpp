@@ -6,7 +6,7 @@
  */
 
 #include <iomanip>
-#include <iCub-torque-control/iCubFixedBaseTSID/Module.h>
+#include <iCubFixedBaseTSID/Module.h>
 
 // BipedalLocomotionFramework
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
@@ -60,6 +60,13 @@ bool Module::createFixedBaseTSID(std::shared_ptr<ParametersHandler::IParametersH
     if (!variablesHandler.addVariable(jointTorqueName, m_numOfJoints))
     {
         std::cerr << "[Module::createFixedBaseTSID] Impossible to add variable jointTorqueName to the variable handler.";
+        return false;
+    }
+
+    m_initialJointPos.resize(m_numOfJoints);
+    if (!handler->getParameter("initial_joint_position", m_initialJointPos))
+    {
+        std::cerr << "[Module::createFixedBaseTSID] initial_joint_position parameter not found.";
         return false;
     }
 
@@ -302,6 +309,12 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
                             iDynTree::make_span(manif::SE3d::Tangent::Zero().data(), manif::SE3d::Tangent::DoF),
                             m_currentJointVel,
                             m_gravity);
+
+    // Before creating the TSID object and initialize it,
+    // move the robot to the initial configuration
+    m_robotControl.setReferences(m_initialJointPos,
+                                 RobotInterface::IRobotControl::ControlMode::Position);
+
 
     // create the TSID
     if (!createFixedBaseTSID(parametersHandler->getGroup("TSID").lock()))
