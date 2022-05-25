@@ -32,6 +32,7 @@
 #include <BipedalLocomotion/System/YarpClock.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 // iDynTree
 #include <iDynTree/KinDynComputations.h>
@@ -92,6 +93,8 @@ class Module : public yarp::os::RFModule
     Eigen::VectorXd m_initialJointPos; /**< Initial joint positions. */
 
     BipedalLocomotion::Contacts::ContactList m_contactList;
+
+    yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection> portLog;
 
     std::string m_controlledFrame;
 

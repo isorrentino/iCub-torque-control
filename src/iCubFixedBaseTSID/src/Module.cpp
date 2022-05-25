@@ -63,13 +63,6 @@ bool Module::createFixedBaseTSID(std::shared_ptr<ParametersHandler::IParametersH
         return false;
     }
 
-    m_initialJointPos.resize(m_numOfJoints);
-    if (!handler->getParameter("initial_joint_position", m_initialJointPos))
-    {
-        std::cerr << "[Module::createFixedBaseTSID] initial_joint_position parameter not found.";
-        return false;
-    }
-
     //// Create TSID object
     constexpr std::size_t highPriority = 0;
     constexpr std::size_t lowPriority = 1;
@@ -277,6 +270,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
 
+
     //// Initialize current robot state
     m_currentJointPos.resize(m_numOfJoints);
     m_currentJointVel.resize(m_numOfJoints);
@@ -288,6 +282,28 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_desJointVel.resize(m_numOfJoints);
     m_desJointAcc.resize(m_numOfJoints);
     m_currentJointTrq.resize(m_numOfJoints);
+    m_initialJointPos.resize(m_numOfJoints);
+    m_initialJointPos.setZero();
+
+
+    if (!parametersHandler->getParameter("initial_joint_position", m_initialJointPos))
+    {
+        std::cerr << "[Module::createFixedBaseTSID] initial_joint_position parameter not found.";
+        return false;
+    }
+
+    // Before creating the TSID object and initialize it,
+    // move the robot to the initial configuration
+//    std::cout << "---------------------------------------------------------" << m_initialJointPos << std::endl;
+//    m_robotControl.setReferences(m_initialJointPos,
+//                                 RobotInterface::IRobotControl::ControlMode::Position);
+
+//    if (!m_robotControl.checkMotionDone(isMotionDone, isTimeExpired, jointlist))
+//    {
+//        std::cerr << "[Module::updateModule] Impossible to check if the motion is done."
+//                  << std::endl;
+//        return false;
+//    }
 
     if (!m_sensorBridge.getJointPositions(m_currentJointPos))
     {
@@ -302,6 +318,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_kinDyn->loadRobotModel(m_loader.model());
     m_kinDyn->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
 
+
     m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
     m_kinDyn->setRobotState(manif::SE3d::Identity().transform(),
@@ -310,10 +327,6 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
                             m_currentJointVel,
                             m_gravity);
 
-    // Before creating the TSID object and initialize it,
-    // move the robot to the initial configuration
-    m_robotControl.setReferences(m_initialJointPos,
-                                 RobotInterface::IRobotControl::ControlMode::Position);
 
 
     // create the TSID
@@ -329,8 +342,6 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
 
-    std::cout << m_tsidAndTasks.regularizationTask->getA() << std::endl;
-
     //// Create and configure the planner
     parametersHandler->getGroup("TSID").lock()->getGroup("EE_SE3_TASK").lock()->getParameter("frame_name",m_controlledFrame);
     manif::SE3d transform(BipedalLocomotion::Conversions::toManifPose(
@@ -340,43 +351,43 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
 
     // first foot position
-    if (!m_contactList.addContact(transform, 0.0, 1.0))
+    if (!m_contactList.addContact(transform, 0.0, 2.0))
     {
         std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
         return false;
     }
     // second foot position
-    position(0) -= 0.05;
+    position(0) -= 0.1;
     transform.translation(position);
-    if (!m_contactList.addContact(transform, 3.0, 4.0))
+    if (!m_contactList.addContact(transform, 5.0, 7.0))
     {
         std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
         return false;
     }
     // third foot position
-    position(0) += 0.05;
+    position(0) += 0.1;
     transform.translation(position);
-    if (!m_contactList.addContact(transform, 6.0, 7.0))
+    if (!m_contactList.addContact(transform, 10.0, 12.0))
     {
         std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
         return false;
     }
-    // fourth foot position
-    position(0) -= 0.05;
-    transform.translation(position);
-    if (!m_contactList.addContact(transform, 9.0, 10.0))
-    {
-        std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
-        return false;
-    }
-    // fifth foot position
-    position(0) += 0.05;
-    transform.translation(position);
-    if (!m_contactList.addContact(transform, 12.0, 13.0))
-    {
-        std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
-        return false;
-    }
+//    // fourth foot position
+//    position(0) -= 0.05;
+//    transform.translation(position);
+//    if (!m_contactList.addContact(transform, 9.0, 10.0))
+//    {
+//        std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
+//        return false;
+//    }
+//    // fifth foot position
+//    position(0) += 0.05;
+//    transform.translation(position);
+//    if (!m_contactList.addContact(transform, 12.0, 13.0))
+//    {
+//        std::cerr << "[Module::configure] Unable to set desired contact." << std::endl;
+//        return false;
+//    }
 
     if (!m_planner.initialize(parametersHandler->getGroup("PLANNER")))
     {
@@ -414,109 +425,45 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_accSystem.integrator->setIntegrationStep(m_dT);
     m_accSystem.integrator->setDynamicalSystem(m_accSystem.dynamics);
 
+    portLog.open("/FixedBaseTSID");
+
     return true;
 }
 
 void Module::logData()
 {
-    // log data
-    m_log["time"].push_back(BipedalLocomotion::clock().now().count());
+    auto & data = portLog.prepare();
+    data.vectors.clear();
 
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_pos"].push_back(m_currentJointPos[i]);
-    }
+    data.vectors["joints_state::positions::measured"].assign(m_currentJointPos.data(), m_currentJointPos.data() + m_currentJointPos.size());
+    data.vectors["joints_state::velocities::measured"].assign(m_currentJointVel.data(), m_currentJointVel.data() + m_currentJointVel.size());
+    data.vectors["joints_state::accelerations::measured"].assign(m_currentJointAcc.data(), m_currentJointAcc.data() + m_currentJointAcc.size());
+    data.vectors["joints_state::torques::measured"].assign(m_currentJointTrq.data(), m_currentJointTrq.data() + m_currentJointTrq.size());
 
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_vel"].push_back(m_currentJointVel[i]);
-    }
-
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_acc"].push_back(m_currentJointAcc[i]);
-    }
-
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_trq"].push_back(m_currentJointTrq[i]);
-    }
-
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_destrq"].push_back(m_desJointTorque[i]);
-    }
-
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_despos"].push_back(m_desJointPos[i]);
-    }
-
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_desvel"].push_back(m_desJointVel[i]);
-    }
-
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_desacc"].push_back(m_desJointAcc[i]);
-    }
+    data.vectors["joints_state::positions::desired"].assign(m_desJointPos.data(), m_desJointPos.data() + m_desJointPos.size());
+    data.vectors["joints_state::velocities::desired"].assign(m_desJointVel.data(), m_desJointVel.data() + m_desJointVel.size());
+    data.vectors["joints_state::accelerations::desired"].assign(m_desJointAcc.data(), m_desJointAcc.data() + m_desJointAcc.size());
+    data.vectors["joints_state::torques::desired"].assign(m_desJointTorque.data(), m_desJointTorque.data() + m_desJointTorque.size());
 
     Eigen::VectorXd generalizedBiasForces;
     generalizedBiasForces.resize(m_kinDyn->getNrOfDegreesOfFreedom() + 6);
     m_kinDyn->generalizedBiasForces(generalizedBiasForces);
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_bias"].push_back(generalizedBiasForces[i+6]);
-    }
+    data.vectors["dynamics::bias"].assign(generalizedBiasForces.data(), generalizedBiasForces.data() + generalizedBiasForces.size());
 
-    // Check the end-effector pose error
     const manif::SE3d endEffectorPose  = Conversions::toManifPose(m_kinDyn->getWorldTransform(m_controlledFrame));
-    m_log["ee_x"].push_back(endEffectorPose.translation()[0]);
-    m_log["ee_y"].push_back(endEffectorPose.translation()[1]);
-    m_log["ee_z"].push_back(endEffectorPose.translation()[2]);
-    m_log["ee_quat_x"].push_back(endEffectorPose.quat().coeffs()[0]);
-    m_log["ee_quat_y"].push_back(endEffectorPose.quat().coeffs()[1]);
-    m_log["ee_quat_z"].push_back(endEffectorPose.quat().coeffs()[2]);
-    m_log["ee_quat_w"].push_back(endEffectorPose.quat().coeffs()[3]);
+    data.vectors["cartesian::position::measured"].assign(endEffectorPose.translation().data(),
+                                                         endEffectorPose.translation().data() + endEffectorPose.translation().size());
+    data.vectors["cartesian::orientation::measured"].assign(endEffectorPose.quat().coeffs().data(),
+                                                            endEffectorPose.quat().coeffs().data() + endEffectorPose.quat().coeffs().size());
 
-    m_log["ee_des_x"].push_back(m_planner.getOutput().transform.translation()[0]);
-    m_log["ee_des_y"].push_back(m_planner.getOutput().transform.translation()[1]);
-    m_log["ee_des_z"].push_back(m_planner.getOutput().transform.translation()[2]);
-    m_log["ee_des_quat_x"].push_back(m_planner.getOutput().transform.quat().coeffs()[0]);
-    m_log["ee_des_quat_y"].push_back(m_planner.getOutput().transform.quat().coeffs()[1]);
-    m_log["ee_des_quat_z"].push_back(m_planner.getOutput().transform.quat().coeffs()[2]);
-    m_log["ee_des_quat_w"].push_back(m_planner.getOutput().transform.quat().coeffs()[3]);
+    data.vectors["cartesian::position::desired"].assign(m_planner.getOutput().transform.translation().data(),
+                                                        m_planner.getOutput().transform.translation().data()
+                                                        + m_planner.getOutput().transform.translation().size());
+    data.vectors["cartesian::orientation::desired"].assign(m_planner.getOutput().transform.quat().coeffs().data(),
+                                                           m_planner.getOutput().transform.quat().coeffs().data()
+                                                           + m_planner.getOutput().transform.quat().coeffs().size());
 
-    m_log["ee_des_dx"].push_back(m_planner.getOutput().mixedVelocity.data()[0]);
-    m_log["ee_des_dy"].push_back(m_planner.getOutput().mixedVelocity.data()[1]);
-    m_log["ee_des_dz"].push_back(m_planner.getOutput().mixedVelocity.data()[2]);
-
-    m_log["ee_des_ddx"].push_back(m_planner.getOutput().mixedAcceleration.data()[0]);
-    m_log["ee_des_ddy"].push_back(m_planner.getOutput().mixedAcceleration.data()[1]);
-    m_log["ee_des_ddz"].push_back(m_planner.getOutput().mixedAcceleration.data()[2]);
-
-    Eigen::MatrixXd eigMassMatrix(6+m_numOfJoints, 6+m_numOfJoints);
-    m_kinDyn->getFreeFloatingMassMatrix(iDynTree::make_matrix_view(eigMassMatrix));
-    Eigen::MatrixXd mass(m_numOfJoints,m_numOfJoints);
-    mass = eigMassMatrix.block(6,6,m_numOfJoints,m_numOfJoints);
-    Eigen::VectorXd aa;
-    aa.resize(m_numOfJoints);
-    aa = generalizedBiasForces.tail(m_numOfJoints);
-    aa = mass*m_desJointAcc + aa;
-    Eigen::VectorXd Mddq_des = mass*m_desJointAcc;
-    Eigen::VectorXd Mddq = mass*m_currentJointAcc;
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_jointNamesList[i] + "_Mddq"].push_back(Mddq[i]);
-        m_log[m_jointNamesList[i] + "_Mddq_des"].push_back(Mddq_des[i]);
-        m_log[m_jointNamesList[i] + "_model"].push_back(aa[i]);
-        m_log[m_jointNamesList[i] + "_WBDplusMddq_des"].push_back(Mddq_des[i] + m_currentJointTrq[i]);
-        m_log[m_jointNamesList[i] + "_WBDplusMddq"].push_back(Mddq[i] + m_currentJointTrq[i]);
-    }
-
-    std::cout << "Mass Matrix" << std::endl;
-    std::cout << eigMassMatrix << std::endl;
+    portLog.write();
 }
 
 bool Module::updateModule()
@@ -529,30 +476,29 @@ bool Module::updateModule()
 
     if (!m_sensorBridge.getJointPositions(m_currentJointPos))
     {
-        std::cerr << "[Module::updateModule] Error in reading current position." << std::endl;
+        std::cerr << "[Module::updateModule] Error in reading current joint position." << std::endl;
         return false;
     }
 
     if (!m_sensorBridge.getJointVelocities(m_currentJointVel))
     {
-        std::cerr << "[Module::updateModule] Error in reading current velocity." << std::endl;
+        std::cerr << "[Module::updateModule] Error in reading current joint velocity." << std::endl;
         return false;
     }
 
     if (!m_sensorBridge.getJointAccelerations(m_currentJointAcc))
     {
-        std::cerr << "[Module::updateModule] Error in reading current velocity." << std::endl;
+        std::cerr << "[Module::updateModule] Error in reading current joint acceleration." << std::endl;
         return false;
     }
 
     if (!m_sensorBridge.getJointTorques(m_currentJointTrq))
     {
-        std::cerr << "[Module::updateModule] Error in reading current torque." << std::endl;
+        std::cerr << "[Module::updateModule] Error in reading current joint torque." << std::endl;
         return false;
     }
 
     if (!m_kinDyn->setRobotState(m_currentJointPos, m_currentJointVel, m_gravity))
-//    if (!m_kinDyn->setRobotState(m_desJointPos, m_desJointVel, m_gravity))
     {
         std::cerr << "[Module::updateModule] Unable to set the robot state in kinDyn object.";
         return false;
@@ -566,18 +512,6 @@ bool Module::updateModule()
         return false;
     }
 
-    double amp = 15 * 3.14 / 180;
-    double freq = 0.3;
-    m_desJointPos(0) = amp * sin(2*3.14*freq*m_time);
-    m_desJointVel(0) = amp*2*3.14*freq * cos(2*3.14*freq*m_time);
-    m_desJointAcc(0) = -amp*2*3.14*freq*2*3.14*freq * sin(2*3.14*freq*m_time);
-
-    if (!m_tsidAndTasks.regularizationTask->setSetPoint(m_desJointPos, m_desJointVel, m_desJointAcc))
-    {
-        std::cerr << "[Module::configure] Unable to set setpoint for regularization task." << std::endl;
-        return false;
-    }
-
     if (!m_tsidAndTasks.tsid->advance())
     {
         std::cerr << "[Module::updateModule] Unable to update tsidAndTasks object.";
@@ -586,46 +520,21 @@ bool Module::updateModule()
 
     // get the output of the TSID
     m_desJointTorque = m_tsidAndTasks.tsid->getOutput().jointTorques;
-//    m_desJointAcc = m_tsidAndTasks.tsid->getOutput().jointAccelerations;
-
-    //std::cout << "desired accelerations" << std::endl;
-    //std::cout << m_desJointAcc << std::endl;
-
-    //std::cout << "desired torques" << std::endl;
-    //std::cout << m_desJointTorque << std::endl;
-
-//    m_accSystem.dynamics->setControlInput({m_desJointAcc});
-//    m_accSystem.integrator->integrate(0, m_dT);
-//    Eigen::VectorXd solution = std::get<0>(m_accSystem.integrator->getSolution());
-
-//    std::cout << "Solution tsid" << std::endl;
-//    std::cout << m_tsidAndTasks.tsid->getOutput().baseAcceleration << std::endl;
-
-//    m_desJointPos = solution.head(m_numOfJoints);
-//    m_desJointVel = solution.tail(m_numOfJoints);
-
-    //prioristd::cout << "desired" << std::endl;
-    //std::cout << m_desJointPos << std::endl;
-
-    //std::cout << "current" << std::endl;
-    //std::cout << m_currentJointPos << std::endl;
-
-//    if (!m_robotControl.setReferences(m_desJointPos, BipedalLocomotion::RobotInterface::IRobotControl::ControlMode::PositionDirect))
     if (!m_robotControl.setReferences(m_desJointTorque,
-                                          BipedalLocomotion::RobotInterface::IRobotControl::
-                                              ControlMode::Torque))
+                                      BipedalLocomotion::RobotInterface::IRobotControl::
+                                          ControlMode::Torque))
     {
-        std::cerr << "[Module::updateModule] Unable to set desired joint torques.";
+        std::cerr << "[Module::updateModule] Unable to set joint torques.";
         return false;
     }
 
     logData();
 
-//    if (!m_planner.advance())
-//    {
-//        std::cerr << "[Module::updateModule] Unable to compute next desired pose.";
-//        return false;
-//    }
+    if (!m_planner.advance())
+    {
+        std::cerr << "[Module::updateModule] Unable to compute next desired pose.";
+        return false;
+    }
 
     m_currentEEPos = Conversions::toManifPose(m_kinDyn->getWorldTransform(m_controlledFrame));
 
@@ -639,27 +548,6 @@ bool Module::close()
     // switch back in position control
     m_robotControl.setReferences(m_currentJointPos,
                                  RobotInterface::IRobotControl::ControlMode::Position);
-
-    std::cout << "[Module::close] I'm storing the dataset." << std::endl;
-    // set the file name
-    std::time_t t = std::time(nullptr);
-    std::tm tm = *std::localtime(&t);
-
-    std::stringstream fileName;
-
-    fileName << "Dataset_Measured_" << m_robotControl.getJointList().front() << "_"
-             << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".mat";
-
-    matioCpp::File file = matioCpp::File::Create(fileName.str());
-
-    for (auto& [key, value] : m_log)
-    {
-        matioCpp::Vector<double> out(key);
-        out = value;
-        file.write(out);
-    }
-
-    std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
 
     return true;
 }
